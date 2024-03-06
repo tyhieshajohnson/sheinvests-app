@@ -1,4 +1,7 @@
 import { createStore } from 'vuex';
+// import axios from 'axios'
+
+// const baseURL = ''
 
 export default createStore({
   state: {
@@ -18,7 +21,7 @@ export default createStore({
     },
     // Add an action to handle form submission
     async signUp({ dispatch }, formData) {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
