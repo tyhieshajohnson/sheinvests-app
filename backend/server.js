@@ -1,7 +1,8 @@
 import express from 'express';
 import {config} from 'dotenv';
+
 config();
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 //allows the use of specific routes wich makes use of the function from the controller
 import userRouter from './routes/userRoutes.js';
@@ -13,7 +14,7 @@ app.use(express.static("views"));
 
 
 // defining user routes
-app.use('/',userRouter)
+app.use('/',userRouter)    
 
 // defining user routes of our server
 app.use('/add', userRouter)

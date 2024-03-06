@@ -1,20 +1,23 @@
 // Importing the 'pool' object from the '../config/index.js' file.
 import { pool } from "../config/index.js";
 
+import { config } from "dotenv";
+config();
+
 // Creating a 'users' class.
-const addUser = async ({ username, email, password }) => {
+const addUser = async ( username, email, passwords) => {
     // pool object used to make query function asynchronously
     // the query then inserts a new user into the userTable
     // placeholders are used to replace existing values
-    const [newUser] = await pool.query(
+     await pool.query(
       `
-        INSERT INTO users (username, email, password) VALUES (?,?,?)
+        INSERT INTO users (username, email, passwords) VALUE (?,?,?)
       `,
-      [username, email, password]
+      [username, email, passwords]
     );
   
     // return the new user object
-    return newUser.insertId;
+    // return newUser;
   };  
  
 // Exporting the 'users' class for use in other modules.

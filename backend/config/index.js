@@ -1,13 +1,14 @@
-import mysql from "mysql2";
-import { config } from "dotenv";
+import mysql from 'mysql2';
 
-config()
+import { config } from "dotenv";
+config();
 
 let pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    database: process.env.DB_Name,
-    password: process.env.DB_UserPassword
-})
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    user: process.env.USER,
+    password: process.env.PASSWORD
+}).promise();
 
 export{
     pool
