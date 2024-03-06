@@ -1,18 +1,43 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>Sign Up</h1>
+    <form @submit.prevent="submitForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" v-model="formData.username" required />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" v-model="formData.email" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" v-model="formData.password" required />
+
+      <button type="submit">Sign Up</button>
+    </form>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { Store } from 'vuex';
 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
-}
+  data() {
+    return {
+      formData: {
+        username: '',
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async submitForm() {
+      // Dispatch the signUp action with form data
+      await this.$store.dispatch('signUp', this.formData);
+    },
+  },
+};
 </script>
+
+<style scoped>
+/* Add any additional styling here */
+</style>
