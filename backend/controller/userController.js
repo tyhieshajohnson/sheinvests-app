@@ -1,9 +1,11 @@
 import { addUser } from "../model/usersModel.js";
 import express from "express";
 // import bodyParser from "body-parser";
-import bcrypt from "bcrypt";
+ import bcrypt from "bcrypt";
 import {config} from "dotenv"
 config()
+
+
 
 // Controller functions for users
 // const userController = {
@@ -33,7 +35,7 @@ const userController = async (req, res) => {
   let {username, email, password} = req.body;
   try{
     const hash = await bcrypt.hash(password,10);
-    await addUser(username, email, password);
+    await addUser(username, email,hash);
     res.send({
       msg:"account created successfully",
     });
