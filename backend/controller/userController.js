@@ -14,7 +14,7 @@ const userController = {
         //error handling bcrypt
         if (err) throw err;
         //officially adding new user
-        const newUser = await addUser(username, email, password);
+        const newUser = await addUser(username, email, hash);
         //sending new user to json
         res.status(200).json(newUser);
       });
