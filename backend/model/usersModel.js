@@ -5,15 +5,15 @@ import { config } from "dotenv";
 config();
 
 // Creating a 'users' class.
-const addUser = async ( username, email, passwords) => {
+const addUser = async ( username, email, password) => {
     // pool object used to make query function asynchronously
     // the query then inserts a new user into the userTable
     // placeholders are used to replace existing values
      await pool.query(
       `
-        INSERT INTO users (username, email, passwords) VALUE (?,?,?)
+        INSERT INTO users (username, email, password) VALUE (?,?,?)
       `,
-      [username, email, passwords]
+      [username, email, password]
     );
   
     // return the new user object

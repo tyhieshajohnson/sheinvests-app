@@ -5,6 +5,20 @@ import express from "express";
 import {config} from "dotenv"
 config()
 
+const userController = async (req, res) => {
+  let { username, email, password } = req.body;
+  try {
+    const hash = await bcrypt.hash(password, 10);
+    await addUser(username, email, hash);
+    res.send({
+      msg: "account created successfully",
+    });
+  } catch (err) {
+    res.status(500).send("Failed");
+  }
+};
+
+  export { userController };
 
 
 // Controller functions for users
@@ -31,25 +45,26 @@ config()
 //     }
 //   },
 // };
-const userController = async (req, res) => {
-  let {username, email, password} = req.body;
-  try{
-    const hash = await bcrypt.hash(password,10);
-    await addUser(username, email,hash);
-    res.send({
-      msg:"account created successfully",
-    });
-  } catch (err) {
-    res.status(500).send("Failed");
-  }
-  };
-  
-  
-  export { userController };
-
 
 // export { userController };
+// const hashPassword = async (password) => {
+//   const salt = await bcrypt.genSalt();
+//   const hashedPassword = await bcrypt.hash(password, salt);
+//   return hashedPassword;
+// };
 
+// const userController = async (req, res) => {
+//   let { username, email, password } = req.body;
+//   try {
+//     const hashedPassword = await hashedPassword(password);
+//     await addUser(username, email, hashedPassword);
+//     res.send({
+//       msg: "account created successfully",
+//     });
+//   } catch (err) {
+//     res.status(500).send("Failed to add user");
+//   }
+// };
 
 
 
