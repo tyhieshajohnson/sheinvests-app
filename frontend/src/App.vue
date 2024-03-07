@@ -1,10 +1,24 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <!-- Navigation Bar -->
+  <Navigation />
+  <router-view />
+  <Footer />
 </template>
+
+<script>
+import Navigation from "@/components/Navigation.vue";
+import Footer from "@/components/Footer.vue";
+import { RouterView } from "vue-router";
+
+export default {
+  name: "HomeView",
+  components: {
+    Navigation,
+    Footer,
+    RouterView
+},
+};
+</script>
 
 <style>
 #app {
@@ -25,6 +39,6 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #F54A4A;
 }
 </style>
