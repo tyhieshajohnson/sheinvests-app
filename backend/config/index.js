@@ -4,10 +4,10 @@ import { config } from "dotenv";
 config();
 
 let pool = mysql.createPool({
-    host: process.env.HOST,
-    database: process.env.DATABASE,
-    user: process.env.USER,
-    password: process.env.PASSWORD
+    HOST: process.env.HOST,
+    DATABASE: process.env.DATABASE,
+    USER: process.env.USER,
+    PASSWORD: process.env.PASSWORD
 }).promise();
 
 export{
