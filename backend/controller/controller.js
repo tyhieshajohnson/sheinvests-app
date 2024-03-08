@@ -1,4 +1,4 @@
-import { addUser, getUser, getUsers, addInvest } from "../model/index.js";
+import { addUser, getUser, getUsers, addInvest, editUser } from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
@@ -45,12 +45,59 @@ const userAdd = async (req, res) => {
 
 // 2. /get ALL users
 const getClients = async (req, res) => {
-    res.send(await getUsers)
+  try {
+      const users = await getUsers();
+      res.status(200).json(users);
+  } catch (error) {
+      console.error('Error fetching users:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 // 3. /get/:id SPECIFIC user
 const getClient = async (req, res) => {
-    res.send(await getUser(+req.params.id))
+  try {
+      const userId = +req.params.id;
+      const user = await getUser(userId);
+
+      if (!user) {
+          res.status(404).json({ error: 'User not found' });
+          return;
+      }
+
+      res.json(user);
+  } catch (error) {
+      console.error('Error handling client request:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+//4. /
+
+const userEdit = async (req, res) => {
+    try {
+        const id = +req.params.id
+        const { username, email, passwords} = req.body;
+        let existingUser = await getUser(id);
+
+        if (!existingUser) {
+            res.status(404).json({ error: 'User not found' });
+            return;
+        }
+
+        let updatedUsername = username || existingUser.username;
+        let updatedEmail = email || existingUser.email;
+        let updatedPassword = passwords || existingUser.passwords;
+
+        await editUser( updatedUsername, updatedEmail, updatedPassword,id);
+
+        // Retrieve and send the updated user information
+        const updatedUser = await getUser(id);
+        res.json(updatedUser);
+    } catch (error) {
+        console.error('Error handling user edit:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 // 4. /delete SPECIFIC user
@@ -70,7 +117,7 @@ const investAdd = async (req, res) => {
 };
 
 // export
-export { userAdd, getUsers, getUser, investAdd };
+export { userAdd, getUsers, getUser, investAdd, getClients, getClient, userEdit };
 
 // Start the server
 // const PORT = process.env.PORT || 3030;

@@ -20,38 +20,61 @@ const addUser = async ( username, email, passwords) => {
   };  
 
 // Creating a /get/users ALL users
-const getUsers = async (req,res) => {
-    const [users] = await pool.query(
-        `
-        SELECT * FROM users
-        `
-    );
-    return users;
+const getUsers = async (req, res) => {
+    try {
+        const [users] = await pool.query(
+            `
+            SELECT * FROM users
+            `
+        );
+        return users;
+    } catch (error) {
+        console.error('Error fetching users:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
 };
 
+
 // Creating a /get/users/:id SPECIFIC user
-const getUser = async (re,res) => {
-    const [users] = await pool.query(
-        `
-        SELECT * FROM users WHERE id = ?
-        `,
-        [id]
-    );
-    return user;
+const getUser = async (id) => {
+    try {
+        const [user] = await pool.query(
+            `
+            SELECT * FROM users WHERE id = ?
+            `,
+            [id]
+        );
+
+        return user;
+    } catch (error) {
+        console.error('Error fetching user:', error.message);
+        throw error;
+    }
 };
 
 // Creating a /post 'users' class
-const editUser = async (username, email, password) => {
-    const [users] = await pool.query(
-        `
-        UPDATE users SET
-        username = ?,
-        email = ?,
-        password = ? WHERE
-        (username, email, password)
-        `
-    );
-    return users;
+const editUser = async (username, email, passwords,id) => {
+    try {
+        console.log('Updating user:',  username, email, passwords, id);
+
+        const [users] = await pool.query(
+            `
+            UPDATE users SET
+            username = ?,
+            email = ?,
+            passwords = ?
+            WHERE id = ?
+            `,
+            [username, email, passwords, id]
+        );
+
+        console.log('User updated successfully:', users);
+
+        return users;
+    } catch (error) {
+        console.error('Error updating user:', error.message);
+        throw error;
+    }
 };
 
 // Creating a /delete 'users' class
@@ -119,4 +142,4 @@ const deleteInvestment = async (user_id) => {
     return investments
 };
 
-export{addUser, getUser, getUsers, addInvest}
+export{addUser, getUser, getUsers, addInvest, editUser}
