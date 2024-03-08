@@ -1,4 +1,4 @@
-import { addUser, addInvest } from "../model/index.js";
+import { addUser, getUser, getUsers, addInvest } from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
@@ -9,6 +9,8 @@ import jwt from "jsonwebtoken";
 config();
 
 //USERS
+
+// 1. /add user
 const userAdd = async (req, res) => {
     try {
       const { username, email, passwords } = req.body;
@@ -40,6 +42,22 @@ const userAdd = async (req, res) => {
       });
     }
   };
+
+// 2. /get ALL users
+const getClients = async (req, res) => {
+    res.send(await getUsers)
+};
+
+// 3. /get/:id SPECIFIC user
+const getClient = async (req, res) => {
+    res.send(await getUser(+req.params.id))
+};
+
+// 4. /delete SPECIFIC user
+const userDelete = async (req, res) => {
+    await deleteUser(+req.params.id)
+    res.send(await getUsers())
+};
   
 // INVESTMENTS
 const investAdd = async (req, res) => {
@@ -52,7 +70,7 @@ const investAdd = async (req, res) => {
 };
 
 // export
-export { userAdd, investAdd };
+export { userAdd, getUsers, getUser, investAdd };
 
 // Start the server
 // const PORT = process.env.PORT || 3030;
