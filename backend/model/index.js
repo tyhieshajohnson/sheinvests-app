@@ -18,6 +18,7 @@ const addUser = async ( username, email, passwords) => {
     // return the new user object 
     // return newUser;
   };  
+// Add users FUNCTIONING
 
 // Creating a /get/users ALL users
 const getUsers = async (req, res) => {
@@ -33,7 +34,7 @@ const getUsers = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-
+// Get Users FUNCTIONING
 
 // Creating a /get/users/:id SPECIFIC user
 const getUser = async (id) => {
@@ -51,6 +52,7 @@ const getUser = async (id) => {
         throw error;
     }
 };
+// Get SPECIFIC user FUNCTIONING
 
 // Creating a /post 'users' class
 const editUser = async (username, email, passwords,id) => {
@@ -76,15 +78,16 @@ const editUser = async (username, email, passwords,id) => {
         throw error;
     }
 };
+// Update user FUNCTIONING
 
 // Creating a /delete 'users' class
 const deleteUser = async (id) => {
-    const [users] = await pool.query(
+    const [result] = await pool.query(
         `
-        DELETE FROM users WHERE id
+        DELETE FROM users WHERE id = ?
         `, [id]
     );
-    return users;
+    return result.affectedRows > 0; // Return true if a user was deleted, false otherwise
 };
 
 // INVESTMENTS
@@ -142,4 +145,4 @@ const deleteInvestment = async (user_id) => {
     return investments
 };
 
-export{addUser, getUser, getUsers, addInvest, editUser}
+export{addUser, getUser, getUsers, addInvest, editUser, deleteUser}
