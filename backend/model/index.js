@@ -126,23 +126,25 @@ const getInvestment = async (user_id) => {
     return investments
 };
 
-// Creating a /post investments
-const editInvestment = async (crypto_name, amount) => {
-    const [investments] = await pool.query (
+// Creating a /patch investments
+const editInvestment = async (user_id, crypto_name, amount) => {
+    const [result] = await pool.query (
         `
-        UPDATE investments SET crypto_name
-        `
+        UPDATE investments SET crypto_name = ?, amount = ? WHERE user_id = ?
+        `, [crypto_name, amount, user_id]
     );
-}
+    return result.affectedRows > 0; // Return true if an investment was updated, false otherwise
+};
 
 // Creating a /delete/id SPECIFIC investments
 const deleteInvestment = async (user_id) => {
-    const [investments] = await pool.query(
+    const [result] = await pool.query(
         `
-        DELETE FROM investment WHERE user_id = ?
+        DELETE FROM investments WHERE user_id = ?
         `, [user_id]
     );
-    return investments
+    return result.affectedRows > 0; // Return true if an investment was deleted, false otherwise
 };
 
-export{addUser, getUser, getUsers, addInvest, editUser, deleteUser}
+// export to controller
+export{addUser, getUser, getUsers, addInvest, editUser, deleteUser, getInvestments, getInvestment, editInvestment, deleteInvestment}

@@ -1,4 +1,12 @@
-import { addUser, getUser, getUsers, addInvest, editUser, deleteUser } from "../model/index.js";
+import { addUser, 
+  getUser, 
+  getUsers, 
+  addInvest, 
+  editUser, 
+  deleteUser, 
+  getInvestments, 
+  editInvestment,
+  deleteInvestment } from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
@@ -129,7 +137,7 @@ const userDelete = async (req, res) => {
       res.status(500).send("Internal Server Error");
   }
 };
-// Delete User Functioning
+// Delete SPECIFIC User Functioning
  
 // INVESTMENTS
 // /add an investment
@@ -141,20 +149,74 @@ const investAdd = async (req, res) => {
     msg: "Invested successfully",
   });
 };
+// Investments Add Is Functioning
 
 //get ALL investments
+const investsGet = async (req, res) => {
+  const allInvestments = await getInvestments();
+  res.send(allInvestments);
+};
+// Get All Invests Functioning
 
 // /get SPECIFIC investments /:id
+const investGet = async (req, res) => {
+  res.send(await getInvestments(+req.params.user_id))
+};
 
 // /edit SPECIFC investments /:id
+const investEdit = async (req, res) => {
+  try {
+    const { user_id, crypto_name, amount } = req.body;
 
-// /delete SPECIFIC investments /:id
+    // Retrieve existing investment information
+    const existingInvestment = await getInvestments(req.params.user_id);
 
-// export
-export { userAdd, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete }; 
+    if (!existingInvestment) {
+      res.status(404).json({ error: 'Investment not found' });
+      return;
+    }
 
-// Start the server
-// const PORT = process.env.PORT || 3030;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+    // Update investment information
+    const updatedUserId = user_id || existingInvestment.user_id;
+    const updatedCryptoName = crypto_name || existingInvestment.crypto_name;
+    const updatedAmount = amount || existingInvestment.amount;
+
+    await editInvestment(updatedUserId, updatedCryptoName, updatedAmount);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error handling investment edit:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// /delete SPECIFIC investments /:user_id
+const investDelete = async (req, res) => {
+  try {
+      const userId = +req.params.user_id;
+
+      // Log the userId to check if it's correct
+      console.log("Deleting investment with user ID:", userId);
+
+      // Attempt to delete the investment
+      const deletedInvestment = await deleteInvestment(userId);
+
+      if (!deletedInvestment) {
+          // Investment not found
+          return res.status(404).send("Investment not found");
+      }
+
+      // Investment deleted successfully, retrieve updated investment list
+      const updatedInvestments = await getInvestments();
+
+      res.json(updatedInvestments);
+  } catch (error) {
+      // Error handling for any unexpected errors
+      console.error("Error in investDelete:", error.message);
+      res.status(500).send("Internal Server Error");
+  }
+};
+// Deleting SPECIFIC investment FUNCTIONING
+
+// export to routes
+export { userAdd, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
