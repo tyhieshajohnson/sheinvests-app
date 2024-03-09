@@ -8,13 +8,18 @@ import { userAdd,
     investsGet, 
     investGet, 
     investEdit, 
-    investDelete } from "../controller/controller.js";
+    investDelete,
+    userLogin } from "../controller/controller.js";
+import authorization from "../middleware/middleware.js"
 
 const router = express.Router();
 
 // USERS ROUTES
 // add a user
-router.route('/users/add').post(userAdd);
+router.route('/users/add').post(authorization, userAdd);
+
+// login n existing user
+router.route('/user/login').post(userLogin);
 
 // get ALL users
 router.route('/users').get(getClients)
@@ -26,7 +31,7 @@ router.route('/user/:id').get(getClient);
 router.route('/user/edit/:id').patch(userEdit);
 
 // delete user
-router.route('/user/delete/:id').delete(userDelete);
+router.route('/user/delete/:id').delete(authorization, userDelete);
 
 // INVESTMENTS ROUTES
 // add an investment
@@ -39,10 +44,9 @@ router.route('/investments').get(investsGet);
 router.route('/invest/:user_id').get(investGet)
 
 // edit SPECIFIC invest
-router.route('/invest/edit/:user_id').patch(investEdit)
+router.route('/invest/edit/:user_id').patch(authorization, investEdit)
 
 // delete SPECIFIC investment
 router.route('/invest/delete/:user_id').delete(investDelete)
 
-// export { userAdd, investAdd };
 export default router;

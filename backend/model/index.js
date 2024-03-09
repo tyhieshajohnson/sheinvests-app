@@ -2,6 +2,8 @@ import { pool } from "../config/index.js";
 import { config } from "dotenv";
 config();
 
+const jwtSecret = process.env.JWT_SECRET || 'default_secret_key';
+
 // USERS
 // Creating a /add 'users' class.
 const addUser = async ( username, email, passwords) => {
@@ -15,10 +17,23 @@ const addUser = async ( username, email, passwords) => {
       [username, email, passwords]
     );
 
-    // return the new user object 
-    // return newUser;
+    // Generate a JWT token
+    const token = jwt.sign({ username, email }, jwtSecret, { expiresIn: '1h' });
+    // Return the new user object and the JWT token
+    return { username, token };
   };  
 // Add users FUNCTIONING
+
+// JSONWEBTOKEN
+const loginUser = async (username) => {
+    console.log("Username", username);
+    const [users] = await pool.query(
+        `
+        
+        SELECT * FROM users WHERE username = ?`
+    );
+    return users;
+}
 
 // Creating a /get/users ALL users
 const getUsers = async (req, res) => {
@@ -147,4 +162,4 @@ const deleteInvestment = async (user_id) => {
 };
 
 // export to controller
-export{addUser, getUser, getUsers, addInvest, editUser, deleteUser, getInvestments, getInvestment, editInvestment, deleteInvestment}
+export{addUser, loginUser, getUser, getUsers, addInvest, editUser, deleteUser, getInvestments, getInvestment, editInvestment, deleteInvestment}

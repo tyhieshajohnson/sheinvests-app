@@ -6,7 +6,8 @@ import { addUser,
   deleteUser, 
   getInvestments, 
   editInvestment,
-  deleteInvestment } from "../model/index.js";
+  deleteInvestment,
+  loginUser } from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
@@ -17,7 +18,6 @@ import jwt from "jsonwebtoken";
 config();
 
 //USERS
-
 // 1. /add user
 const userAdd = async (req, res) => {
     try {
@@ -52,6 +52,42 @@ const userAdd = async (req, res) => {
   };
 // User Add FUNCTIONING
 
+// ADD USER WITH JSONWEBTOKEN
+const userLogin = async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const [user] = await loginUser(username);
+    if (!user) {
+      return res.status(404).json({
+        message: "User Not Found"
+      });
+    }
+
+    const validPassword = bcrypt.compareSync(passwords, user.passwords);
+    if (!validPassword) {
+      console.log("Invalid password for user:", user);
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
+
+    res.json({ user, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+    });
+  }
+};
+
 // 2. /get ALL users
 const getClients = async (req, res) => {
   try {
@@ -85,29 +121,29 @@ const getClient = async (req, res) => {
 
 //4. /edit a SPECIFIC user
 const userEdit = async (req, res) => {
-    try {
-        const id = +req.params.id
-        const { username, email, passwords} = req.body;
-        let existingUser = await getUser(id);
+  try {
+      const id = +req.params.id
+      const { username, email, passwords} = req.body;
+      let existingUser = await getUser(id);
 
-        if (!existingUser) {
-            res.status(404).json({ error: 'User not found' });
-            return;
-        }
+      if (!existingUser) {
+          res.status(404).json({ error: 'User not found' });
+          return;
+      }
 
-        let updatedUsername = username || existingUser.username;
-        let updatedEmail = email || existingUser.email;
-        let updatedPassword = passwords || existingUser.passwords;
+      let updatedUsername = username || existingUser.username;
+      let updatedEmail = email || existingUser.email;
+      let updatedPassword = passwords || existingUser.passwords;
 
-        await editUser( updatedUsername, updatedEmail, updatedPassword,id);
+      await editUser( updatedUsername, updatedEmail, updatedPassword,id);
 
-        // Retrieve and send the updated user information
-        const updatedUser = await getUser(id);
-        res.json(updatedUser);
-    } catch (error) {
-        console.error('Error handling user edit:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+      // Retrieve and send the updated user information
+      const updatedUser = await getUser(id);
+      res.json(updatedUser);
+  } catch (error) {
+      console.error('Error handling user edit:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 // User edit FUNCTIONING
 
@@ -162,6 +198,7 @@ const investsGet = async (req, res) => {
 const investGet = async (req, res) => {
   res.send(await getInvestments(+req.params.user_id))
 };
+// Get SPECIFIC  Investments FUNCTIONING
 
 // /edit SPECIFC investments /:id
 const investEdit = async (req, res) => {
@@ -189,6 +226,7 @@ const investEdit = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+// Editing SPECIFIC investment FUNCTIONING
 
 // /delete SPECIFIC investments /:user_id
 const investDelete = async (req, res) => {
@@ -219,4 +257,4 @@ const investDelete = async (req, res) => {
 // Deleting SPECIFIC investment FUNCTIONING
 
 // export to routes
-export { userAdd, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
+export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
