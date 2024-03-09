@@ -1,14 +1,14 @@
 <template>
   <div class="body">
     <div style="overflow: hidden">
-      <h1 style="margin-top: 10px">SheInvests</h1>
       <img
         src="https://i.ibb.co/rZGK9Sw/1-removebg-preview.png"
         class="img-home"
       />
     </div>
 
-    <div style="margin-top: 20px; margin-bottom: 20px;">
+    <div style="margin-top: 20px; margin-bottom: 20px; padding: 10px;">
+      <h1 style="margin-top: 10px">SheInvests</h1>
       <p>
         Welcome to SheInvests – where financial empowerment meets the world of
         cryptocurrency! We are not just a crypto prediction platform; we're a
