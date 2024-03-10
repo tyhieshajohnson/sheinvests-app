@@ -13,6 +13,7 @@ import mysql from "mysql2";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { COINGECKO_API_URL } from '../config/index.js';
 
 // Load environment variables from .env file
 config();
@@ -261,6 +262,16 @@ const investDelete = async (req, res) => {
   }
 };
 // Deleting SPECIFIC investment FUNCTIONING
+
+// COINGECKO ROUTING
+export const getCoinData = async (coinId) => {
+  try {
+    const response = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // export to routes
 export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
