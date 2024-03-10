@@ -16,8 +16,16 @@ app.use(cookieParser());
 app.use(cors({}));
 app.use(express.static("static"));
 
+app.get("/", (req, res) => {
+  res.sendFile(
+    path.join(new URL(import.meta.url).pathname, "../public/index.html")
+  );
+});
+
 // Routes
 app.use(authorization, routes);
+app.use("/add", routes)
+app.use("/", routes)
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);

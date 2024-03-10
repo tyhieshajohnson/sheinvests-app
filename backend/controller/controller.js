@@ -20,41 +20,47 @@ config();
 //USERS
 // 1. /add user
 const userAdd = async (req, res) => {
-    try {
-      const { username, email, passwords } = req.body;
-  
-      // Validate that all required fields are present in the request body
-      if ( !username || !email || !passwords) {
-        return res.status(400).send({ error: 'Missing required fields' });
-      }
-  
-      // Hash the password
-      const hash = await bcrypt.hash(passwords, 10);
-  
-      // Call the addUser function with the hashed password
-      await addUser(username, email, hash);
-  
-      res.send({
-        msg: 'User added successfully',
-      });
-    } catch (err) {
-      console.error(err);
-  
-      // Handle specific bcrypt errors
-      if (err.message.includes('data and salt arguments required')) {
-        return res.status(400).send({ error: 'Invalid password provided' });
-      }
-  
-      res.status(500).send({
-        error: 'Internal Server Error',
-      });
+  try {
+    const { username, email, passwords } = req.body;
+
+    // Validate that all required fields are present in the request body
+    if ( !username || !email || !passwords) {
+      return res.status(400).send({ error: 'Missing required fields' });
     }
-  };
+
+    // Validate that email has a valid format
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return res.status(400).send({ error: 'Invalid email format' });
+    }
+
+    // Hash the password
+    const hash = await bcrypt.hash(passwords, 10);
+
+    // Call the addUser function with the hashed password
+    await addUser(username, email, hash);
+
+    res.send({
+      msg: 'User added successfully',
+    });
+  } catch (err) {
+    console.error(err);
+
+    // Handle specific bcrypt errors
+    if (err.message.includes('data and salt arguments required')) {
+      return res.status(400).send({ error: 'Invalid password provided' });
+    }
+
+    res.status(500).send({
+      error: 'Internal Server Error',
+    });
+  }
+};
+
 // User Add FUNCTIONING
 
 // ADD USER WITH JSONWEBTOKEN
 const userLogin = async (req, res) => {
-  const { username } = req.body;
+  const { username, passwords } = req.body;
 
   try {
     const [user] = await loginUser(username);

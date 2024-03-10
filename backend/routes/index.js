@@ -11,6 +11,7 @@ import { userAdd,
     investDelete,
     userLogin } from "../controller/controller.js";
 import authorization from "../middleware/middleware.js"
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
