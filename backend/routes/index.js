@@ -20,7 +20,7 @@ const router = express.Router();
 router.route('/users/add').post(auth, userAdd);
 
 // login n existing user
-router.route('/user/login').post(auth, userLogin);
+router.route('/user/login').get(auth, userLogin);
 
 // get ALL users
 router.route('/users').get(getClients)

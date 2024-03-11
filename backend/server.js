@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import routes from "./routes/index.js";
 import { config } from "dotenv";
 config();
-import authorization from "./middleware/middleware.js";
+import auth from "./middleware/middleware.js";
 
 const PORT = process.env.port;
 const app = express();
@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use(authorization, routes);
+app.use("/login",auth, routes);
 app.use("/add", routes)
 app.use("/", routes)
 
