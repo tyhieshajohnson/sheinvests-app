@@ -127,7 +127,7 @@ const addInvest = async ( user_id, crypto_name, amount) => {
     // placeholders are used to replace existing values
      await pool.query(
       `
-        INSERT INTO investments (user_id, crypto_name, amount) VALUE (?,?,?)
+        INSERT INTO investments (user_id, crypto_name, amount) VALUES (?,?,?)
       `,
       [user_id, crypto_name, amount]
     );

@@ -15,7 +15,6 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { COINGECKO_API_URL } from '../config/index.js';
-import verifyToken from "../middleware/middleware.js";
 
 // Load environment variables from .env file
 config();
@@ -57,9 +56,6 @@ const userAdd = async (req, res) => {
   }
 };
 
-
-
-// User Add FUNCTIONING
 
 // ADD USER WITH JSONWEBTOKEN
 
@@ -125,7 +121,7 @@ const getClients = async (req, res) => {
 const getClient = async (req, res) => {
   try {
       const userId = +req.params.id;
-      const user = await getUser(userId);
+      // const user = await getUser(userId);
 
       if (!user) {
           res.status(404).json({ error: 'User not found' });
@@ -198,25 +194,17 @@ const userDelete = async (req, res) => {
  
 // INVESTMENTS
 // /add an investment
-// const investAdd = async (req, res) => {
-//   const { user_id, crypto_name, amount } = req.body;
-//   const userId = req.user.user_id;
-//   console.log(req.body);
-//   await addInvest(userId, crypto_name, amount);
-//   res.send({
-//     msg: "Invested successfully",
-//   });
-// };
 const investAdd = async (req, res) => {
   try {
     const { crypto_name, amount } = req.body;
-    const userId = req.user.user_id;
-
+    const userId = req.user.id;
+    console.log(req.user)
     // Validate that required fields are present in the request body
     if (!crypto_name || !amount) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // Use userId instead of user_id
     await addInvest(userId, crypto_name, amount);
 
     res.status(201).json({
@@ -230,34 +218,6 @@ const investAdd = async (req, res) => {
     });
   }
 };
-console.log('User ID:', userId); 
-// const investAdd = async (req, res) => {
-//   try {
-//     const { crypto_name, amount } = req.body;
-//     const userId= req.user ? req.user.id : null;
-
-//     // Validate that required fields are present in the request body
-//     if (!crypto_name || !amount) {
-//       return res.status(400).json({ error: 'Missing required fields' });
-//     }
-
-//     if (!userId) {
-//       return res.status(401).json({ error: 'User not authenticated' });
-//     }
-
-//     await addInvest(userId, crypto_name, amount);
-
-//     res.status(201).json({
-//       msg: "Invested successfully",
-//     });
-//   } catch (error) {
-//     console.error('Error in investAdd:', error);
-//     res.status(500).json({
-//       error: 'Internal Server Error',
-//       details: error.message
-//     });
-//   }
-// };
 // Investments Add Is Functioning
 
 //get ALL investments
@@ -338,7 +298,6 @@ const investDelete = async (req, res) => {
 //     throw error;
 //   }
 // };
-
 
 // export to routes
 export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
