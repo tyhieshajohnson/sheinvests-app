@@ -51,9 +51,7 @@ const userAdd = async (req, res) => {
       return res.status(400).send({ error: 'Invalid password provided' });
     }
 
-    res.status(500).send({
-      error: 'Internal Server Error',
-    });
+    res.status(500).send({ token:token });
   }
 };
 
@@ -71,7 +69,7 @@ const userLogin = async (req, res) => {
       });
     }
 
-    const validPassword = bcrypt.compareSync(passwords, user.passwords);
+    const validPassword = bcrypt.compareSync(passwords, users.passwords);
     if (!validPassword) {
       console.log("Invalid password for user:", user);
       return res.status(401).json({ message: "Invalid credentials" });
@@ -79,7 +77,7 @@ const userLogin = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: users.id, username: users.username },
       process.env.JWT_SECRET,
       {
         expiresIn: "30d",
@@ -102,7 +100,7 @@ const getClients = async (req, res) => {
       res.status(200).json(users);
   } catch (error) {
       console.error('Error fetching users:', error.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ token:token});
   }
 };
 // User Retrieval of all FUNCTIONING
