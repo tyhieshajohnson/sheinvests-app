@@ -15,7 +15,7 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { COINGECKO_API_URL } from '../config/index.js';
-// import axios from "axios";
+import verifyToken from "../middleware/middleware.js";
 
 // Load environment variables from .env file
 config();
@@ -197,16 +197,16 @@ const userDelete = async (req, res) => {
 // Delete SPECIFIC User Functioning
  
 // INVESTMENTS
-/add an investment
-const investAdd = async (req, res) => {
-  const { user_id, crypto_name, amount } = req.body;
-  const userId = req.user.user_id;
-  console.log(req.body);
-  await addInvest(userId, crypto_name, amount);
-  res.send({
-    msg: "Invested successfully",
-  });
-};
+// /add an investment
+// const investAdd = async (req, res) => {
+//   const { user_id, crypto_name, amount } = req.body;
+//   const userId = req.user.user_id;
+//   console.log(req.body);
+//   await addInvest(userId, crypto_name, amount);
+//   res.send({
+//     msg: "Invested successfully",
+//   });
+// };
 const investAdd = async (req, res) => {
   try {
     const { crypto_name, amount } = req.body;
@@ -230,6 +230,7 @@ const investAdd = async (req, res) => {
     });
   }
 };
+console.log('User ID:', userId); 
 // const investAdd = async (req, res) => {
 //   try {
 //     const { crypto_name, amount } = req.body;
@@ -337,6 +338,7 @@ const investDelete = async (req, res) => {
 //     throw error;
 //   }
 // };
+
 
 // export to routes
 export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
