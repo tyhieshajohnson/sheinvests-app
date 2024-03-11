@@ -17,10 +17,10 @@ const router = express.Router();
 
 // USERS ROUTES
 // add a user
-router.route('/users/add').post(auth, userAdd);
+router.route('/user/add').post(userAdd);
 
 // login n existing user
-router.route('/user/login').get(auth, userLogin);
+router.route('/users/login').post(userLogin);
 
 // get ALL users
 router.route('/users').get(getClients)
@@ -29,14 +29,14 @@ router.route('/users').get(getClients)
 router.route('/user/:id').get(getClient);
 
 // editing user
-router.route('/user/edit/:id').patch(userEdit);
+router.route('/user/edit/:id').patch(auth, userEdit);
 
 // delete user
 router.route('/user/delete/:id').delete(auth, userDelete);
 
 // INVESTMENTS ROUTES
 // add an investment
-router.route('/invest/add').post(investAdd);
+router.route('/invest/add').post(auth, investAdd);
 
 // get ALL investments
 router.route('/investments').get(investsGet);

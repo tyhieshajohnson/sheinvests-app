@@ -18,19 +18,33 @@ const addUser = async ( username, email, passwords) => {
     );
 
     // Generate a JWT token
-    const token = jwt.sign({ username, email }, jwtSecret, { expiresIn: '1h' });
-    // Return the new user object and the JWT token
-    return { username, token };
+    // const token = jwt.sign({ username, email }, jwtSecret, { expiresIn: '1h' });
+    // // Return the new user object and the JWT token
+    // return { username, token };
   };  
 // Add users FUNCTIONING
 
 // JSONWEBTOKEN
-const loginUser = async (username) => {
-    console.log("Username", username);
+// const loginUser = async (username) => {
+//     console.log("Username", username);
+//     const [users] = await pool.query(
+//         `
+        
+//         SELECT * FROM users WHERE username = ?`
+//     );
+//     return users;
+// }
+
+const getUsersByUsername = async(username) => {
+    console.log("🚀 ~ getUsersByUsername ~ username:", username);
     const [users] = await pool.query(
         `
-        
-        SELECT * FROM users WHERE username = ?`
+        SELECT *
+        FROM users
+        WHERE username = ?
+        `,
+
+        [username]
     );
     return users;
 }
@@ -162,4 +176,4 @@ const deleteInvestment = async (user_id) => {
 };
 
 // export to controller
-export{addUser, loginUser, getUser, getUsers, addInvest, editUser, deleteUser, getInvestments, getInvestment, editInvestment, deleteInvestment}
+export{addUser, getUser, getUsers, addInvest, editUser,getUsersByUsername, deleteUser, getInvestments, getInvestment, editInvestment, deleteInvestment}

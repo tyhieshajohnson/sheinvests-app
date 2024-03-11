@@ -3,17 +3,19 @@ import { addUser,
   getUsers, 
   addInvest, 
   editUser, 
+  getUsersByUsername ,
   deleteUser, 
   getInvestments, 
   editInvestment,
   deleteInvestment,
-  loginUser } from "../model/index.js";
+  } from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { COINGECKO_API_URL } from '../config/index.js';
+// import axios from "axios";
 
 // Load environment variables from .env file
 config();
@@ -25,13 +27,14 @@ const userAdd = async (req, res) => {
     const { username, email, passwords } = req.body;
 
     // Validate that all required fields are present in the request body
-    if ( !username || !email || !passwords) {
+    if (!username || !email || !passwords) {
       return res.status(400).send({ error: 'Missing required fields' });
     }
 
-    // Validate that email has a valid format
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return res.status(400).send({ error: 'Invalid email format' });
+    // Check if the user already exists
+    const existingUser = await getUserByUsername(username);
+    if (existingUser) {
+      return res.status(400).json({ message: 'User Already Exists' });
     }
 
     // Hash the password
@@ -40,36 +43,48 @@ const userAdd = async (req, res) => {
     // Call the addUser function with the hashed password
     await addUser(username, email, hash);
 
-    res.send({
-      msg: 'User added successfully',
-    });
+    res.json({ msg: 'User added successfully' });
   } catch (err) {
-    console.error(err);
+    console.error("Error in userAdd:", err);
 
     // Handle specific bcrypt errors
     if (err.message.includes('data and salt arguments required')) {
       return res.status(400).send({ error: 'Invalid password provided' });
     }
 
-    res.status(500).send({ token:token });
+    // Handle other errors
+    return res.status(500).send({ error: 'Internal Server Error' });
   }
 };
+
+
 
 // User Add FUNCTIONING
 
 // ADD USER WITH JSONWEBTOKEN
+
 const userLogin = async (req, res) => {
   const { username, passwords } = req.body;
 
   try {
-    const [user] = await loginUser(username);
+    // Check if username and passwords are present in the request body
+    if (!username || !passwords) {
+      return res.status(400).json({
+        message: "Username and password are required"
+      });
+    }
+
+    const [user] = await getUsersByUsername(username);
     if (!user) {
       return res.status(404).json({
         message: "User Not Found"
       });
     }
 
-    const validPassword = bcrypt.compareSync(passwords, users.passwords);
+    console.log("Received password:", passwords);
+    console.log("Stored hashed password:", user.passwords);
+
+    const validPassword = bcrypt.compare(passwords, user.passwords);
     if (!validPassword) {
       console.log("Invalid password for user:", user);
       return res.status(401).json({ message: "Invalid credentials" });
@@ -77,8 +92,8 @@ const userLogin = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: users.id, username: users.username },
-      process.env.JWT_SECRET,
+      { id: user.id, username: user.username },
+      process.env.SECRET_KEY,
       {
         expiresIn: "30d",
       }
@@ -86,9 +101,10 @@ const userLogin = async (req, res) => {
 
     res.json({ user, token });
   } catch (error) {
-    console.error(error);
+    console.error('Error in userLogin:', error);
     res.status(500).json({
       error: 'Internal Server Error',
+      details: error.message
     });
   }
 };
@@ -181,15 +197,66 @@ const userDelete = async (req, res) => {
 // Delete SPECIFIC User Functioning
  
 // INVESTMENTS
-// /add an investment
+/add an investment
 const investAdd = async (req, res) => {
   const { user_id, crypto_name, amount } = req.body;
+  const userId = req.user.user_id;
   console.log(req.body);
-  await addInvest(user_id, crypto_name, amount);
+  await addInvest(userId, crypto_name, amount);
   res.send({
     msg: "Invested successfully",
   });
 };
+const investAdd = async (req, res) => {
+  try {
+    const { crypto_name, amount } = req.body;
+    const userId = req.user.user_id;
+
+    // Validate that required fields are present in the request body
+    if (!crypto_name || !amount) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    await addInvest(userId, crypto_name, amount);
+
+    res.status(201).json({
+      msg: "Invested successfully",
+    });
+  } catch (error) {
+    console.error('Error in investAdd:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      details: error.message
+    });
+  }
+};
+// const investAdd = async (req, res) => {
+//   try {
+//     const { crypto_name, amount } = req.body;
+//     const userId= req.user ? req.user.id : null;
+
+//     // Validate that required fields are present in the request body
+//     if (!crypto_name || !amount) {
+//       return res.status(400).json({ error: 'Missing required fields' });
+//     }
+
+//     if (!userId) {
+//       return res.status(401).json({ error: 'User not authenticated' });
+//     }
+
+//     await addInvest(userId, crypto_name, amount);
+
+//     res.status(201).json({
+//       msg: "Invested successfully",
+//     });
+//   } catch (error) {
+//     console.error('Error in investAdd:', error);
+//     res.status(500).json({
+//       error: 'Internal Server Error',
+//       details: error.message
+//     });
+//   }
+// };
 // Investments Add Is Functioning
 
 //get ALL investments
@@ -223,7 +290,7 @@ const investEdit = async (req, res) => {
     const updatedCryptoName = crypto_name || existingInvestment.crypto_name;
     const updatedAmount = amount || existingInvestment.amount;
 
-    await editInvestment(updatedUserId, updatedCryptoName, updatedAmount);
+    await editInvestment(req.params.user_id, updatedCryptoName, updatedAmount);
 
     res.json({ success: true });
   } catch (error) {
@@ -262,14 +329,14 @@ const investDelete = async (req, res) => {
 // Deleting SPECIFIC investment FUNCTIONING
 
 // COINGECKO ROUTING
-export const getCoinData = async (coinId) => {
-  try {
-    const response = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// export const getCoinData = async (coinId) => {
+//   try {
+//     const response = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}`);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // export to routes
 export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 

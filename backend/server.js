@@ -6,7 +6,7 @@ import { config } from "dotenv";
 config();
 import auth from "./middleware/middleware.js";
 
-const PORT = process.env.port;
+const PORT = process.env.PORT;
 const app = express();
 
 // Middleware
@@ -23,10 +23,18 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/login",auth, routes);
-app.use("/add", routes)
 app.use("/", routes)
+app.use("/add", routes)
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+// json comes with 2 functions
+// 1. sign() 
+// set to a variable to an object: let token = sign({user_id, username}, SECRET_KEY, {expires_in})
+
+// 2. verify
+// use it as a calllback function or a variable
+// a. callback function:
+// 
