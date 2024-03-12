@@ -23,19 +23,28 @@ export default createStore({
   actions: {
     async addUser({ commit }, userData) {
       try {
-        console.log("The addUser axios is running now. Below is the userData variable that is sent to the backend");
-        console.log(userData);
-        const response = await axios.post(baseUrl + '/user/add', userData);
+        console.log('Attempting to add user:', userData);
 
-        // Handle the response accordingly
-        if (response.status === 200) {
-          commit('setUser', response.data);  // Assuming 'response.data' is the user data
-          console.log(response.data.msg);
+        const response = await axios.post(baseUrl + 'user/add', userData);
+
+        console.log('Response from server:', response);
+
+        // Ensure that the response.data contains the expected user information
+        if (response.status === 201) {
+          // Assuming 'response.data' contains user information
+          commit('setUser', [response.data]); // Assuming the response.data is an array
+          console.log(response.data.msg); // Adjust accordingly based on your backend response
+          return response.data; // Return the user data for further processing in the component
+        } else if (response.status === 400) {
+          console.error(response.data.message); // User already exists or missing fields
+          throw new Error(response.data.message); // Throw an error to be caught by the component
         } else {
-          console.error(response.data.error);
+          console.error('Unexpected error:', response.data.error);
+          throw new Error('Unexpected error occurred.'); // Throw an error to be caught by the component
         }
       } catch (error) {
         console.error('Error in addUser:', error);
+        throw error; // Re-throw the error to be caught by the component
       }
     },
   },
