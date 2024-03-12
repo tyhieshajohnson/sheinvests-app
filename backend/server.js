@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/", routes)
-app.use("/add", routes)
+// app.use("/add", routes)
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
