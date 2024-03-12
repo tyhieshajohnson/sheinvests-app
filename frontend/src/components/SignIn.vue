@@ -1,0 +1,25 @@
+<template>
+  <div class="signIn">
+    <h1>Sign In</h1>
+    <input type="text" />
+    <button>Sign In</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Sign In",
+};
+</script>
+
+<style scoped>
+.signIn div {
+  margin-top: 50px;
+}
+
+.signIn {
+  border: none;
+  background-color: #f54a4a;
+  height: 100px;
+}
+</style>

@@ -5,7 +5,7 @@ import LearnView from '../views/LearnView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import InvestView from '../views/InvestView.vue'
 import SignInView from '../views/SignInView.vue'
-import SignUpView from '../views/SignUpView.vue'
+import SignUpView from '../components/SignUp.vue'
 import AdminView from '../views/AdminView.vue'
 
 const routes = [
