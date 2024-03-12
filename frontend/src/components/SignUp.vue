@@ -10,41 +10,46 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "SignUp",
   data() {
     return {
-        userData: {
-            username: "",
-            email: "",
-            passwords: "",
-        }
+      userData: {
+        username: "",
+        email: "",
+        passwords: "",
+      },
     };
   },
   methods: {
-    async addUser(){
-        try{
-            console.log(`This is the addUser in the signUp component. The following is the username to be used by the axios: ${this.userData.username.username}`);
-            this.$store.dispatch('addUser', this.userData);
-        } catch(e){consolle.log(`This is the signUp component. The following error was found: ${e}`)}
-    }
-    // async addUser() {
-    //   try {
-    //     const response = await axios.post("user/add", this.userData
-    //     );
-    //     if (response.status === 200) {
-    //       console.log(response.data.msg);
-    //     } else {
-    //       console.error(response.data.error);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error in addUser:", error);
-    //   }
-    // },
+    async addUser() {
+      try {
+        console.log(`This is the addUser in the signUp component. The following is the username to be used by fetch: ${this.userData.username}`);
+        
+        const response = await fetch('https://sheinvests-app-api.onrender.com/user/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.userData),
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData.msg);
+          // Optionally, you can redirect to another page or perform other actions after successful user addition.
+        } else {
+          const errorData = await response.json();
+          console.error(errorData.error);
+        }
+      } catch (e) {
+        console.log(`This is the signUp component. The following error was found: ${e}`);
+      }
+    },
   },
 };
 </script>
+
 
 <style scoped>
 .signUp {

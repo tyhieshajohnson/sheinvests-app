@@ -23,16 +23,17 @@ export default createStore({
   actions: {
     async addUser({ commit }, userData) {
       try {
-        console.log("the addUser axios is running now. Below is the userData variable that is sent to backend");
+        console.log("The addUser axios is running now. Below is the userData variable that is sent to the backend");
         console.log(userData);
         const response = await axios.post(baseUrl + 'user/add', userData);
 
-        // if (response.status === 200) {
-        //   commit('setUser', response.data);  // Assuming 'response.data' is the user data
-        //   console.log(response.data.msg);
-        // } else {
-        //   console.error(response.data.error);
-        // }
+        // Handle the response accordingly
+        if (response.status === 200) {
+          commit('setUser', response.data);  // Assuming 'response.data' is the user data
+          console.log(response.data.msg);
+        } else {
+          console.error(response.data.error);
+        }
       } catch (error) {
         console.error('Error in addUser:', error);
       }
