@@ -1,48 +1,41 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
+import axios from 'axios'
+// import sweet from 'sweetalert'
+// import { useCookies } from 'vue3-cookies'
+// const {cookies} = useCookies()
+// import router from '@/router'
 
 const baseUrl = 'https://sheinvests-app-api.onrender.com/';
+const COIN_GECKO_API = 'https://api.coingecko.com/api/v3/';
 
 export default createStore({
   state: {
-    users: [], // Store users data here
+    users: [],
   },
-  getters: {},
+  getters: {
+    getUsers: (state) => state.users,
+  },
   mutations: {
-    setUsers(state, data) {
+    setUser(state, data) {
       state.users = data;
     },
   },
   actions: {
     async addUser({ commit }, userData) {
       try {
-        const response = await axios.post(baseUrl + '/user/add', userData);
-        return response.data.insertId;
+        console.log("the addUser axios is running now. Below is the userData variable that is sent to backend");
+        console.log(userData);
+        const response = await axios.post(baseUrl + 'user/add', userData);
+
+        // if (response.status === 200) {
+        //   commit('setUser', response.data);  // Assuming 'response.data' is the user data
+        //   console.log(response.data.msg);
+        // } else {
+        //   console.error(response.data.error);
+        // }
       } catch (error) {
-        console.error('Error adding user:', error);
-        throw error; // Re-throw the error for handling in the component
+        console.error('Error in addUser:', error);
       }
-    },
-    async signUp({ dispatch }, formData) {
-      try {
-        const insertId = await dispatch('addUser', formData);
-
-        // Optionally, handle the insertId or dispatch other actions
-        // For example, you might want to dispatch fetchUsers() to update the user list after a new user is added.
-        dispatch('fetchUsers');
-
-        // Optionally, use the insertId for further processing
-        console.log('User successfully added with ID:', insertId);
-
-        // Reload the page after a successful signup
-        window.location.reload();
-      } catch (error) {
-        console.error('Error signing up:', error);
-      }
-    },
-    async fetchUsers({ commit }) {
-      // Add logic to fetch users if needed
     },
   },
 });
-

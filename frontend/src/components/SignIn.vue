@@ -21,5 +21,8 @@ export default {
   border: none;
   background-color: #f54a4a;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
