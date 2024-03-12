@@ -3,7 +3,7 @@ import { addUser,
   getUsers, 
   addInvest, 
   editUser, 
-  getUsersByUsername ,
+  getUsersByUsername,
   deleteUser, 
   getInvestments, 
   editInvestment,
@@ -31,8 +31,9 @@ const userAdd = async (req, res) => {
     }
 
     // Check if the user already exists
-    const existingUser = await getUserByUsername(username);
-    if (existingUser) {
+    const existingUser = await getUsersByUsername(username);
+
+    if (existingUser.length > 0) {
       return res.status(400).json({ message: 'User Already Exists' });
     }
 
@@ -42,7 +43,16 @@ const userAdd = async (req, res) => {
     // Call the addUser function with the hashed password
     await addUser(username, email, hash);
 
-    res.json({ msg: 'User added successfully' });
+    // Generate JWT token
+    const token = jwt.sign(
+      { username: username },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "30d",
+      }
+    );
+
+    res.status(201).json({ msg: 'User added successfully', token });
   } catch (err) {
     console.error("Error in userAdd:", err);
 
@@ -55,12 +65,10 @@ const userAdd = async (req, res) => {
     return res.status(500).send({ error: 'Internal Server Error' });
   }
 };
-
-
 // ADD USER WITH JSONWEBTOKEN
 
 const userLogin = async (req, res) => {
-  const { username, passwords } = req.body;
+  const { username, passwords } = req.body; 
 
   try {
     // Check if username and passwords are present in the request body
@@ -80,7 +88,7 @@ const userLogin = async (req, res) => {
     console.log("Received password:", passwords);
     console.log("Stored hashed password:", user.passwords);
 
-    const validPassword = bcrypt.compare(passwords, user.passwords);
+    const validPassword = await bcrypt.compare(passwords, user.passwords);
     if (!validPassword) {
       console.log("Invalid password for user:", user);
       return res.status(401).json({ message: "Invalid credentials" });
