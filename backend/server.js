@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/", routes) 
+app.use("/", routes)
 app.use("/add", routes)
 
 app.listen(PORT, () => {
