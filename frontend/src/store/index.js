@@ -25,7 +25,7 @@ export default createStore({
       try {
         console.log("The addUser axios is running now. Below is the userData variable that is sent to the backend");
         console.log(userData);
-        const response = await axios.post(baseUrl + 'user/add', userData);
+        const response = await axios.post(baseUrl + '/user/add', userData);
 
         // Handle the response accordingly
         if (response.status === 200) {
