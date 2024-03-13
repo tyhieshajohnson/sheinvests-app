@@ -12,6 +12,7 @@ export default createStore({
   state: {
     users: [],
     cryptoData: [],
+    message: [],
   },
   getters: {
     getUsers: (state) => state.users,
@@ -20,37 +21,29 @@ export default createStore({
     setUser(state, data) {
       state.users = data;
     },
+    setMessage(state, message) {
+      state.message = message;
+    },
     setCryptoData(state, data) {
       state.cryptoData = data;
     },
   },
   actions: {
-    async addUser({ commit }, userData) {
+    async addUser(context, payload) {
       try {
-        console.log('Attempting to add user:', userData);
-
-        const response = await axios.post(baseUrl + 'user/add', userData);
-
-        console.log('Response from server:', response);
-
-        // Ensure that the response.data contains the expected user information
-        if (response.status === 201) {
-          // Assuming 'response.data' contains user information
-          commit('setUser', [response.data]); // Assuming the response.data is an array
-          console.log(response.data.msg); // Adjust accordingly based on your backend response
-          return response.data; // Return the user data for further processing in the component
-        } else if (response.status === 400) {
-          console.error(response.data.message); // User already exists or missing fields
-          throw new Error(response.data.message); // Throw an error to be caught by the component
+        const res = await axios.post('/user', payload); // Replace '/user' with your actual backend API endpoint
+        const { msg, error } = res.data;
+    
+        if (msg) {
+          context.commit("setMessage", msg);
         } else {
-          console.error('Unexpected error:', response.data.error);
-          throw new Error('Unexpected error occurred.'); // Throw an error to be caught by the component
+          context.commit("setMessage", error);
         }
       } catch (error) {
-        console.error('Error in addUser:', error);
-        throw error; // Re-throw the error to be caught by the component
+        console.error('Error in adding user:', error.message);
+        context.commit("setMessage", 'Internal Server Error');
       }
-    },
+    },    
 
     // CRYPTO CHART CALL
     async fetchCryptoData({ commit }) {

@@ -21,7 +21,7 @@
   </template>
   
   <script>
-  import axios from 'axios'; // Import Axios library
+  import axios from 'axios';
   
   export default {
     name: "SignUp",
@@ -36,32 +36,22 @@
     },
     methods: {
       async signUp() {
+        const payload = {
+          username: this.userData.username,
+          email: this.userData.email,
+          passwords: this.userData.passwords,
+        };
+  
         try {
-          // Make sure the password field is named correctly
-          this.userData.password = this.userData.passwords;
-  
-          // Make the API request to add the user
-          const response = await axios.post(
-            "https://sheinvests-app-api.onrender.com/user/add",
-            this.userData
-          );
-  
-          // Check the response for success
-          if (response.status === 201) {
-            console.log("User added successfully!");
-            // Optionally, you can handle the token or other data from the response here
-          } else {
-            console.log("User NOT added successfully!");
-            // Optionally, handle the error or show a message to the user
-          }
+          await this.$store.dispatch('addUser', payload);
+          console.log('User signed not successfully!');
         } catch (error) {
-          console.error(`Error in signUp component: ${error.message}`);
-          // Optionally, handle the error or show a message to the user
+          console.error('Error signing up:', error.message);
         }
       },
     },
   };
-  </script>
+  </script>  
   
   <style scoped>
   .signUp {
