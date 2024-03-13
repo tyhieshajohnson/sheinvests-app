@@ -11,6 +11,7 @@ const COIN_GECKO_API = 'https://api.coingecko.com/api/v3/';
 export default createStore({
   state: {
     users: [],
+    cryptoData: [],
   },
   getters: {
     getUsers: (state) => state.users,
@@ -18,6 +19,9 @@ export default createStore({
   mutations: {
     setUser(state, data) {
       state.users = data;
+    },
+    setCryptoData(state, data) {
+      state.cryptoData = data;
     },
   },
   actions: {
@@ -44,6 +48,28 @@ export default createStore({
         }
       } catch (error) {
         console.error('Error in addUser:', error);
+        throw error; // Re-throw the error to be caught by the component
+      }
+    },
+
+    // CRYPTO CHART CALL
+    async fetchCryptoData({ commit }) {
+      try {
+        const response = await axios.get(`${COIN_GECKO_API}global`, {
+          params: {
+          },
+        });
+
+        // Check if the response is successful
+        if (response.status === 200) {
+          commit('setCryptoData', response.data); // Assuming the response.data contains crypto data
+          console.log('Crypto data fetched successfully:', response.data);
+        } else {
+          console.error('Unexpected error:', response.data.error);
+          throw new Error('Unexpected error occurred.'); // Throw an error to be caught by the component
+        }
+      } catch (error) {
+        console.error('Error in fetchCryptoData:', error);
         throw error; // Re-throw the error to be caught by the component
       }
     },

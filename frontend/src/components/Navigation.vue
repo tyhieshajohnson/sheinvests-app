@@ -41,16 +41,9 @@
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
 nav {
   padding: 30px;
+  border-bottom: black solid 2px;
 }
 
 nav a {
@@ -60,6 +53,13 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #f54a4a;
+}
+
+.navbar-nav {
+  font-family: "Bebas Neue", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
 }
 
 .signIn {
