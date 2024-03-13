@@ -14,16 +14,12 @@
           <th scope="col">password</th>
         </tr>
       </thead>
-      <tbody v-for="user in users" :key="user.id">
+      <tbody v-for="user in users" :key="users.id">
         <tr>
-          <th scope="row">{{ users.id }}</th>
-          <!--  users.id -->
-          <td>User1</td>
-          <!-- users.username -->
-          <td>UserEmail</td>
-          <!-- users.email -->
-          <td>UserPasswords</td>
-          <!-- users.password -->
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ users.username }}</td>
+          <td>{{ users.email }}</td>
+          <td>{{ users.password }}</td>
         </tr>
       </tbody>
     </table>
@@ -34,12 +30,12 @@
 export default {
   components: {},
   computed: {
-    user() {
+    getUsers() {
       return this.$store.state.users;
     },
   },
-  mounted() {
-    this.$store.dispatch("fetchUsers")
+  async mounted() {
+    await this.$store.dispatch("fetchUsers");
   },
 };
 </script>
