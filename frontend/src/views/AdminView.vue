@@ -5,21 +5,21 @@
 
   <div>
     <h1>Users</h1>
-    <table class="table" v-if="users">
+    <table class="table" v-if="typeof getUsers == 'object'">
       <thead>
         <tr>
           <th scope="col">id</th>
           <th scope="col">username</th>
           <th scope="col">email</th>
-          <th scope="col">password</th>
+          <th scope="col">passwords</th>
         </tr>
       </thead>
-      <tbody v-for="user in users" :key="users.id">
-        <tr>
+      <tbody >
+        <tr v-for="user in getUsers" :key="user.id">
           <th scope="row">{{ user.id }}</th>
-          <td>{{ users.username }}</td>
-          <td>{{ users.email }}</td>
-          <td>{{ users.password }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.passwords }}</td>
         </tr>
       </tbody>
     </table>
@@ -34,8 +34,8 @@ export default {
       return this.$store.state.users;
     },
   },
-  async mounted() {
-    await this.$store.dispatch("fetchUsers");
+  mounted() {
+    this.$store.dispatch("fetchUsers");
   },
 };
 </script>

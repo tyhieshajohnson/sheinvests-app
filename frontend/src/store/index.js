@@ -9,8 +9,8 @@ const baseURL = 'https://sheinvests-app-api.onrender.com/';
 
 export default createStore({
   state: {
-    users: null,
-    user: null,
+    users: [],
+    user: [],
     investments: null,
     investment: null,
   },
@@ -54,10 +54,12 @@ export default createStore({
       }
     },
     async fetchUsers(context) {
+      console.log("Fetching users...");
       try {
-        const { results } = (await axios.get(`${baseURL}users`)).data;
+        const results = (await axios.get(`${baseURL}users`)).data;
         if (results) {
           context.commit('setUsers', results);
+          console.log("Fetching users...");
         }
       } catch (e) {
         sweet({
