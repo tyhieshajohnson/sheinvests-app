@@ -31,7 +31,7 @@ export default createStore({
     },
   },
   actions: {
-    async signUp(context, payload) {
+    async addUser(context, payload) {
       try {
         const { data } = (await axios.post(`${baseURL}users/add`, payload)).data;
         if (data) {
