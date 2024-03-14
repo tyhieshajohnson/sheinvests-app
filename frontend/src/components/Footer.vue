@@ -7,19 +7,19 @@
           class="icon-container"
           >
           <a href="https://api.whatsapp.com/send?phone=27760775241"
-          ><i class="fa-brands fa-whatsapp" style="color: black"></i
+          ><i class="fa-brands fa-whatsapp" style="color: #C8A2C8"></i
             ></a>
             
             <a href="https://www.linkedin.com/in/tyhieshajohnson/"
-            ><i class="fa-brands fa-linkedin" style="color: black"></i
+            ><i class="fa-brands fa-linkedin" style="color: #C8A2C8"></i
                 ></a>
                 
                 <a href="https://github.com/tyhieshajohnson/"
-                ><i class="fa-brands fa-github" style="color: black"></i
+                ><i class="fa-brands fa-github" style="color: #C8A2C8"></i
                     ></a>
                     
                     <a href="https://www.instagram.com/gold4n.ace/"
-                    ><i class="fa-brands fa-instagram" style="color: black"></i
+                    ><i class="fa-brands fa-instagram" style="color: #C8A2C8"></i
                         ></a>
                     </div>
                     <p
@@ -46,10 +46,12 @@
   flex-direction: column;
   justify-content: center;
   /* justify-content: space-between; */
+  margin-top: 100px;
+  background-color: black;
 }
 
 p {
-  color: black;
+  color: white;
   text-align: center;
 }
 

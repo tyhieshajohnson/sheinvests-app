@@ -34,9 +34,9 @@
     </div>
 
     <!-- CRYPTO CHART -->
-    <div class="chart">
+    <div class="chart" style="margin-top: 100px;">
       <h1>CHART</h1>
-      <div>
+      <div class="chart-display" style="border: 1px solid grey; border-radius: 20px;">
         <div>
           <h1>CoinGecko Crypto Chart</h1>
           <ul>
@@ -133,6 +133,7 @@ h1 {
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
+  color: black;
 }
 
 p {
@@ -140,6 +141,7 @@ p {
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
+  color: black;
 }
 
 .content-container {

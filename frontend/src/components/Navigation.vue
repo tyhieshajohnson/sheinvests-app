@@ -4,7 +4,7 @@
       <router-link to="/">
         <img
           class="navbar-brand"
-          src="https://i.ibb.co/9ZCJ0pD/Gradient-Minimalistic-Futuristic-Logo-1-removebg-preview.png"
+          src="https://i.ibb.co/BLF1LVH/Screenshot-2024-03-14-160244-removebg-preview.png"
           style="width: 50px; height: 50px"
         />
       </router-link>
@@ -20,20 +20,28 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div
+        class="collapse navbar-collapse"
+        id="navbarNavAltMarkup"
+        style="margin-left: 500px; justify-content: space-between"
+      >
         <div class="navbar-nav">
-          <router-link to="/">Home</router-link>
-          <router-link to="/learn">Learn</router-link>
-          <router-link to="/profile">Profile</router-link>
-          <router-link to="/contact">Contact</router-link>
-          <router-link to="/invest">Invest</router-link>
-          <router-link to="/admin">Admin</router-link>
-          <router-link to="/signin"
-            ><button class="signIn">Sign In</button></router-link
-          >
-          <router-link to="/signup"
-            ><button class="signUp">Sign Up</button></router-link
-          >
+          <div class="main-links">
+            <router-link to="/">Home</router-link> 
+            <router-link to="/learn">Learn</router-link> 
+            <router-link to="/profile">Profile</router-link> 
+            <router-link to="/contact">Contact</router-link> 
+            <router-link to="/invest">Invest</router-link> 
+            <router-link to="/admin">Admin</router-link>
+          </div>
+          <div class="sub-links">
+            <router-link to="/signin"
+              ><button class="signIn">Sign In</button></router-link
+            >
+            <router-link to="/signup"
+              ><button class="signUp">Sign Up</button></router-link
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -41,18 +49,26 @@
 </template>
 
 <style>
+.container-fluid {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 nav {
   padding: 30px;
   border-bottom: black solid 2px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: black;
+  margin-top: 15px;
 }
 
 nav a.router-link-exact-active {
-  color: #f54a4a;
+  color: #c8a2c8;
 }
 
 .navbar-nav {
@@ -60,6 +76,21 @@ nav a.router-link-exact-active {
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
+  font-size: 20px;
+  width: 900px;
+  display: flex;
+  place-content: center space-evenly;
+}
+
+.main-links {
+  display: flex;
+  justify-content: space-evenly;
+  width: 500px;
+  color: black;
+}
+
+.sub-links {
+  place-self: center end;
 }
 
 .signIn {
@@ -70,7 +101,7 @@ nav a.router-link-exact-active {
 
 .signUp {
   border-radius: 7px;
-  border: solid #f54a4a 4px;
+  border: solid #c8a2c8 4px;
   background-color: white;
 }
 </style>
