@@ -68,22 +68,32 @@ export default {
   },
   methods: {
     showEditModal(user) {
-  // Set the user properties to be edited
-  this.editedUser = { ...user };
-  // Activate the modal
-  this.isEditModalActive = true;
-},
+      // Set the user properties to be edited
+      this.editedUser = { ...user };
+      // Activate the modal
+      this.isEditModalActive = true;
+    },
     async editUser() {
       if (!this.editedUser.id) {
         alert('Please select a user to edit');
         return;
       }
-      const payload = { ...this.editedUser };
-      await this.$store.dispatch("updateUser", payload);
-      // Reset editedUser object after editing
-      this.editedUser = { id: null, username: '', email: '', password: '' };
-      // Close the modal
-      this.isEditModalActive = false;
+      try {
+        const payload = { ...this.editedUser };
+        await this.$store.dispatch("updateUser", payload);
+        // Reset editedUser object after editing
+        this.editedUser = { id: null, username: '', email: '', password: '' };
+        // Close the modal
+        this.isEditModalActive = false;
+      } catch (error) {
+        console.error('Error updating user:', error);
+        sweet({
+          title: 'User Update Error!',
+          text: 'User Update Unsuccessful',
+          icon: 'error',
+          timer: 4000,
+        });
+      }
     },
     closeEditModal() {
       // Reset editedUser object and close the modal
@@ -94,7 +104,7 @@ export default {
   mounted() {
     this.$store.dispatch("fetchUsers");
   },
-};
+  }
 </script>
 
 <style scoped>

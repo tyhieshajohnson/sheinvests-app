@@ -94,7 +94,7 @@ export default createStore({
     },
     async updateUser(context, payload) {
       try {
-        const  msg  = await axios.patch(`${baseURL}users/update/${payload.id}`, payload);
+        const msg = await axios.patch(`${baseURL}users/update/${payload.id}`, payload);
         if (msg) {
           context.dispatch('fetchUsers');
           sweet({
