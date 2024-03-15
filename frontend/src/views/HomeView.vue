@@ -1,8 +1,7 @@
 <template>
-  
   <div class="body">
     <div class="first-box">
-      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 vh100"/>
+      <!--<img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 vh100"/> -->
       <div class="img-container">
         <img
           src="https://i.ibb.co/VwXrR6q/lady.png"
@@ -12,31 +11,32 @@
 
       <div class="content-container">
         <div class="head-container">
-          <h1 style="margin-top: 10px">SHE INVESTS</h1>
-          <h3 style="font-size: small">
-            WHERE WOMEN THRIVE, CRYPTO UNFOLDS, AND FINANCIAL FUTURES FLOURISH.
+          <h1 style="margin-left: 250px;">SHE INVESTS</h1>
+          <h3 style="font-size: small; margin-left: 250px;">
+            WHERE WOMEN THRIVE, CRYPTO UNFOLDS, <br>AND FINANCIAL FUTURES FLOURISH.
           </h3>
         </div>
 
         <div class="intro-container">
-          <p>
-            WELCOME TO SHEINVESTS – WHERE FINANCIAL EMPOWERMENT MEETS THE CRYPTO
-            WORLD. WE'RE MORE THAN A PREDICTION PLATFORM; SHEINVESTS IS A
-            COMMUNITY-DRIVEN SPACE FOCUSED ON EDUCATING AND EMPOWERING WOMEN IN
-            THE DIGITAL ASSET REALM. WITH OUR BELIEF IN KNOWLEDGE AS THE KEY TO
-            FINANCIAL INDEPENDENCE, WE'RE DEDICATED TO BRIDGING THE GENDER GAP
-            IN CRYPTO. SHEINVESTS PROVIDES MARKET INSIGHTS, TREND ANALYSES, AND
-            REAL-TIME PREDICTIONS, SUPPORTING WOMEN OF ALL LEVELS IN THE DYNAMIC
-            CRYPTO WORLD. JOIN US ON THIS JOURNEY TO BREAK BARRIERS, BUFILD A
-            COMMUNITY, AND CONFIDENTLY NAVIGATE THE BLOCKCHAIN AND DIGITAL ASSET
+          <p style="margin-left: 250px;">
+            WELCOME TO SHEINVESTS – WHERE FINANCIAL EMPOWERMENT MEETS THE CRYPTO <br>
+            WORLD. WE'RE MORE THAN A PREDICTION PLATFORM; SHEINVESTS IS A <br>
+            COMMUNITY-DRIVEN SPACE FOCUSED ON EDUCATING AND EMPOWERING WOMEN IN <br>
+            THE DIGITAL ASSET REALM. WITH OUR BELIEF IN KNOWLEDGE AS THE KEY TO <br>
+            FINANCIAL INDEPENDENCE, WE'RE DEDICATED TO BRIDGING THE GENDER GAP <br>
+            IN CRYPTO. SHEINVESTS PROVIDES MARKET INSIGHTS, TREND ANALYSES, AND <br>
+            REAL-TIME PREDICTIONS, SUPPORTING WOMEN OF ALL LEVELS IN THE DYNAMIC <br>
+            CRYPTO WORLD. JOIN US ON THIS JOURNEY TO BREAK BARRIERS, BUFILD A <br>
+            COMMUNITY, AND CONFIDENTLY NAVIGATE THE BLOCKCHAIN AND DIGITAL ASSET <br>
             SPACE.
           </p>
         </div>
       </div>
     </div>
+    </div>
 
     <!-- CRYPTO CHART -->
-    <div class="chart" style="margin-top: 100px;">
+    <!-- <div class="chart" style="margin-top: 600px;">
       <h1>CHART</h1>
       <div class="chart-display" style="border: 1px solid grey; border-radius: 20px;">
         <div>
@@ -50,7 +50,7 @@
       </div>
     </div>
     <RouterView />
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -98,65 +98,62 @@ export default {
 
 <!-- CSS -->
 <style scoped>
-
-.chart {
-  margin-top: 20px;
-}
-
 .first-box {
-  display: flex;
-  position: relative;
-}
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
-.img-container,
-.content-container,
-.intro-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+  .img-container {
+    flex: 1;
+   width: 400px;
+   height: 400px;
+   margin-top: 10px;
+   margin-left: 100px;
+  }
 
-.img-container {
-  flex: 1;
-  /* width: 835px;
-  height: 805; */
-  overflow: hidden;
-  
-}
+  .img-container img {
+    width: 700px;
+  }
 
-.content-container {
-  flex: 1;
-  /* width: 50%;
-  height: 100%; */
-  padding: 30px;
-  box-sizing: border-box;
-}
+  .content-container {
+    flex: 0 0 55%; /* Adjust width as needed */
+    width: 10px;
+    height: 20px;
+    margin-top: 200px;
+  }
 
-.intro-container {
-  width: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-top: 20px; /* Adjust margin as needed */
-}
+  .content-container h1, h3 {
+    font-size: 50px;
+  }
 
-.body {
-  background-color: #ffffff;
-}
+  h3 {
+    font-weight: 300px;
+    font-family: "Bebas Neue", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: black;
+  }
 
-.img-home {
-  width: 500px;
-  margin-top: 30px;
-  max-width: 100%; /* Ensure the image fits within the container */
-}
+  p {
+    font-size: 13px;
+    font-family: "Bebas Neue", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  color: black;
+  }
 
-h1,
-p {
+  h1 {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
   color: black;
 }
+
+
 
 
 /* Media Query */

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-">
+  <nav class="navbar navbar-expand-lg bg-body- w-100">
     <div class="container-fluid">
       <router-link to="/">
         <img
@@ -27,7 +27,7 @@
       >
         <div class="navbar-nav">
           <div class="main-links">
-            <router-link to="/">Home</router-link> 
+            <router-link to="/">CRYPTO</router-link> 
             <router-link to="/learn">Learn</router-link> 
             <router-link to="/profile">Profile</router-link> 
             <router-link to="/contact">Contact</router-link> 
@@ -59,6 +59,7 @@ nav {
   /* border-bottom: black solid 2px; */
   display: flex;
   justify-content: space-evenly;
+  width: 100%;
 }
 
 nav a {
