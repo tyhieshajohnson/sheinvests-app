@@ -1,9 +1,11 @@
 <template>
+  
   <div class="body">
     <div class="first-box">
+      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 vh100"/>
       <div class="img-container">
         <img
-          src="https://i.ibb.co/rZGK9Sw/1-removebg-preview.png"
+          src="https://i.ibb.co/VwXrR6q/lady.png"
           class="img-home"
         />
       </div>
@@ -96,25 +98,47 @@ export default {
 
 <!-- CSS -->
 <style scoped>
+
 .chart {
   margin-top: 20px;
 }
 
 .first-box {
   display: flex;
-  margin-top: 100px;
+  position: relative;
+}
+
+.img-container,
+.content-container,
+.intro-container {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .img-container {
   flex: 1;
+  width: 835px; 
+  height: 805;
 }
 
 .content-container {
   flex: 1;
-  padding: 0 40px;
-  padding: 30px;
+  padding: 30px; 
 }
 
+/* .content-container {
+  width: 50%; 
+  height: 100%; 
+  box-sizing: border-box; 
+} */
+
+/* .intro-container {
+  width: 100%; 
+  top: 50%; 
+  transform: translateY(-50%); 
+} */
+  
 .body {
   background-color: #ffffff;
 }
@@ -128,7 +152,8 @@ export default {
   margin-top: 30px;
 }
 
-h1 {
+h1,
+p {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
@@ -136,22 +161,29 @@ h1 {
   color: black;
 }
 
-p {
-  font-family: "Bebas Neue", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-  color: black;
-}
-
 .content-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin: 20px 0; /* Adjust margin as needed */
 }
 
-.head-container {
-  margin-top: 150px;
+.first-box {
+  display: flex;
+}
+
+.img-container,
+.content-container {
+  flex: 1; /* Each div takes up equal space */
+}
+
+.img-container {
+  padding-right: 20px; /* Adjust spacing between the divs */
+}
+
+.img-home {
+  max-width: 100%; /* Ensure the image fits within the container */
+}
+
+.intro-container {
+  margin-top: 20px; /* Adjust margin as needed */
 }
 
 /* Media Query */
@@ -183,17 +215,11 @@ p {
     margin-top: 30px;
   }
 
-  h1 {
-    font-family: "Bebas Neue", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 900;
-    font-style: normal;
-  }
-
+  h1,
   p {
     font-family: "Bebas Neue", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 600;
+    font-weight: 900;
     font-style: normal;
   }
 

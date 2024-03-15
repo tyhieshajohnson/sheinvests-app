@@ -33,7 +33,7 @@ export default createStore({
   actions: {
     async addUser(context, payload) {
       try {
-        const { data } = (await axios.post(`${baseURL}users/add`, payload)).data;
+        const  data  = (await axios.post(`${baseURL}users/add`, payload)).data;
         if (data) {
           context.dispatch('fetchUser', { id: data.user.id });
           sweet({
@@ -54,12 +54,12 @@ export default createStore({
       }
     },
     async fetchUsers(context) {
-      console.log("Fetching users...");
+      // console.log("Fetching users...");
       try {
         const results = (await axios.get(`${baseURL}users`)).data;
         if (results) {
           context.commit('setUsers', results);
-          console.log("Fetching users...");
+          // console.log("Fetching users...");
         }
       } catch (e) {
         sweet({
@@ -72,7 +72,7 @@ export default createStore({
     },
     async fetchUser(context, payload) {
       try {
-        const { result } = (await axios.get(`${baseURL}users/${payload.id}`)).data;
+        const  result  = (await axios.get(`${baseURL}users/${payload.id}`)).data;
         if (result) {
           context.commit('setUser', result);
         } else {
@@ -94,7 +94,7 @@ export default createStore({
     },
     async updateUser(context, payload) {
       try {
-        const { msg } = await axios.patch(`${baseURL}users/update/${payload.id}`, payload);
+        const  msg  = await axios.patch(`${baseURL}users/update/${payload.id}`, payload);
         if (msg) {
           context.dispatch('fetchUsers');
           sweet({

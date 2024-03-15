@@ -23,7 +23,7 @@
       <div
         class="collapse navbar-collapse"
         id="navbarNavAltMarkup"
-        style="margin-left: 500px; justify-content: space-between"
+        style="justify-content: space-between;"
       >
         <div class="navbar-nav">
           <div class="main-links">
@@ -56,7 +56,7 @@
 
 nav {
   padding: 30px;
-  border-bottom: black solid 2px;
+  /* border-bottom: black solid 2px; */
   display: flex;
   justify-content: space-evenly;
 }
@@ -103,5 +103,15 @@ nav a.router-link-exact-active {
   border-radius: 7px;
   border: solid #c8a2c8 4px;
   background-color: white;
+}
+
+body {
+  background-image: url('https://i.ibb.co/3y5gr9h/ty.png'); 
+  background-size: cover; 
+  background-repeat: no-repeat;
+  }
+
+.navbar {
+  background-color: transparent !important;
 }
 </style>
