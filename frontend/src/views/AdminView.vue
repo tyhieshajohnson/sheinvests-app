@@ -67,30 +67,34 @@ export default {
     },
   },
   methods: {
-  showEditModal(user) {
-    // Set the user properties to be edited
-    this.editedUser = { ...user };
-    // Activate the modal
-    this.isEditModalActive = true;
-  },
-  async editUser() {
-    if (!this.editedUser.id) {
-      alert('Please select a user to edit');
-      return;
+    showEditModal(user) {
+  // Set the user properties to be edited
+  this.editedUser = { ...user };
+  // Activate the modal
+  this.isEditModalActive = true;
+},
+    async editUser() {
+      if (!this.editedUser.id) {
+        alert('Please select a user to edit');
+        return;
+      }
+      const payload = { ...this.editedUser };
+      await this.$store.dispatch("updateUser", payload);
+      // Reset editedUser object after editing
+      this.editedUser = { id: null, username: '', email: '', password: '' };
+      // Close the modal
+      this.isEditModalActive = false;
+    },
+    closeEditModal() {
+      // Reset editedUser object and close the modal
+      this.editedUser = { id: null, username: '', email: '', password: '' };
+      this.isEditModalActive = false;
     }
-    const payload = { ...this.editedUser };
-    await this.$store.dispatch("updateUser", payload);
-    // Reset editedUser object after editing
-    this.editedUser = { id: null, username: '', email: '', password: '' };
-    // Close the modal
-    this.isEditModalActive = false;
   },
   mounted() {
     this.$store.dispatch("fetchUsers");
   },
-}
 };
-
 </script>
 
 <style scoped>

@@ -118,38 +118,35 @@ export default {
 
 .img-container {
   flex: 1;
-  width: 835px; 
-  height: 805;
+  /* width: 835px;
+  height: 805; */
+  overflow: hidden;
+  
 }
 
 .content-container {
   flex: 1;
-  padding: 30px; 
+  /* width: 50%;
+  height: 100%; */
+  padding: 30px;
+  box-sizing: border-box;
 }
 
-/* .content-container {
-  width: 50%; 
-  height: 100%; 
-  box-sizing: border-box; 
-} */
+.intro-container {
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 20px; /* Adjust margin as needed */
+}
 
-/* .intro-container {
-  width: 100%; 
-  top: 50%; 
-  transform: translateY(-50%); 
-} */
-  
 .body {
   background-color: #ffffff;
-}
-
-.img-container {
-  overflow: hidden;
 }
 
 .img-home {
   width: 500px;
   margin-top: 30px;
+  max-width: 100%; /* Ensure the image fits within the container */
 }
 
 h1,
@@ -161,30 +158,6 @@ p {
   color: black;
 }
 
-.content-container {
-  margin: 20px 0; /* Adjust margin as needed */
-}
-
-.first-box {
-  display: flex;
-}
-
-.img-container,
-.content-container {
-  flex: 1; /* Each div takes up equal space */
-}
-
-.img-container {
-  padding-right: 20px; /* Adjust spacing between the divs */
-}
-
-.img-home {
-  max-width: 100%; /* Ensure the image fits within the container */
-}
-
-.intro-container {
-  margin-top: 20px; /* Adjust margin as needed */
-}
 
 /* Media Query */
 @media only screen and (max-width: 375px) and (max-height: 812px) {
