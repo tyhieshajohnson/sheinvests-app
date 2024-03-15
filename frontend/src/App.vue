@@ -1,6 +1,6 @@
 <template>
   <!-- Navigation Bar -->
-  <Navigation />
+  <!-- <Navigation /> -->
   <router-view />
   <Footer />
 </template>

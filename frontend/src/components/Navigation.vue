@@ -107,7 +107,7 @@ nav a.router-link-exact-active {
 }
 
 body {
-  background-image: url('https://i.ibb.co/3y5gr9h/ty.png'); 
+  /* background-image: url('https://i.ibb.co/3y5gr9h/ty.png');  */
   background-size: cover; 
   background-repeat: no-repeat;
   }
