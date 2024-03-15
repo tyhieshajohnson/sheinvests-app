@@ -14,7 +14,7 @@ export default createStore({
     investments: null,
     investment: null,
   },
-  getters: {
+  getters: { 
   },
   mutations: {
     setUsers(state, value) {

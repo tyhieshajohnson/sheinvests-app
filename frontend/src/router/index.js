@@ -7,7 +7,7 @@ import InvestView from '../views/InvestView.vue'
 import SignInView from '../views/SignInView.vue'
 import SignUpView from '../components/SignUp.vue'
 import AdminView from '../views/AdminView.vue'
-
+    
 const routes = [
   {
     path: '/',

@@ -1,46 +1,65 @@
 <template>
-  <div class="learn" style="margin-top: 100px">
-    <h1>Learn</h1>
-  </div>
-  <div class="content-container">
-    <a href="https://hackingmotherhood.substack.com/p/why-more-women-need-to-get-into-crypto" style="text-decoration: none;">
-      <div class="div1">
-        <h2 style="color: white;">Why Women Need To Invest?</h2>
-        <p>
-          Women should consider entering the crypto space for its potential to
-          offer financial empowerment and independence, breaking traditional
-          barriers in the male-dominated financial sector.
-        </p>
+  <div class="body">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <img src="your-logo-image-url" alt="Logo" class="logo" />
       </div>
-    </a>
+      <div class="navbar-links">
+        <div class="main-links">
+            <router-link to="/">CRYPTO</router-link> 
+            <router-link to="/learn">Learn</router-link> 
+            <router-link to="/profile">Profile</router-link> 
+            <router-link to="/contact">Contact</router-link> 
+            <router-link to="/invest">Invest</router-link> 
+            <router-link to="/admin">Admin</router-link>
+          </div>
+      </div>
+      <div class="navbar-buttons">
+        <button class="signIn">Sign <Inp></Inp></button>
+        <button class="signUp">Sign Up</button>
+      </div>
+    </nav>
 
-    <a href="https://www.forbes.com/advisor/in/investing/cryptocurrency/advantages-of-cryptocurrency/" style="text-decoration: none;">
-      <div class="div2">
-        <h2 style="color: white;">Why Crypto?</h2>
-        <p>
-          Crypto presents a unique opportunity for anyone, including women, to
-          participate in a decentralized financial system, offering innovation,
-          global accessibility, and potential for significant returns on
-          investment.
-        </p>
-      </div>
-    </a>
+    <div class="first-box">
+      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 100vh"/>
 
-    <a href="https://cryptoweekly.co/crypto-female-50-awards" style="text-decoration: none;">
-      <div class="div3">
-        <h2 style="color: white;">Women In Crypto</h2>
-        <p>
-          Encouraging more women to engage in crypto fosters diversity and
-          inclusion within the industry, enriching perspectives, driving
-          innovation, and contributing to a more balanced and equitable future
-          of finance.
-        </p>
-      </div>
-    </a>
-  </div>
+      
+    </div>
+    
 </template>
 
 <style scoped>
+/* Navbar styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.7); 
+  z-index: 999; 
+}
+
+.navbar-logo {
+  margin-right: auto; 
+}
+
+.navbar-links {
+  display: flex;
+}
+
+.navbar-links router-link {
+  margin-right: 20px;
+}
+
+.navbar-buttons button {
+  margin-left: 20px;
+}
+
 .content-container {
   display: flex;
   justify-content: space-evenly;
