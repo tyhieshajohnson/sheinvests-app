@@ -1,10 +1,13 @@
 <template>
   <div class="admin">
-    <h1>This is an Admin page</h1>
+    <h1>WELCOME ADMIN</h1>
+    <!-- Call username of the person logged in -->
+    <h3>Username:</h3> 
   </div>
 
   <div>
     <h1>Users</h1>
+    <!-- User Table -->
     <table class="table" v-if="typeof getUsers == 'object'">
       <thead>
         <tr>
@@ -45,6 +48,24 @@
       </div>
       <button class="modal-close is-large" aria-label="close" @click="closeEditModal"></button>
     </div>
+
+    <!-- Investment Section -->
+    <div>
+      <h1>Investment</h1>
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" v-model="investmentAmount">
+      <label for="crypto">Select Crypto:</label>
+      <select id="crypto" v-model="selectedCrypto">
+        <option value="Bitcoin">Bitcoin</option>
+        <option value="Ethereum">Ethereum</option>
+        <option value="Ripple">Ripple</option>
+        <option value="Litecoin">Litecoin</option>
+        <option value="Cardano">Cardano</option>
+        <option value="Polkadot">Polkadot</option>
+      </select>
+      <label for="creation-time">Creation Time:</label>
+      <input type="datetime-local" id="creation-time" v-model="creationTime">
+    </div>
   </div>
 </template>
 
@@ -58,7 +79,10 @@ export default {
         email: '',
         password: ''
       },
-      isEditModalActive: false
+      isEditModalActive: false,
+      investmentAmount: 0,
+      selectedCrypto: 'Bitcoin',
+      creationTime: ''
     };
   },
   computed: {
@@ -104,7 +128,7 @@ export default {
   mounted() {
     this.$store.dispatch("fetchUsers");
   },
-  }
+};
 </script>
 
 <style scoped>
