@@ -16,7 +16,7 @@
           </div>
       </div>
       <div class="navbar-buttons">
-        <button class="signIn">Sign <Inp></Inp></button>
+        <button class="signIn">Sign In</button>
         <button class="signUp">Sign Up</button>
       </div>
     </nav>
