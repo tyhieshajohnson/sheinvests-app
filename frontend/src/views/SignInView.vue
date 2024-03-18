@@ -58,54 +58,62 @@ export default {
   },
   data() {
     return {
-      username: "",
-      password: "",
+      Data:{
+        username: "",
+        password: "",
+      },
     };
   },
   methods: {
-    async signIn() {
-      if (!this.username || !this.password) {
-        sweet({
-          title: "Login Error",
-          text: "Please provide both username and password",
-          icon: "info",
-          timer: 4000,
-        });
-        return;
+    // async signIn() {
+    //   if (!this.username || !this.password) {
+    //     sweet({
+    //       title: "Login Error",
+    //       text: "Please provide both username and password",
+    //       icon: "info",
+    //       timer: 4000,
+    //     });
+    //     return;
+    //   }
+
+    //   try {
+    //     const response = await fetch(`${baseURL}users/login`, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({ username: this.username, password: this.password}),
+    //     });
+
+    //     const data = await response.json();
+    //     const { msg, token, result } = data;
+
+    //     if (result) {
+    //       // Handle successful sign-in
+    //       router.push({ name: "home" });
+    //     } else {
+    //       sweet({
+    //         title: 'Login Error',
+    //         text: msg,
+    //         icon: 'info',
+    //         timer: 4000,
+    //       });
+    //     }
+    //   } catch (error) {
+    //     sweet({
+    //       title: 'Login Error',
+    //       text: 'Try Again, She Invests Wants You!',
+    //       icon: 'error',
+    //       timer: 4000,
+    //     });
+    //   }
+    // },
+    async signInUser(){
+      const user = {...this.Data};
+      try{
+        
       }
-
-      try {
-        const response = await fetch(`${baseURL}users/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username: this.username, password: this.password}),
-        });
-
-        const data = await response.json();
-        const { msg, token, result } = data;
-
-        if (result) {
-          // Handle successful sign-in
-          router.push({ name: "home" });
-        } else {
-          sweet({
-            title: 'Login Error',
-            text: msg,
-            icon: 'info',
-            timer: 4000,
-          });
-        }
-      } catch (error) {
-        sweet({
-          title: 'Login Error',
-          text: 'Try Again, She Invests Wants You!',
-          icon: 'error',
-          timer: 4000,
-        });
-      }
-    },
+    }
   },
 };
 </script>

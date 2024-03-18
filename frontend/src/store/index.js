@@ -134,16 +134,16 @@ export default createStore({
       },
 
       // using fetch instead of axios - tester
-      async signIn() {
-        if (!this.username || !this.password) {
-          sweet({
-            title: "Login Error",
-            text: "Please provide both username and password",
-            icon: "info",
-            timer: 4000,
-          });
-          return;
-        }
+      async signIn({commit},userData) {
+        // if (!this.username || !this.password) {
+        //   sweet({
+        //     title: "Login Error",
+        //     text: "Please provide both username and password",
+        //     icon: "info",
+        //     timer: 4000,
+        //   });
+        //   return;
+        // }
       
         try {
           const response = await fetch(`${baseURL}users/login`, {
@@ -151,24 +151,32 @@ export default createStore({
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username: this.username, password: this.password }), // Change 'passwords' to 'password'
+            body: JSON.stringify({ userData}), // Change 'passwords' to 'password'
           });
       
           const data = await response.json();
-          const { msg, token, result } = data;
-      
-          if (result) {
-            // Handle successful sign-in
-            router.push({ name: "home" });
-          } else {
-            sweet({
-              title: 'Login Error',
-              text: msg,
-              icon: 'info',
-              timer: 4000,
-            });
+          if(response.ok){
+            commit("setUser",data);
+
+            document.cookie = `authToken=$(data.token); path=/`;
+            document.cookie = `user=$(JSON.stringify(data.user)); path=/`;
           }
-        } catch (error) {
+          // const { msg, token, result } = data;
+      
+          // if (result) {
+          //   // Handle successful sign-in
+          //   router.push({ name: "home" });
+          // } else {
+          //   sweet({
+          //     title: 'Login Error',
+          //     text: msg,
+          //     icon: 'info',
+          //     timer: 4000,
+          //   });
+          // }
+        } 
+
+        catch (error) {
           sweet({
             title: 'Login Error',
             text: 'Try Again, She Invests Wants You!',
