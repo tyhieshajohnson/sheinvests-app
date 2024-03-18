@@ -297,15 +297,5 @@ const investDelete = async (req, res) => {
 };
 // Deleting SPECIFIC investment FUNCTIONING
 
-// COINGECKO ROUTING
-// export const getCoinData = async (coinId) => {
-//   try {
-//     const response = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}`);
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
 // export to routes
 export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
