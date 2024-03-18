@@ -8,5 +8,5 @@ function authentication(token) {
 }
 
 export default {
-    authentication
+    authentication,
 }

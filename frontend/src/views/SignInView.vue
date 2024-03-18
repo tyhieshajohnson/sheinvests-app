@@ -7,7 +7,7 @@
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/" style="color: #c8a2c8;">Crypt</router-link>
+          <router-link to="/" style="color: #c8a2c8;">Crypto</router-link>
           <router-link to="/learn" style="color: #c8a2c8;">Learn</router-link>
           <router-link to="/profile" style="color: #c8a2c8;">Profile</router-link>
           <router-link to="/contact" style="color: #c8a2c8;">Contact</router-link>
@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="navbar-buttons">
-        <button class="signIn">Sign In</button>
-        <button class="signUp">Sign Up</button>
+        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
+        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
       </div>
     </nav>
 
@@ -49,6 +49,7 @@
 import SignUp from "@/components/SignUp.vue";
 import sweet from 'sweetalert';
 import router from '@/router';
+import authentication from '@/service/authentication.js';
 
 export default {
   name: "SignIn",
@@ -62,7 +63,7 @@ export default {
     };
   },
   methods: {
-    signIn() {
+    async signIn() {
       if (!this.username || !this.password) {
         sweet({
           title: "Login Error",
@@ -73,24 +74,37 @@ export default {
         return;
       }
 
-      // Call the signIn action with the payload
-      this.$store
-        .dispatch("signIn", { username: this.username, password: this.passwords })
-        .then(() => {
+      try {
+        const response = await fetch(`${baseURL}users/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: this.username, password: this.password}),
+        });
+
+        const data = await response.json();
+        const { msg, token, result } = data;
+
+        if (result) {
           // Handle successful sign-in
-          // Redirect to home or any other route if needed
           router.push({ name: "home" });
-        })
-        .catch((error) => {
-          // Handle sign-in error
-          console.error("Sign In Error:", error);
+        } else {
           sweet({
-            title: "Login Error",
-            text: "Try Again, She Invests Wants You!",
-            icon: "error",
+            title: 'Login Error',
+            text: msg,
+            icon: 'info',
             timer: 4000,
           });
+        }
+      } catch (error) {
+        sweet({
+          title: 'Login Error',
+          text: 'Try Again, She Invests Wants You!',
+          icon: 'error',
+          timer: 4000,
         });
+      }
     },
   },
 };

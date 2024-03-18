@@ -132,20 +132,34 @@ export default createStore({
           });
         }
       },
-      async signIn(context, payload) {
+
+      // using fetch instead of axios - tester
+      async signIn() {
+        if (!this.username || !this.password) {
+          sweet({
+            title: "Login Error",
+            text: "Please provide both username and password",
+            icon: "info",
+            timer: 4000,
+          });
+          return;
+        }
+      
         try {
-          const { msg, token, result } = (await axios.post(`${baseURL}users/login`, payload)).data;
+          const response = await fetch(`${baseURL}users/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: this.username, password: this.password }), // Change 'passwords' to 'password'
+          });
+      
+          const data = await response.json();
+          const { msg, token, result } = data;
+      
           if (result) {
-            context.commit('setUser', { msg, result });
-            cookies.set('LegitUser', { msg, token, result });
-            AuthenticateUser.applyToken(token);
-            sweet({
-              title: msg,
-              text: `Great Seeing You Again, ${result?.username}`,
-              icon: 'success',
-              timer: 2000,
-            });
-            router.push({ name: 'home' });
+            // Handle successful sign-in
+            router.push({ name: "home" });
           } else {
             sweet({
               title: 'Login Error',
@@ -154,7 +168,7 @@ export default createStore({
               timer: 4000,
             });
           }
-        } catch (e) {
+        } catch (error) {
           sweet({
             title: 'Login Error',
             text: 'Try Again, She Invests Wants You!',
@@ -162,7 +176,8 @@ export default createStore({
             timer: 4000,
           });
         }
-      },      
+      },
+           
     async fetchInvestments(context) {
       try {
         let { results } = (await axios.get(`${baseURL}investments`)).data;

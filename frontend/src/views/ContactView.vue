@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="navbar-buttons">
-        <button class="signIn">Sign In</button>
-        <button class="signUp">Sign Up</button>
+        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
+        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
       </div>
     </nav>
   </div>

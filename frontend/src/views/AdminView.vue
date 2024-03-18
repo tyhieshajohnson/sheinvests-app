@@ -6,7 +6,7 @@
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/">Crypt</router-link>
+          <router-link to="/">Crypto</router-link>
           <router-link to="/learn">Learn</router-link>
           <router-link to="/profile">Profile</router-link>
           <router-link to="/contact">Contact</router-link>
@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="navbar-buttons">
-        <button class="signIn">Sign In</button>
-        <button class="signUp">Sign Up</button>
+        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
+        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
       </div>
     </nav>
 
