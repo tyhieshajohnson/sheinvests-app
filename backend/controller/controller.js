@@ -15,7 +15,7 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { COINGECKO_API_URL } from '../config/index.js';
-
+ 
 // Load environment variables from .env file
 config();
 
