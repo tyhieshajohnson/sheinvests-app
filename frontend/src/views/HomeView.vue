@@ -7,13 +7,13 @@
       </div>
       <div class="navbar-links">
         <div class="main-links">
-            <router-link to="/">CRYPTO</router-link> 
-            <router-link to="/learn">Learn</router-link> 
-            <router-link to="/profile">Profile</router-link> 
-            <router-link to="/contact">Contact</router-link> 
-            <router-link to="/invest">Invest</router-link> 
-            <router-link to="/admin">Admin</router-link>
-          </div>
+          <router-link to="/">Crypt</router-link>
+          <router-link to="/learn">Learn</router-link>
+          <router-link to="/profile">Profile</router-link>
+          <router-link to="/contact">Contact</router-link>
+          <router-link to="/invest">Invest</router-link>
+          <router-link to="/admin">Admin</router-link>
+        </div>
       </div>
       <div class="navbar-buttons">
         <button class="signIn">Sign In</button>
@@ -22,12 +22,12 @@
     </nav>
 
     <div class="first-box">
-      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 100vh"/>
+      <img
+        src="https://i.ibb.co/3y5gr9h/ty.png"
+        class="img-background w-100 100vh"
+      />
       <div class="img-container">
-        <img
-          src="https://i.ibb.co/VwXrR6q/lady.png"
-          class="img-home"
-        />
+        <img src="https://i.ibb.co/VwXrR6q/lady.png" class="img-home" />
       </div>
 
       <div class="content-container">
@@ -40,51 +40,61 @@
 
         <div class="intro-container">
           <p>
-            WELCOME TO SHEINVESTS – WHERE FINANCIAL EMPOWERMENT MEETS THE CRYPTO <br>
-            WORLD. WE'RE MORE THAN A PREDICTION PLATFORM; SHEINVESTS IS A 
-            COMMUNITY-DRIVEN SPACE FOCUSED ON EDUCATING AND EMPOWERING WOMEN IN <br>
-            THE DIGITAL ASSET REALM. WITH OUR BELIEF IN KNOWLEDGE AS THE KEY TO <br>
-            FINANCIAL INDEPENDENCE, WE'RE DEDICATED TO BRIDGING THE GENDER GAP <br>
-            IN CRYPTO. SHEINVESTS PROVIDES MARKET INSIGHTS, TREND ANALYSES, AND <br>
-            REAL-TIME PREDICTIONS, SUPPORTING WOMEN OF ALL LEVELS IN THE DYNAMIC <br>
-            CRYPTO WORLD. JOIN US ON THIS JOURNEY TO BREAK BARRIERS, BUFILD A <br>
-            COMMUNITY, AND CONFIDENTLY NAVIGATE THE BLOCKCHAIN AND DIGITAL ASSET <br>
+            WELCOME TO SHEINVESTS – WHERE FINANCIAL EMPOWERMENT MEETS THE CRYPTO
+            <br />
+            WORLD. WE'RE MORE THAN A PREDICTION PLATFORM; SHEINVESTS IS A
+            COMMUNITY-DRIVEN SPACE FOCUSED ON EDUCATING AND EMPOWERING WOMEN IN
+            <br />
+            THE DIGITAL ASSET REALM. WITH OUR BELIEF IN KNOWLEDGE AS THE KEY TO
+            <br />
+            FINANCIAL INDEPENDENCE, WE'RE DEDICATED TO BRIDGING THE GENDER GAP
+            <br />
+            IN CRYPTO. SHEINVESTS PROVIDES MARKET INSIGHTS, TREND ANALYSES, AND
+            <br />
+            REAL-TIME PREDICTIONS, SUPPORTING WOMEN OF ALL LEVELS IN THE DYNAMIC
+            <br />
+            CRYPTO WORLD. JOIN US ON THIS JOURNEY TO BREAK BARRIERS, BUILD A
+            <br />
+            COMMUNITY, AND CONFIDENTLY NAVIGATE THE BLOCKCHAIN AND DIGITAL ASSET
+            <br />
             SPACE.
           </p>
         </div>
       </div>
     </div>
 
-    <div style="margin-top: 200px;">
-      <h1>Chart</h1>
-    </div>
-    </div>
-
-    <RouterView/>
-
     <!-- CRYPTO CHART -->
-    <!-- <div class="chart" style="margin-top: 600px;">
-      <h1>CHART</h1>
-      <div class="chart-display" style="border: 1px solid grey; border-radius: 20px;">
-        <div>
-          <h1>CoinGecko Crypto Chart</h1>
-          <ul>
-            <li v-for="coin in cryptoData" :key="coin.id">
-              {{ coin.name }} ({{ coin.symbol }}): {{ coin.current_price }}
-            </li>
-          </ul>
-        </div>
+    <div class="crypto">
+      <h1>CRYPTOCURRENCY</h1>
+      <div class="line-chart">
+        <Chart />
       </div>
     </div>
+    <!-- Investment Section -->
+    <div class="investments">
+      <h1>Investment</h1>
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" v-model="investmentAmount" />
+      <label for="crypto">Select Crypto:</label>
+      <select id="crypto" v-model="selectedCrypto">
+        <option value="Bitcoin">Bitcoin</option>
+        <option value="Ethereum">Ethereum</option>
+        <option value="Ripple">Ripple</option>
+      </select>
+      <label for="creation-time">Creation Time:</label>
+      <input type="datetime-local" id="creation-time" v-model="creationTime" />
+    </div>
     <RouterView />
-  </div> -->
+  </div>
 </template>
 
 <script>
-import { Store } from "vuex";
+import Chart from "../components/Chart.vue";
 import axios from "axios";
+import { Line } from "vue-chartjs";
 
 export default {
+  extends: Line,
   data() {
     return {
       formData: {
@@ -93,6 +103,54 @@ export default {
         password: "",
       },
       cryptoData: [],
+      chartData: {
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+        ],
+        datasets: [
+          {
+            label: "Bitcoin",
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+          },
+          {
+            label: "Ethereum",
+            data: [30, 45, 60, 70, 65, 55, 50],
+            fill: false,
+            borderColor: "rgb(255, 99, 132)",
+          },
+          {
+            label: "Ripple",
+            data: [23, 45, 98, 29, 56, 34, 80],
+            fill: false,
+            borderColor: "rgb(255, 165, 0)",
+          },
+        ],
+      },
+      chartOptions: {
+        animations: {
+          tension: {
+            duration: 1000,
+            easing: "linear",
+            from: 1,
+            to: 0,
+            loop: true,
+          },
+        },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+          },
+        },
+      },
     };
   },
   mounted() {
@@ -100,7 +158,6 @@ export default {
   },
   methods: {
     async submitForm() {
-      // Dispatch the signUp action with form data
       await this.$store.dispatch("signUp", this.formData);
     },
     async fetchCryptoData() {
@@ -135,12 +192,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.7); 
-  z-index: 999; 
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 999;
 }
 
 .navbar-logo {
-  margin-right: auto; 
+  margin-right: auto;
 }
 
 .navbar-links {
@@ -156,57 +213,57 @@ export default {
 }
 
 .img-background-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-  }
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
 
-  .img-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 400px;
-   height: 400px;
-   margin-top: 90px;
-   margin-left: 100px;
-  }
-  .img-container img {
-    width: 700px;
-  }
+.img-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  margin-top: 90px;
+  margin-left: 100px;
+}
+.img-container img {
+  width: 700px;
+}
 
-  .content-container {
-    position: absolute;
-    top: 10%;
-    left: 1000px;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    height: 20px;
-    margin-top: 260px;
-  }
+.content-container {
+  position: absolute;
+  top: 10%;
+  left: 1000px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  height: 20px;
+  margin-top: 260px;
+}
 
-  .content-container h1 {
-    font-size: 50px;
-  }
+.content-container h1 {
+  font-size: 50px;
+}
 
-  h3 {
-    font-weight: 300px;
-    font-family: "Bebas Neue", sans-serif;
+h3 {
+  font-weight: 300px;
+  font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   color: black;
   font-size: 10px;
-  }
+}
 
-  p {
-    font-size: 13px;
-    font-family: "Bebas Neue", sans-serif;
+p {
+  font-size: 13px;
+  font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
   color: black;
-  }
+}
 
-  h1 {
+h1 {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;

@@ -11,8 +11,9 @@ export default createStore({
   state: {
     users: [],
     user: [],
-    investments: null,
-    investment: null,
+    investments: [],
+    investment: [],
+    crypto: [],
   },
   getters: { 
   },
@@ -28,6 +29,9 @@ export default createStore({
     },
     setInvestment(state, value) {
       state.investment = value;
+    },
+    setCrypto(state, value) {
+      state.crypto = value;
     },
   },
   actions: {
@@ -115,7 +119,7 @@ export default createStore({
     },
     async delUser(context, payload) {
       try {
-        const response = await axios.delete(`${baseURL}users/delete/${payload.id}`);
+        const response = await axios.delete(`${baseURL}user/delete/${payload.id}`);
         console.log('User deleted successfully', response);
         context.dispatch('fetchUsers');
       } catch (error) {
@@ -219,6 +223,25 @@ export default createStore({
         sweet({
           title: 'Error Deleting Investment',
           text: 'Unable to delete the investment',
+          icon: 'error',
+          timer: 4000,
+        });
+      }
+    },
+
+    // fetch crypto
+    async fetchCrypto(context) {
+      // console.log("Fetching users...");
+      try {
+        const results = (await axios.get(`${baseURL}crypto`)).data;
+        if (results) {
+          context.commit('setCrypto', results);
+          console.log("Fetching crypto...");
+        }
+      } catch (e) {
+        sweet({
+          title: 'Retrieving All Crypto Error!',
+          text: 'Users Not Found',
           icon: 'error',
           timer: 4000,
         });
