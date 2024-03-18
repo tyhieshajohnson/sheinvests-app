@@ -7,7 +7,7 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="your-logo-image-url" alt="Logo" class="logo" />
+        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
       </div>
       <div class="navbar-links">
         <div class="main-links">

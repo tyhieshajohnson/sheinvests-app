@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="your-logo-image-url" alt="Logo" class="logo" />
+        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
       </div>
       <div class="navbar-links">
         <div class="main-links">
@@ -24,12 +24,12 @@
     <div class="first-box">
       <img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 100vh" />
       <div class="learn">
-        <h1>Learn</h1>
+        <h1 style="display: flex; justify-content: center;">Learn</h1>
         <p>Here is the platform to learn more about Crypto</p>
       </div>
       <div class="content-container">
         <a href="https://hackingmotherhood.substack.com/p/why-more-women-need-to-get-into-crypto" style="text-decoration: none;">
-          <div class="div1">
+          <div class="div1" style="padding: 30px;">
             <h2 style="color: white;">Why Women Need To Invest?</h2>
             <p>
               Women should consider entering the crypto space for its potential to offer financial empowerment and independence, breaking traditional barriers in the male-dominated financial sector.
@@ -38,7 +38,7 @@
         </a>
 
         <a href="https://www.forbes.com/advisor/in/investing/cryptocurrency/advantages-of-cryptocurrency/" style="text-decoration: none;">
-          <div class="div2">
+          <div class="div2" style="padding: 30px;">
             <h2 style="color: white;">Why Crypto?</h2>
             <p>
               Crypto presents a unique opportunity for anyone, including women, to participate in a decentralized financial system, offering innovation, global accessibility, and potential for significant returns on investment.
@@ -47,7 +47,7 @@
         </a>
 
         <a href="https://cryptoweekly.co/crypto-female-50-awards" style="text-decoration: none;">
-          <div class="div3">
+          <div class="div3" style="padding: 30px;">
             <h2 style="color: white;">Women In Crypto</h2>
             <p>
               Encouraging more women to engage in crypto fosters diversity and inclusion within the industry, enriching perspectives, driving innovation, and contributing to a more balanced and equitable future of finance.

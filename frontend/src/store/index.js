@@ -1,10 +1,10 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
 import sweet from 'sweetalert';
-// import { useCookies } from 'vue3-cookies'
-// const {cookies} = useCookies()
+import { useCookies } from 'vue3-cookies'
+const {cookies} = useCookies()
 import router from '@/router';
-// import authentication from '@/service/authentication.js';
+import authentication from '@/service/authentication.js';
 const baseURL = 'https://sheinvests-app-api.onrender.com/';
 
 export default createStore({
@@ -117,52 +117,52 @@ export default createStore({
         });
       }
     },
-    async delUser(context, payload) {
-      try {
-        const response = await axios.delete(`${baseURL}user/delete/${payload.id}`);
-        console.log('User deleted successfully', response);
-        context.dispatch('fetchUsers');
-      } catch (error) {
-        console.error('Error deleting user', error);
-        sweet({
-          title: 'Error Deleting User',
-          text: 'Unable to delete the user',
-          icon: 'error',
-          timer: 4000,
-        });
-      }
-    },
-    async signIn(context, payload) {
-      try {
-        const { msg, token, result } = (await axios.post(`${baseURL}users/login`, payload)).data;
-        if (result) {
-          context.commit('setUser', { msg, result });
-          // cookies.set('LegitUser', { msg, token, result });
-          // AuthenticateUser.applyToken(token);
+      async delUser(context, payload) {
+        try {
+          const response = await axios.delete(`${baseURL}user/delete/${payload.id}`);
+          console.log('User deleted successfully', response);
+          context.dispatch('fetchUsers');
+        } catch (error) {
+          console.error('Error deleting user', error);
           sweet({
-            title: msg,
-            text: `Great Seeing You Again, ${result?.username}`,
-            icon: 'success',
-            timer: 2000,
-          });
-          router.push({ name: 'home' });
-        } else {
-          sweet({
-            title: 'Login Error',
-            text: msg,
-            icon: 'info',
+            title: 'Error Deleting User',
+            text: 'Unable to delete the user',
+            icon: 'error',
             timer: 4000,
           });
         }
-      } catch (e) {
-        sweet({
-          title: 'Login Error',
-          text: 'Try Again, She Invests Wants You!',
-          icon: 'error',
-          timer: 4000,
-        });
-      }
-    },
+      },
+      async signIn(context, payload) {
+        try {
+          const { msg, token, result } = (await axios.post(`${baseURL}users/login`, payload)).data;
+          if (result) {
+            context.commit('setUser', { msg, result });
+            cookies.set('LegitUser', { msg, token, result });
+            AuthenticateUser.applyToken(token);
+            sweet({
+              title: msg,
+              text: `Great Seeing You Again, ${result?.username}`,
+              icon: 'success',
+              timer: 2000,
+            });
+            router.push({ name: 'home' });
+          } else {
+            sweet({
+              title: 'Login Error',
+              text: msg,
+              icon: 'info',
+              timer: 4000,
+            });
+          }
+        } catch (e) {
+          sweet({
+            title: 'Login Error',
+            text: 'Try Again, She Invests Wants You!',
+            icon: 'error',
+            timer: 4000,
+          });
+        }
+      },      
     async fetchInvestments(context) {
       try {
         let { results } = (await axios.get(`${baseURL}investments`)).data;

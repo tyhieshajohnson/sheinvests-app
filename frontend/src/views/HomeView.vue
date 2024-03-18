@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="your-logo-image-url" alt="Logo" class="logo" />
+        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
       </div>
       <div class="navbar-links">
         <div class="main-links">
@@ -64,7 +64,7 @@
     </div>
 
     <!-- CRYPTO CHART -->
-    <div class="crypto">
+    <div class="crypto" style="margin-top: 100px;">
       <h1>CRYPTOCURRENCY</h1>
       <div class="line-chart">
         <Chart />
@@ -227,14 +227,15 @@ export default {
   margin-top: 90px;
   margin-left: 100px;
 }
+
 .img-container img {
-  width: 700px;
+  width: 800px;
 }
 
 .content-container {
   position: absolute;
   top: 10%;
-  left: 1000px;
+  left: 1100px;
   transform: translate(-50%, -50%);
   text-align: center;
   height: 20px;

@@ -2,7 +2,7 @@
   <div class="body">
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="your-logo-image-url" alt="Logo" class="logo" />
+        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
       </div>
       <div class="navbar-links">
         <div class="main-links">
@@ -122,6 +122,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -173,23 +175,23 @@ export default {
     },
     closeEditModal() {
       // Reset editedUser object and close the modal
-      this.editedUser = { id: null, username: "", email: "", password: "" };
+      this.editedUser = { id: null, username: "", email: "", passwords: "" };
       this.isEditModalActive = false;
     },
     // Delete User
-    delUser: function (id) {
-    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
-    if (confirmDelete) {
-      this.$store.dispatch('delUser', { id })
-        .then(() => {
-          window.alert('User has been deleted.');
-        })
-        .catch((error) => {
-          console.error('Error deleting user', error);
-          window.alert('Error deleting user. Please try again.');
-        });
-    }
+    delUser(id) {
+  const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+  if (confirmDelete) {
+    this.$store.dispatch('delUser', { id })
+      .then(() => {
+        window.alert('User has been deleted.');
+      })
+      .catch((error) => {
+        console.error('Error deleting user', error);
+        window.alert('Error deleting user. Please try again.');
+      });
   }
+}
   },
   mounted() {
     this.$store.dispatch("fetchUsers");

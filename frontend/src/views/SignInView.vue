@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="your-logo-image-url" alt="Logo" class="logo" />
+        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
       </div>
       <div class="navbar-links">
         <div class="main-links">
@@ -28,12 +28,14 @@
         <h1 style="display: flex; justify-content: center;">Sign In</h1>
         <div class="signIn-div">
         <h1 style="color: #c8a2c8;">WE MISSED YOU, <br> WELCOME BACK</h1>
+
         <label for="signIn" style="color: white;">Username:</label>
-        <input type="text" />
+        <input type="text" v-model="username" placeholder="Username" />
 
         <label for="signIn" style="color: white;">Password:</label>
-        <input type="text" />
-        <button>Sign In</button>
+        <input type="password" v-model="password" placeholder="Password" />
+
+        <button @click="signIn">Sign In</button>
       </div>
       <div class="signUp-container" style="display: flex; justify-content: center;">
         <RouterLink to="signUp" style="text-decoration: none; color: white;">Don't Have An Account? Create One</RouterLink>
@@ -45,11 +47,51 @@
 
 <script>
 import SignUp from "@/components/SignUp.vue";
+import sweet from 'sweetalert';
+import router from '@/router';
 
 export default {
-  name: "Sign Up",
+  name: "SignIn",
   components: {
     SignUp,
+  },
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+  methods: {
+    signIn() {
+      if (!this.username || !this.password) {
+        sweet({
+          title: "Login Error",
+          text: "Please provide both username and password",
+          icon: "info",
+          timer: 4000,
+        });
+        return;
+      }
+
+      // Call the signIn action with the payload
+      this.$store
+        .dispatch("signIn", { username: this.username, password: this.passwords })
+        .then(() => {
+          // Handle successful sign-in
+          // Redirect to home or any other route if needed
+          router.push({ name: "home" });
+        })
+        .catch((error) => {
+          // Handle sign-in error
+          console.error("Sign In Error:", error);
+          sweet({
+            title: "Login Error",
+            text: "Try Again, She Invests Wants You!",
+            icon: "error",
+            timer: 4000,
+          });
+        });
+    },
   },
 };
 </script>
