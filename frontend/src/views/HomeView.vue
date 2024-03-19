@@ -91,67 +91,11 @@
 <script>
 import Chart from "../components/Chart.vue";
 import axios from "axios";
-import { Line } from "vue-chartjs";
 
 export default {
-  extends: Line,
-  data() {
-    return {
-      formData: {
-        username: "",
-        email: "",
-        password: "",
-      },
-      cryptoData: [],
-      chartData: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-        ],
-        datasets: [
-          {
-            label: "Bitcoin",
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: false,
-            borderColor: "rgb(75, 192, 192)",
-          },
-          {
-            label: "Ethereum",
-            data: [30, 45, 60, 70, 65, 55, 50],
-            fill: false,
-            borderColor: "rgb(255, 99, 132)",
-          },
-          {
-            label: "Ripple",
-            data: [23, 45, 98, 29, 56, 34, 80],
-            fill: false,
-            borderColor: "rgb(255, 165, 0)",
-          },
-        ],
-      },
-      chartOptions: {
-        animations: {
-          tension: {
-            duration: 1000,
-            easing: "linear",
-            from: 1,
-            to: 0,
-            loop: true,
-          },
-        },
-        scales: {
-          y: {
-            min: 0,
-            max: 100,
-          },
-        },
-      },
-    };
+  name: "HomeView",
+  components: {
+    Chart,
   },
   mounted() {
     this.fetchCryptoData();
@@ -159,22 +103,6 @@ export default {
   methods: {
     async submitForm() {
       await this.$store.dispatch("signUp", this.formData);
-    },
-    async fetchCryptoData() {
-      try {
-        const response = await axios.get(
-          "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=zar&days=30&interval=daily&precision=full",
-          {
-            params: {
-              data: "",
-            },
-          }
-        );
-
-        this.cryptoData = response.data;
-      } catch (error) {
-        console.error("Error fetching crypto data:", error);
-      }
     },
   },
 };
