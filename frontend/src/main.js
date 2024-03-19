@@ -6,4 +6,5 @@ import store from './store'
 import {  Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 
+
 createApp(App).use(store).use(router).mount('#app')

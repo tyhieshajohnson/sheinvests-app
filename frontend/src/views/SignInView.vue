@@ -46,16 +46,11 @@
 </template>
 
 <script>
-import SignUp from "@/components/SignUp.vue";
 import sweet from 'sweetalert';
 import router from '@/router';
-import authentication from '@/service/authentication.js';
 
 export default {
   name: "SignIn",
-  components: {
-    SignUp,
-  },
   data() {
     return {
       username: "",
@@ -75,35 +70,10 @@ export default {
       }
 
       try {
-        const response = await fetch(`${baseURL}users/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username: this.username, password: this.password }),
-        });
-
-        const data = await response.json();
-        const { msg, token, result } = data;
-
-        if (result) {
-          // Handle successful sign-in
-          router.push({ name: "home" });
-        } else {
-          sweet({
-            title: 'Login Error',
-            text: msg,
-            icon: 'info',
-            timer: 4000,
-          });
-        }
+        // Dispatch the signIn action from Vuex store
+        await this.$store.dispatch('signIn', { username: this.username, password: this.password });
       } catch (error) {
-        sweet({
-          title: 'Login Error',
-          text: 'Try Again, She Invests Wants You!',
-          icon: 'error',
-          timer: 4000,
-        });
+        console.error('Login error:', error);
       }
     },
   },

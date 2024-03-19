@@ -67,6 +67,14 @@
     <div class="crypto" style="margin-top: 100px;">
       <h1>CRYPTOCURRENCY</h1>
       <div class="line-chart">
+        <div class="icons">
+          <!-- Ethereum -->
+          <i class="fa-brands fa-ethereum"></i>
+          <!-- Litecoin -->
+          <i class="fa-solid fa-litecoin-sign"></i>
+          <!-- Bitcoin -->
+          <i class="fa-brands fa-bitcoin"></i>
+        </div>
         <Chart />
       </div>
     </div>
@@ -214,6 +222,10 @@ h1 {
   border-radius: 7px;
   border: solid #c8a2c8 4px;
   background-color: white;
+}
+
+.fa-brands, .fa-solid {
+  width: 500px;
 }
 
 /* Media Query */

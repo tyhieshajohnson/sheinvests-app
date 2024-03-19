@@ -141,30 +141,43 @@ export default createStore({
             },
             body: JSON.stringify(payload),
           });
-      
+        
           const data = await response.json();
-          const { msg, token, result } = data;
       
-          if (result) {
+          // Check if response contains a token
+          if (data.token) {
+            const { msg, token, result } = data;
+      
+            // Set user in state
             context.commit('setUser', { msg, result });
+      
+            // Set cookies
             cookies.set('LegitUser', { msg, token, result });
-            AuthenticateUser.applyToken(token);
+      
+            // Apply token to axios headers
+            AuthenticateUser.authentication(token);
+      
+            // Show success message
             sweet({
               title: msg,
               text: `Great Seeing You Again, ${result?.username}`,
               icon: 'success',
               timer: 2000,
             });
+      
+            // Redirect to home page
             router.push({ name: 'home' });
           } else {
+            // Show error message if token is not present in response
             sweet({
               title: 'Login Error',
-              text: msg,
+              text: data.message || 'Unknown error occurred',
               icon: 'info',
               timer: 4000,
             });
           }
         } catch (error) {
+          // Show error message if request fails
           sweet({
             title: 'Login Error',
             text: 'Try Again, She Invests Wants You!',
@@ -172,7 +185,7 @@ export default createStore({
             timer: 4000,
           });
         }
-      },      
+      },          
     async fetchInvestments(context) {
       try {
         let { results } = (await axios.get(`${baseURL}investments`)).data;

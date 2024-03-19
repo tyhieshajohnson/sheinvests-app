@@ -5,46 +5,54 @@
 </template>
 
 <script setup>
-import { onMounted } from '@vue/runtime-core';
-import {Chart} from 'chart.js';
+import { onMounted } from "@vue/runtime-core";
+import { Chart } from "chart.js";
 
-
-  onMounted(() =>  {
-    const ctx = document.getElementById('myChart').getContext('2d');
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+onMounted(() => {
+  const ctx = document.getElementById("myChart").getContext("2d");
+  this.chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Ethereum", "Litecoin", "Bitcoin"],
+      datasets: [
+        {
+          label: "Ethereum",
+          data: [65, 23, 80, 45, 50, 67, 88],
+          fill: false,
+          borderColor: "rgb(178, 216, 178)",
+        },
+        {
+          label: "Litecoin",
+          data: [43, 67, 79, 81, 26, 39, 100],
+          fill: false,
+          borderColor: "rgb(138, 43, 226)",
+        },
+        {
+          label: "Bitcoin",
+          data: [10, 26, 56, 87, 34, 50, 89],
+          fill: false,
+          borderColor: "rgb(0, 0, 128)",
         }
-      }
-    });
+      ],
+    },
+    options: {
+      animations: {
+        tension: {
+          duration: 1000,
+          easing: "linear",
+          from: 1,
+          to: 0,
+          loop: true,
+        },
+      },
+      scales: {
+        y: {
+          // defining min and max so hiding the dataset does not change scale range
+          min: 0,
+          max: 100,
+        },
+      },
+    },
   });
-
+});
 </script>
