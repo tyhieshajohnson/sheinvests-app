@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
+// import axios from 'axios';
 import sweet from 'sweetalert';
 import { useCookies } from 'vue3-cookies'
 const {cookies} = useCookies()
@@ -140,6 +140,7 @@ export default createStore({
       },
       // Start of SignIn
       async login ({commit}, userData) {
+        console.log(userData);
         try {
           const response = await fetch(`${baseURL}users/login`, {
             method: 'POST',
@@ -279,4 +280,10 @@ export default createStore({
     },
   },
   modules: {},
+  plugins: [(store) => store.dispatch("initializeCurrentUser")],
 });
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}

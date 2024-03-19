@@ -28,14 +28,16 @@
         <h1 style="display: flex; justify-content: center;">Sign In</h1>
         <div class="signIn-div">
         <h1 style="color: #c8a2c8;">WE MISSED YOU, <br> WELCOME BACK</h1>
-
+        <form @submit.prevent="loginUser">
         <label for="signIn" style="color: white;">Username:</label>
-        <input type="text" v-model="username" placeholder="Username" />
-
+        <input type="text" v-model="formData.username" placeholder="Username" />
+        
         <label for="signIn" style="color: white;">Password:</label>
-        <input type="password" v-model="password" placeholder="Password" />
+        <input type="password" v-model="formData.passwords" placeholder="Password" />
 
-        <button @click="loginUser">Sign In</button>
+        <button type="submit">Sign In</button>
+      </form>
+        
       </div>
       <div class="signUp-container" style="display: flex; justify-content: center;">
         <RouterLink to="signUp" style="text-decoration: none; color: white;">Don't Have An Account? Create One</RouterLink>
@@ -58,7 +60,7 @@ export default {
     //   passwords: "",
     // };
     return{
-     Data:{
+     formData:{
       username:"",
       passwords:"",
      },
@@ -69,8 +71,9 @@ export default {
   },
   methods:{
     async loginUser(){
-      const user = {...this.Data};
+      const user = {...this.formData};
       try{
+        console.log(user);
         await this.$store.dispatch("login",user);
         this.clearForm();
         // this.$router.push({name:})
@@ -84,7 +87,7 @@ export default {
       }
     },
     clearForm(){
-      this.Data ={
+      this.formData ={
         username:"",
         passwords:"",
       };
