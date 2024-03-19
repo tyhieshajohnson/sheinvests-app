@@ -35,7 +35,7 @@
         <label for="signIn" style="color: white;">Password:</label>
         <input type="password" v-model="password" placeholder="Password" />
 
-        <button @click="signIn">Sign In</button>
+        <button @click="loginUser">Sign In</button>
       </div>
       <div class="signUp-container" style="display: flex; justify-content: center;">
         <RouterLink to="signUp" style="text-decoration: none; color: white;">Don't Have An Account? Create One</RouterLink>
@@ -48,33 +48,46 @@
 <script>
 import sweet from 'sweetalert';
 import router from '@/router';
+import {mapGetters} from "vuex";
 
 export default {
-  name: "SignIn",
+  name: "login",
   data() {
-    return {
-      username: "",
-      password: "",
+    // return {
+    //   username: "",
+    //   passwords: "",
+    // };
+    return{
+     Data:{
+      username:"",
+      passwords:"",
+     },
     };
   },
-  methods: {
-    async signIn() {
-      if (!this.username || !this.password) {
-        sweet({
-          title: "Login Error",
-          text: "Please provide both username and password",
-          icon: "info",
-          timer: 4000,
+  computed:{
+    ...mapGetters(["getCurrentUser"]),
+  },
+  methods:{
+    async loginUser(){
+      const user = {...this.Data};
+      try{
+        await this.$store.dispatch("login",user);
+        this.clearForm();
+        // this.$router.push({name:})
+      } catch(error){
+        console.log('Login error:', error);
+        Swal.fire({
+          icon:"error",
+          title:"Login Failed",
+          text:error.message || "Failed to login. Please try again",
         });
-        return;
       }
-
-      try {
-        // Dispatch the signIn action from Vuex store
-        await this.$store.dispatch('signIn', { username: this.username, password: this.password });
-      } catch (error) {
-        console.error('Login error:', error);
-      }
+    },
+    clearForm(){
+      this.Data ={
+        username:"",
+        passwords:"",
+      };
     },
   },
 };

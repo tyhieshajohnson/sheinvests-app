@@ -14,8 +14,10 @@ export default createStore({
     investments: [],
     investment: [],
     crypto: [],
+    currentUser: null,
   },
   getters: { 
+    getCurrentUser: (state) => state.currentUser,
   },
   mutations: {
     setUsers(state, value) {
@@ -33,6 +35,10 @@ export default createStore({
     setCrypto(state, value) {
       state.crypto = value;
     },
+    setCurrentUser(state){
+      state.currentUser=null;
+    },
+
   },
   actions: {
     async addUser(context, payload) {
@@ -132,30 +138,30 @@ export default createStore({
           });
         }
       },
-      async signIn(context, payload) {
+      // Start of SignIn
+      async login ({commit}, userData) {
         try {
           const response = await fetch(`${baseURL}users/login`, {
             method: 'POST',
+            body: JSON.stringify(userData),
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload),
           });
         
           const data = await response.json();
       
           // Check if response contains a token
-          if (data.token) {
-            const { msg, token, result } = data;
+          if (response.ok) {
+            commit ('setCurrentUser', data);
       
             // Set user in state
-            context.commit('setUser', { msg, result });
+            // context.commit('setUser', { msg, result });
       
             // Set cookies
-            cookies.set('LegitUser', { msg, token, result });
-      
-            // Apply token to axios headers
-            AuthenticateUser.authentication(token);
+            document.cookie = `auth=${data.token}; path=/`;
+            document.commit = `user=${JSON.stringify(data.user)}; path=/`;
+            // cookies.set('LegitUser', { msg, token, result });
       
             // Show success message
             sweet({
@@ -201,6 +207,7 @@ export default createStore({
         });
       }
     },
+    // End of SignIn
     async fetchInvestment(context, payload) {
       try {
         let { result } = (await axios.get(`${baseURL}investment/${payload.user_id}`)).data;
