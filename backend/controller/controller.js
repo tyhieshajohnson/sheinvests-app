@@ -85,12 +85,8 @@ const userLogin = async (req, res) => {
       });
     }
 
-    console.log("Received password:", passwords);
-    console.log("Stored hashed password:", user.passwords);
-
     const validPassword = await bcrypt.compare(passwords, user.passwords);
     if (!validPassword) {
-      console.log("Invalid password for user:", user);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -103,7 +99,7 @@ const userLogin = async (req, res) => {
       }
     );
 
-    res.json({ user, token });
+    res.json({ token, user });
   } catch (error) {
     console.error('Error in userLogin:', error);
     res.status(500).json({

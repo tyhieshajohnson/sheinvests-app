@@ -48,6 +48,6 @@ router.route('/invest/:user_id').get(investGet)
 router.route('/invest/edit/:user_id').patch(auth, investEdit)
 
 // delete SPECIFIC investment
-router.route('/invest/delete/:user_id').delete(investDelete)
+router.route('/invest/delete/:user_id').delete(auth, investDelete)
 
 export default router;
