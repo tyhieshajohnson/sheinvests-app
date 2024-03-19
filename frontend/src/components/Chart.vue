@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div>
     <canvas id="myChart"></canvas>
   </div>
@@ -56,3 +56,4 @@ onMounted(() => {
   });
 });
 </script>
+
