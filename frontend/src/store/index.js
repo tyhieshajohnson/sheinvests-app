@@ -154,20 +154,20 @@ export default createStore({
       
           // Check if response contains a token
           if (response.ok) {
-            commit ('setCurrentUser', data);
+            commit ('setUser', data);
       
             // Set user in state
             // context.commit('setUser', { msg, result });
       
             // Set cookies
             document.cookie = `auth=${data.token}; path=/`;
-            document.commit = `user=${JSON.stringify(data.user)}; path=/`;
+            document.cookie = `user=${JSON.stringify(data.user)}; path=/`;
             // cookies.set('LegitUser', { msg, token, result });
       
             // Show success message
             sweet({
-              title: msg,
-              text: `Great Seeing You Again, ${result?.username}`,
+              title: data.message,
+              text: `Great Seeing You Again, ${data.user.username}`,
               icon: 'success',
               timer: 2000,
             });
@@ -187,12 +187,12 @@ export default createStore({
           // Show error message if request fails
           sweet({
             title: 'Login Error',
-            text: 'Try Again, She Invests Wants You!',
+            text: 'Try Again, Server Error!',
             icon: 'error',
             timer: 4000,
           });
         }
-      },          
+      },
     async fetchInvestments(context) {
       try {
         let { results } = (await axios.get(`${baseURL}investments`)).data;
@@ -280,7 +280,7 @@ export default createStore({
     },
   },
   modules: {},
-  plugins: [(store) => store.dispatch("initializeCurrentUser")],
+  // plugins: [(store) => store.dispatch("initializeCurrentUser")],
 });
 function getCookie(name) {
   const value = `; ${document.cookie}`;
