@@ -79,7 +79,7 @@
       </div>
     </div>
     <!-- Investment Section -->
-    <div class="investments">
+    <!-- <div class="investments">
       <h1>Investment</h1>
       <label for="amount">Amount:</label>
       <input type="number" id="amount" v-model="investmentAmount" />
@@ -91,7 +91,7 @@
       </select>
       <label for="creation-time">Creation Time:</label>
       <input type="datetime-local" id="creation-time" v-model="creationTime" />
-    </div>
+    </div> -->
     <RouterView />
   </div>
 </template>
@@ -106,7 +106,7 @@ export default {
     Chart,
   },
   mounted() {
-    this.fetchCryptoData();
+    // this.fetchCryptoData();
   },
   methods: {
     async submitForm() {

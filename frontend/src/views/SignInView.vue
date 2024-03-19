@@ -55,10 +55,6 @@ import {mapGetters} from "vuex";
 export default {
   name: "login",
   data() {
-    // return {
-    //   username: "",
-    //   passwords: "",
-    // };
     return{
      formData:{
       username:"",

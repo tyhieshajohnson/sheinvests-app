@@ -8,9 +8,10 @@
 import { onMounted } from "@vue/runtime-core";
 import { Chart } from "chart.js";
 
-onMounted(() => {
+
+const createChart = async () => {
   const ctx = document.getElementById("myChart").getContext("2d");
-  this.chart = new Chart(ctx, {
+  const chart = new Chart(ctx, {
     type: "line",
     data: {
       labels: ["Ethereum", "Litecoin", "Bitcoin"],
@@ -54,6 +55,12 @@ onMounted(() => {
       },
     },
   });
+}
+
+
+
+onMounted(() => {
+  createChart();
 });
 </script>
 

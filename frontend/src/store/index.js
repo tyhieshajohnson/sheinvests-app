@@ -41,18 +41,36 @@ export default createStore({
 
   },
   actions: {
+    // USING FETCH
     async addUser(context, payload) {
       try {
-        const  data  = (await axios.post(`${baseURL}users/add`, payload)).data;
-        if (data) {
-          context.dispatch('fetchUser', { id: data.user.id });
+        const response = await fetch(`${baseURL}users/add`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          if (data) {
+            context.dispatch('fetchUser', { id: data.user.id });
+            sweet({
+              title: 'Registration',
+              text: data.msg,
+              icon: 'success',
+              timer: 4000,
+            });
+            router.push({ name: 'login' });
+          }
+        } else {
           sweet({
-            title: 'Registration',
-            text: data.msg,
-            icon: 'success',
+            title: 'Registration Error!',
+            text: 'Registration Incomplete',
+            icon: 'error',
             timer: 4000,
           });
-          router.push({ name: 'login' });
         }
       } catch (e) {
         sweet({

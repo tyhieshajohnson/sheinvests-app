@@ -30,13 +30,13 @@
         <h1 style="color: #c8a2c8;">JOIN THE FAMILY</h1>
 
         <label for="signUp" style="color: white;">Username:</label>
-        <input type="username" v-model="username" placeholder="Username" />
+        <input type="username" v-model="userData.username" placeholder="Username" />
 
         <label for="signUp" style="color: white;">Email:</label>
-        <input type="email" v-model="email" placeholder="Email">
+        <input type="email" v-model="userData.email" placeholder="Email">
 
         <label for="signUp" style="color: white;">Password:</label>
-        <input type="password" v-model="password" placeholder="Password" />
+        <input type="password" v-model="userData.password" placeholder="Password" />
 
         <button @click="signUp">Sign Up</button>
       </div>
