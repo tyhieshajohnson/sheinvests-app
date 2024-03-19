@@ -11,13 +11,14 @@ const app = express();
 
 // Middleware
 app.use(express.json()); // Use the built-in express.json() middleware
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({
-  origin: ['http://localhost:8080', 'https://sheinvests-app-api.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
+// app.use(cors({
+//   origin: ['http://localhost:8080', 'https://sheinvests-app-api.onrender.com'],
+//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 app.use(express.static("static"));
 
 app.get("/", (req, res) => {
