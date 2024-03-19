@@ -8,13 +8,16 @@ import { addUser,
   getInvestments, 
   editInvestment,
   deleteInvestment,
+  addCrypto,
+  getAllCrypto,
+  getCrypto,
+  editCrypto,
   } from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { COINGECKO_API_URL } from '../config/index.js';
  
 // Load environment variables from .env file
 config();
@@ -293,5 +296,82 @@ const investDelete = async (req, res) => {
 };
 // Deleting SPECIFIC investment FUNCTIONING
 
+// CRYPTO 
+// 1. /add crypto
+const cryptoAdd = async (req, res) => {
+  try {
+    const {crypto_name, crypto_description} = req.body;
+    const userId = req.user.id
+    console.log(req.user);
+
+    if (!crypto_name || !crypto_description) {
+      return res.status(500).json({error: "Error creating crypto" });
+    }
+
+    await addCrypto(crypto_name, crypto_description);
+
+    res.status(200).json({
+      msg: "Success",
+    });
+  } catch (error) {
+    console.error('Error In cryptoAdd Controller:', error);
+    res.status(500).json({
+      error: 'Internal Server Error - Controler cryptoAdd',
+      details: error.message });
+  }
+};
+
+//2. /get crypto
+const cryptoGetAll = async (req, res) => {
+  const allCrypto = await getAllCrypto();
+  res.send(allCrypto)
+};
+
+// 3. /get SPECIFIC crypto /:id
+const cryptoGet = async (req, res) => {
+  res.send(await getCrypto(+req.params.user_id))
+};
+
+// 4. /edit SPECIFIC crypto /:id
+const cryptoEdit = async (req, res) => {
+  try {
+    const { crypto_name, crypto_description } = req.body;
+    const user_id = req.params.user_id; // Retrieve user_id from request parameters
+
+    const existingCrypto = await getCrypto(user_id);
+
+    if (!existingCrypto) {
+      res.status(404).json({ error: 'Crypto not found' });
+      return;
+    }
+
+    const updateCryptoName = crypto_name || existingCrypto.crypto_name;
+    const updateCryptoDescription = crypto_description || existingCrypto.crypto_description;
+
+    await editCrypto(user_id, existingCrypto.crypto_name, updateCryptoName, updateCryptoDescription); // Pass user_id to editCrypto
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error handling crypto edit:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 // export to routes
-export { userAdd, userLogin, getUsers, getUser, investAdd, getClients, getClient, userEdit, userDelete, investsGet, investGet, investEdit, investDelete }; 
+export { userAdd, 
+  userLogin, 
+  getUsers, 
+  getUser, 
+  investAdd, 
+  getClients, 
+  getClient, 
+  userEdit, 
+  userDelete, 
+  investsGet, 
+  investGet, 
+  investEdit, 
+  investDelete, 
+  cryptoAdd,
+  cryptoGetAll,
+  cryptoGet,
+  cryptoEdit, }; 

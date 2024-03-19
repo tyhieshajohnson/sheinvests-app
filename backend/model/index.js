@@ -16,24 +16,7 @@ const addUser = async ( username, email, passwords) => {
       `,
       [username, email, passwords]
     );
-
-    // Generate a JWT token
-    // const token = jwt.sign({ username, email }, jwtSecret, { expiresIn: '1h' });
-    // // Return the new user object and the JWT token
-    // return { username, token };
   };  
-// Add users FUNCTIONING
-
-// JSONWEBTOKEN
-// const loginUser = async (username) => {
-//     console.log("Username", username);
-//     const [users] = await pool.query(
-//         `
-        
-//         SELECT * FROM users WHERE username = ?`
-//     );
-//     return users;
-// }
 
 const getUsersByUsername = async(username) => {
     console.log("🚀 ~ getUsersByUsername ~ username:", username);
@@ -175,5 +158,82 @@ const deleteInvestment = async (user_id) => {
     return result.affectedRows > 0; // Return true if an investment was deleted, false otherwise
 };
 
+
+// CRYPTO
+// 1. Creating a /add 'crypto' class
+const addCrypto = async (crypto_name, crypto_description) => {
+    await pool.query(
+        `
+        INSERT INTO crypto (crypto_name, crypto_description) VALUES (?, ?)
+        `,
+        [crypto_name, crypto_description]
+        );
+};
+
+// 2. Creating a /get for ALL 'crypto' class
+const getAllCrypto = async (req, res) => {
+    const [crypto] = await pool.query(
+        `
+        
+        SELECT * FROM crypto`
+    );
+    return crypto
+};
+
+// 3. Creating a /get/crypto/:id SPECIFIC crypto for a user
+const getCrypto = async (user_id) => {
+    const [crypto] = await pool.query(
+        `
+        SELECT 
+	user_id,
+    crypto_name,
+    SUM(amount) AS total_amount_invested
+FROM 
+    investments
+GROUP BY 
+    crypto_name;
+        `,
+        [user_id]
+    );
+    return crypto;
+};
+
+// 4. Creating a /post crypto for crypto
+const editCrypto = async (user_id, crypto_name, crypto_description) => {
+    try {
+        console.log('Updating crypto:', user_id,crypto_name, crypto_description);
+
+        const [crypto] = await pool.query(
+            `
+            UPDATE crypto SET
+            crypto_name = ?,
+            crypto_description = ? WHERE user_id = ?
+            `,
+            [crypto_name, crypto_description, user_id] // Added user_id here
+        );
+        console.log('Updated crypto:', user_id, crypto_name, crypto_description);
+        return crypto;
+    }
+    catch(error) {
+        console.log('Failed to update crypto:', error.message);
+        throw error;
+    }
+};
+
 // export to controller
-export{addUser, getUser, getUsers, addInvest, editUser,getUsersByUsername, deleteUser, getInvestments, getInvestment, editInvestment, deleteInvestment}
+export{addUser, 
+    getUser, 
+    getUsers, 
+    addInvest, 
+    editUser,
+    getUsersByUsername, 
+    deleteUser, 
+    getInvestments, 
+    getInvestment, 
+    editInvestment, 
+    deleteInvestment, 
+    addCrypto,
+    getAllCrypto,
+    getCrypto,
+    editCrypto,
+}

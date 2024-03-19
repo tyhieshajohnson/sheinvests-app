@@ -9,7 +9,12 @@ import { userAdd,
     investGet, 
     investEdit, 
     investDelete,
-    userLogin } from "../controller/controller.js";
+    userLogin,
+    cryptoAdd,
+    cryptoGetAll,
+    cryptoGet,
+    cryptoEdit,
+} from "../controller/controller.js";
 import auth from "../middleware/middleware.js"
 import jwt from "jsonwebtoken";
 
@@ -20,7 +25,7 @@ const router = express.Router();
 router.route('/user/add').post(userAdd);
 
 // login n existing user
-router.route('/users/login').post(userLogin);
+router.route('/user/login').post(userLogin);
 
 // get ALL users
 router.route('/users').get(getClients)
@@ -49,5 +54,42 @@ router.route('/invest/edit/:user_id').patch(auth, investEdit)
 
 // delete SPECIFIC investment
 router.route('/invest/delete/:user_id').delete(auth, investDelete)
+
+// CRYPTO ROUTES
+// add new crypto
+router.route('/crypto/add').post(auth, cryptoAdd);
+
+// get all crypto
+router.route('/crypto').get(cryptoGetAll)
+
+// get SPECIFIC crypto
+router.route('/crypto/:user_id').get(cryptoGet);
+
+// edit SPECIFIC crypto
+router.route('/crypto/edit').post(auth, cryptoEdit);
+
+// delete SPECIFIC crypto
+
+// ORDERS ROUTES
+// add new order
+
+// get all orders
+
+// get SPECIFIC order
+
+// edit SPECIFIC order
+
+// delete SPECIFIC order
+
+// MARKETS ROUTES
+// add new market
+
+// get all markets
+
+// get SPECIFIC markets
+
+// edit SPECIFIC markets
+
+// delete SPECIFIC markets
 
 export default router;
