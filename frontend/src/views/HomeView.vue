@@ -67,6 +67,7 @@
     <div class="crypto" style="margin-top: 100px;">
       <h1>CRYPTOCURRENCY</h1>
       <div class="line-chart">
+        <Chart />
         <div class="icons">
           <!-- Ethereum -->
           <i class="fa-brands fa-ethereum"></i>
@@ -75,7 +76,6 @@
           <!-- Bitcoin -->
           <i class="fa-brands fa-bitcoin"></i>
         </div>
-        <Chart />
       </div>
     </div>
     <!-- Investment Section -->
