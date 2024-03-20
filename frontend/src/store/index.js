@@ -160,7 +160,7 @@ export default createStore({
       async login ({commit}, userData) {
         console.log(userData);
         try {
-          const response = await fetch(`${baseURL}users/login`, {
+          const response = await fetch(`${baseURL}user/login`, {
             method: 'POST',
             body: JSON.stringify(userData),
             headers: {
