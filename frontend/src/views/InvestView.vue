@@ -1,5 +1,34 @@
 <template>
   <div>
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <img
+          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
+          alt="Logo"
+          class="logo"
+          style="width: 50px; height: 50px"
+        />
+      </div>
+      <div class="navbar-links">
+        <div class="main-links">
+          <router-link to="/">Crypto</router-link>
+          <router-link to="/learn">Learn</router-link>
+          <router-link to="/profile">Profile</router-link>
+          <router-link to="/contact">Contact</router-link>
+          <router-link to="/invest">Invest</router-link>
+          <router-link to="/admin">Admin</router-link>
+        </div>
+      </div>
+      <div class="navbar-buttons">
+        <router-link to="/signIn"
+          ><button class="signIn">Sign In</button></router-link
+        >
+        <router-link to="/signUp"
+          ><button class="signUp">Sign Up</button></router-link
+        >
+      </div>
+    </nav>
+
     <h1>Investments</h1>
     <div v-if="investments.length === 0">
       <p>No investments found for this user.</p>
@@ -16,19 +45,35 @@
         </thead>
         <tbody>
           <tr v-for="investment in investments" :key="investment.id">
-            <td>{{ investment.id }}</td>
-            <td>{{ investment.crypto_name }}</td>
-            <td>{{ investment.amount }}</td>
-            <td>{{ investment.created_at }}</td>
+            <td>{{ investments.id }}</td>
+            <td>{{ investments.crypto_name }}</td>
+            <td>{{ investments.amount }}</td>
+            <td>{{ investments.created_at }}</td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Make an investment -->
+    <div>
+      <h1>Purchase Your Coin:</h1>
+      <div>
+       <h2>Buy Bitcoin:</h2>
+      <button>Buy</button>
+
+      <h2>Buy Ripple</h2>
+      <button>Buy</button>
+
+      <h2>Buy Litecoin</h2>
+      <button>Buy</button> 
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -43,10 +88,10 @@ export default {
         if (response.data && response.data.length > 0) {
           this.investments = response.data;
         } else {
-          this.showAlert('info', 'Product Single View Unsuccessful');
+          this.showAlert("info", "Product Single View Unsuccessful");
         }
       } catch (error) {
-        this.showAlert('error', 'Product Single View Unsuccessful');
+        this.showAlert("error", "Product Single View Unsuccessful");
       }
     },
     showAlert(icon, text) {
