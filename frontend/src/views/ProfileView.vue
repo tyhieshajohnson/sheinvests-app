@@ -88,17 +88,13 @@ export default {
   },
   methods: {
     async fetchUsers() {
-    try {
-      // Get the current user from the Vuex store
-      const currentUser = this.$store.getters.getCurrentUser;
-
-      // Fetch the user's data from the server
-      const response = await axios.get(`/users/${currentUser.id}`);
-      this.users = response.data;
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  },
+      try {
+        const response = await axios.get("/users");
+        this.users = response.data;
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    },
     async fetchOrders() {
       try {
         const response = await axios.get("/invest/:user_id");

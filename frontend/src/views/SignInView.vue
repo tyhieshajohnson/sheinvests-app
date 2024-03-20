@@ -66,30 +66,29 @@ export default {
     ...mapGetters(["getCurrentUser"]),
   },
   methods:{
-  async loginUser(){
-    const user = {...this.formData};
-    try{
-      console.log(user);
-      await this.$store.dispatch("login",user);
-      this.clearForm();
-      // Redirect to the profile page
-      this.$router.push("/profile");
-    } catch(error){
-      console.log('Login error:', error);
-      Swal.fire({
-        icon:"error",
-        title:"Login Failed",
-        text:error.message || "Failed to login. Please try again",
-      });
-    }
+    async loginUser(){
+      const user = {...this.formData};
+      try{
+        console.log(user);
+        await this.$store.dispatch("login",user);
+        this.clearForm();
+        // this.$router.push({name:})
+      } catch(error){
+        console.log('Login error:', error);
+        Swal.fire({
+          icon:"error",
+          title:"Login Failed",
+          text:error.message || "Failed to login. Please try again",
+        });
+      }
+    },
+    clearForm(){
+      this.formData ={
+        username:"",
+        passwords:"",
+      };
+    },
   },
-  clearForm(){
-    this.formData ={
-      username:"",
-      passwords:"",
-    };
-  },
-},
 };
 </script>
 
