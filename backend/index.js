@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import routes from "./routes/index.js";
 import { config } from "dotenv";
 import {pool} from "./config/index.js"
+import WebSocketController from "./controller/webSocket.js"
 config();
 import auth from "./middleware/middleware.js";
 
