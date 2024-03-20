@@ -1,127 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Express Routes</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9e4e5; /* Pastel pink background */
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #ff69b4; /* Pink header color */
-        }
-
-        h3 {
-            color: #ff69b4; /* Pink subheader color */
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 7px; /* Border radius for tables */
-        }
-
-        th, td {
-            border: 1px solid #ff69b4; /* Pink border */
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #fce3e4; /* Light pink header background */
-        }
-
-        tr:hover {
-            background-color: #fcd9e2; /* Lighter pink on hover */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SheInvests Routes</title>
+  <style>
+    body {
+      font-family: 'Bebas Neue', sans-serif;
+      color: #000;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid #c8a2c8;
+    }
+    th, td {
+      border: 1px solid #c8a2c8;
+      border-radius: 7px;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #c8a2c8;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-
-<h1>Express Routes</h1>
-
-<div>
-    <h3>Users</h3>
-    <table>
-        <tr>
-            <th>HTTP Method</th>
-            <th>PATH</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td>POST</td>
-            <td>/users/add</td>
-            <td>Create a new user with authorization</td>
-        </tr>
-        <tr>
-            <td>POST</td>
-            <td>/user/login</td>
-            <td>Login an existing user</td>
-        </tr>
-        <tr>
-            <td>GET</td>
-            <td>/users</td>
-            <td>Get all users</td>
-        </tr>
-        <tr>
-            <td>GET</td>
-            <td>/user/:id</td>
-            <td>Get a specific user by ID</td>
-        </tr>
-        <tr>
-            <td>PATCH</td>
-            <td>/user/edit/:id</td>
-            <td>Edit a specific user by ID</td>
-        </tr>
-        <tr>
-            <td>DELETE</td>
-            <td>/user/delete/:id</td>
-            <td>Delete a user by ID with authorization</td>
-        </tr>
-    </table>
-</div>
-
-<div>
-    <h3>Investments</h3>
-    <table>
-        <tr>
-            <th>HTTP Method</th>
-            <th>PATH</th>
-            <th>Description</th>
-        </tr>
-        <tr>
-            <td>POST</td>
-            <td>/invest/add</td>
-            <td>Add an investment with authorization</td>
-        </tr>
-        <tr>
-            <td>GET</td>
-            <td>/investments</td>
-            <td>Get all investments</td>
-        </tr>
-        <tr>
-            <td>GET</td>
-            <td>/invest/:user_id</td>
-            <td>Get a specific investment by user ID</td>
-        </tr>
-        <tr>
-            <td>PATCH</td>
-            <td>/invest/edit/:user_id</td>
-            <td>Edit a specific investment by user ID with authorization</td>
-        </tr>
-        <tr>
-            <td>DELETE</td>
-            <td>/invest/delete/:user_id</td>
-            <td>Delete a specific investment by user ID</td>
-        </tr>
-    </table>
-</div>
-
+  <h1>SheInvests Routes</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Route</th>
+        <th>HTTP Method</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/user/add</td>
+        <td>POST</td>
+        <td>Add a user</td>
+      </tr>
+      <tr>
+        <td>/user/login</td>
+        <td>POST</td>
+        <td>Login an existing user</td>
+      </tr>
+      <tr>
+        <td>/users</td>
+        <td>GET</td>
+        <td>Get ALL users</td>
+      </tr>
+      <tr>
+        <td>/user/:id</td>
+        <td>GET</td>
+        <td>Get SPECIFIC user</td>
+      </tr>
+      <tr>
+        <td>/user/edit/:id</td>
+        <td>PATCH</td>
+        <td>Edit user</td>
+      </tr>
+      <tr>
+        <td>/user/delete/:id</td>
+        <td>DELETE</td>
+        <td>Delete user</td>
+      </tr>
+      <tr>
+        <td>/invest/add</td>
+        <td>POST</td>
+        <td>Add an investment</td>
+      </tr>
+      <tr>
+        <td>/investments</td>
+        <td>GET</td>
+        <td>Get ALL investments</td>
+      </tr>
+      <tr>
+        <td>/invest/:user_id</td>
+        <td>GET</td>
+        <td>Get SPECIFIC investment</td>
+      </tr>
+      <tr>
+        <td>/invest/edit/:user_id</td>
+        <td>PATCH</td>
+        <td>Edit SPECIFIC invest</td>
+      </tr>
+      <tr>
+        <td>/invest/delete/:user_id</td>
+        <td>DELETE</td>
+        <td>Delete SPECIFIC investment</td>
+      </tr>
+      <tr>
+        <td>/crypto/add</td>
+        <td>POST</td>
+        <td>Add new crypto</td>
+      </tr>
+      <tr>
+        <td>/crypto</td>
+        <td>GET</td>
+        <td>Get all crypto</td>
+      </tr>
+      <tr>
+        <td>/crypto/:user_id</td>
+        <td>GET</td>
+        <td>Get SPECIFIC crypto</td>
+      </tr>
+      <tr>
+        <td>/crypto/edit</td>
+        <td>PATCH</td>
+        <td>Edit SPECIFIC crypto</td>
+      </tr>
+      <tr>
+        <td>/crypto/delete/:crypto_id</td>
+        <td>DELETE</td>
+        <td>Delete SPECIFIC crypto</td>
+      </tr>
+      <tr>
+        <td>/order/add</td>
+        <td>POST</td>
+        <td>Add new order</td>
+      </tr>
+      <tr>
+        <td>/orders</td>
+        <td>GET</td>
+        <td>Get all orders</td>
+      </tr>
+      <tr>
+        <td>/order/:user_id</td>
+        <td>GET</td>
+        <td>Get SPECIFIC order</td>
+      </tr>
+      <tr>
+        <td>/order/edit</td>
+        <td>PATCH</td>
+        <td>Edit SPECIFIC order</td>
+      </tr>
+      <tr>
+        <td>/order/delete/:order_id</td>
+        <td>DELETE</td>
+        <td>Delete SPECIFIC order</td>
+      </tr>
+      <tr>
+        <td>/market/add</td>
+        <td>POST</td>
+        <td>Add new market</td>
+      </tr>
+      <tr>
+        <td>/markets</td>
+        <td>GET</td>
+        <td>Get all markets</td>
+      </tr>
+      <tr>
+        <td>/market/:user_id</td>
+        <td>GET</td>
+        <td>Get SPECIFIC market</td>
+      </tr>
+      <tr>
+        <td>/market/edit</td>
+        <td>PATCH</td>
+        <td>Edit SPECIFIC market</td>
+      </tr>
+      <tr>
+        <td>/market/delete/:user_id</td>
+        <td>DELETE</td>
+        <td>Delete SPECIFIC market</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
