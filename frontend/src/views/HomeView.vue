@@ -96,6 +96,11 @@
           </div>
         </div>
       </div>
+
+      <!-- View Crypto -->
+      <div>
+        <router-link to="/invest">Invest In Crypto</router-link>
+      </div>
     </div>
     <RouterView />
   </div>

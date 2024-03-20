@@ -1,87 +1,61 @@
 <template>
-  <div class="body">
-    <!-- Navbar -->
-    <nav class="navbar">
-      <div class="navbar-logo">
-        <img
-          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
-          alt="Logo"
-          class="logo"
-          style="width: 50px; height: 50px"
-        />
-      </div>
-      <div class="navbar-links">
-        <div class="main-links">
-          <router-link to="/" style="color: #c8a2c8">Crypt</router-link>
-          <router-link to="/learn" style="color: #c8a2c8">Learn</router-link>
-          <router-link to="/profile" style="color: #c8a2c8"
-            >Profile</router-link
-          >
-          <router-link to="/contact" style="color: #c8a2c8"
-            >Contact</router-link
-          >
-          <router-link to="/invest" style="color: #c8a2c8">Invest</router-link>
-          <router-link to="/admin" style="color: #c8a2c8">Admin</router-link>
-        </div>
-      </div>
-      <div class="navbar-buttons">
-        <button class="signIn">Sign In</button>
-        <button class="signUp">Sign Up</button>
-      </div>
-    </nav>
-
-    <!-- <div class="first-box">
-      <img
-        src="https://i.ibb.co/R6C2p5K/tybackground-04.png"
-        class="w-100 100vh"
-      />
-
-      <div class="overlay">
-        <div class="crypto">
-          <h1>Invest In Crypto Today</h1>
-          <h3></h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>User ID</th>
-                <th>Market ID</th>
-                <th>Order Type</th>
-                <th>Quantity</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody v-if="orders">
-              <tr v-for="order in orders" :key="orders.order_id">
-                <td>{{ order.order_id }}</td>
-                <td>{{ order.user_id }}</td>
-                <td>{{ order.market_id }}</td>
-                <td>{{ order.order_type }}</td>
-                <td>{{ order.quantity }}</td>
-                <td>{{ order.price }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div> -->
+  <div>
+    <h1>Investments</h1>
+    <div v-if="investments.length === 0">
+      <p>No investments found for this user.</p>
+    </div>
+    <div v-else>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Crypto Name</th>
+            <th>Amount</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="investment in investments" :key="investment.id">
+            <td>{{ investment.id }}</td>
+            <td>{{ investment.crypto_name }}</td>
+            <td>{{ investment.amount }}</td>
+            <td>{{ investment.created_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
+
 export default {
-  name: "Crypto",
   data() {
-    return { orders: [] };
+    return {
+      investments: [], // Initialize an empty array to store investments
+    };
   },
-  async created() {
-    try {
-      const response = await axios.get("user/invest");
-      this.orders = response.data;
-    } catch (error) {
-      console.error(error);
-    }
+  methods: {
+    async fetchInvestment(user_id) {
+      try {
+        const response = await axios.get(`${baseURL}investment/${user_id}`);
+        if (response.data && response.data.length > 0) {
+          this.investments = response.data;
+        } else {
+          this.showAlert('info', 'Product Single View Unsuccessful');
+        }
+      } catch (error) {
+        this.showAlert('error', 'Product Single View Unsuccessful');
+      }
+    },
+    showAlert(icon, text) {
+      // Implement your alert function here
+    },
+  },
+  mounted() {
+    const user_id = 1; // Replace with the user id you want to fetch investments for
+    this.fetchInvestment(user_id);
   },
 };
 </script>

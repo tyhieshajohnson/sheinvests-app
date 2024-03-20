@@ -1,11 +1,5 @@
 <template>
-  <div class="body w-100">
-    <!-- Your content goes here -->
-    <!-- For example, add some content to demonstrate -->
-    <!-- <div style="height: 1500px; background-color: #f0f0f0;">
-      Content
-    </div> -->
-    
+  <div class="body w-100">    
     <div class="footer-container">
       <div class="footer-content w-100">
         <div class="icon-container">
