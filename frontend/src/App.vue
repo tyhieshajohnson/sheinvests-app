@@ -21,10 +21,9 @@ export default {
 </script>
 
 <style>
-
-/* nav {
-  padding: 30px;
-} */
+body {
+  margin: 0 !important;
+}
 
 nav a {
   font-weight: bold;

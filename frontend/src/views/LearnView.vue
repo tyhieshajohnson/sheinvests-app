@@ -1,9 +1,14 @@
 <template>
-  <div>
+  <div class="body">
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
+        <img
+          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
+          alt="Logo"
+          class="logo"
+          style="width: 50px; height: 50px"
+        />
       </div>
       <div class="navbar-links">
         <div class="main-links">
@@ -16,47 +21,95 @@
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
-        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
+        <router-link to="/signIn"
+          ><button class="signIn">Sign In</button></router-link
+        >
+        <router-link to="/signUp"
+          ><button class="signUp">Sign Up</button></router-link
+        >
       </div>
     </nav>
 
     <div class="first-box">
-      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="img-background w-100 100vh" />
+      <img
+        src="https://i.ibb.co/3y5gr9h/ty.png"
+        class="img-background w-100 100vh"
+      />
       <div class="learn">
-        <h1 style="display: flex; justify-content: center;">Learn</h1>
+        <h1 style="display: flex; justify-content: center">Learn</h1>
         <p>Here is the platform to learn more about Crypto</p>
       </div>
       <div class="content-container">
-        <a href="https://hackingmotherhood.substack.com/p/why-more-women-need-to-get-into-crypto" style="text-decoration: none;">
-          <div class="div1" style="padding: 30px;">
-            <h2 style="color: white;">Why Women Need To Invest?</h2>
+        <a
+          href="https://hackingmotherhood.substack.com/p/why-more-women-need-to-get-into-crypto"
+          style="text-decoration: none"
+        >
+          <div class="div1" style="padding: 30px">
+            <h2 style="color: white">Why Women Need To Invest?</h2>
             <p>
-              Women should consider entering the crypto space for its potential to offer financial empowerment and independence, breaking traditional barriers in the male-dominated financial sector.
+              Women should consider entering the crypto space for its potential
+              to offer financial empowerment and independence, breaking
+              traditional barriers in the male-dominated financial sector.
             </p>
           </div>
         </a>
 
-        <a href="https://www.forbes.com/advisor/in/investing/cryptocurrency/advantages-of-cryptocurrency/" style="text-decoration: none;">
-          <div class="div2" style="padding: 30px;">
-            <h2 style="color: white;">Why Crypto?</h2>
+        <a
+          href="https://www.forbes.com/advisor/in/investing/cryptocurrency/advantages-of-cryptocurrency/"
+          style="text-decoration: none"
+        >
+          <div class="div2" style="padding: 30px">
+            <h2 style="color: white">Why Crypto?</h2>
             <p>
-              Crypto presents a unique opportunity for anyone, including women, to participate in a decentralized financial system, offering innovation, global accessibility, and potential for significant returns on investment.
+              Crypto presents a unique opportunity for anyone, including women,
+              to participate in a decentralized financial system, offering
+              innovation, global accessibility, and potential for significant
+              returns on investment.
             </p>
           </div>
         </a>
 
-        <a href="https://cryptoweekly.co/crypto-female-50-awards" style="text-decoration: none;">
-          <div class="div3" style="padding: 30px;">
-            <h2 style="color: white;">Women In Crypto</h2>
+        <a
+          href="https://cryptoweekly.co/crypto-female-50-awards"
+          style="text-decoration: none"
+        >
+          <div class="div3" style="padding: 30px">
+            <h2 style="color: white">Women In Crypto</h2>
             <p>
-              Encouraging more women to engage in crypto fosters diversity and inclusion within the industry, enriching perspectives, driving innovation, and contributing to a more balanced and equitable future of finance.
+              Encouraging more women to engage in crypto fosters diversity and
+              inclusion within the industry, enriching perspectives, driving
+              innovation, and contributing to a more balanced and equitable
+              future of finance.
             </p>
           </div>
         </a>
       </div>
+
+      <!-- About -->
+    <div class="about-container">
+      <h1>About Us</h1>
+      <div class="about">
+        <p>
+          Welcome to SheInvests – where financial empowerment meets the crypto
+          world. We're more than just a prediction platform; SheInvests is a
+          community-driven space focused on educating and empowering women in
+          the digital asset realm. At SheInvests, we firmly believe in knowledge
+          as the key to financial independence. That's why we're dedicated to
+          bridging the gender gap in crypto, providing market insights, trend
+          analyses, and real-time predictions tailored to the needs of women at
+          all levels in the dynamic crypto world. Our mission is to empower
+          women to confidently navigate the blockchain and digital asset space.
+          We're committed to breaking barriers and building a supportive
+          community where women can thrive and succeed. Join us on this journey
+          of financial empowerment. Together, let's pave the way for a more
+          inclusive and diverse crypto landscape. Welcome to SheInvests – where
+          women lead the way in the world of finance.
+        </p>
+      </div>
     </div>
-    <RouterView/>
+
+    </div>
+    <RouterView />
   </div>
 </template>
 
@@ -68,7 +121,7 @@ export default {
   name: "LearnView",
   components: {
     RouterView,
-},
+  },
 };
 </script>
 
@@ -83,12 +136,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.7); 
-  z-index: 999; 
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 999;
 }
 
 .navbar-logo {
-  margin-right: auto; 
+  margin-right: auto;
 }
 
 .navbar-links {
@@ -114,15 +167,15 @@ export default {
   padding: 0 40px;
   padding: 30px;
   position: absolute;
-  top: 200px; 
+  top: 200px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
 }
 
-.learn {
+.about-container {
   position: absolute;
-  top: 100px; 
+  top: 700px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -130,7 +183,27 @@ export default {
   flex-direction: column;
 }
 
-.div1, .div2, .div3 {
+.about {
+  background-color: black;
+  border-radius: 7px;
+  padding: 30px;
+  border: 5px solid #c8a2c8;
+  border-radius: 20px;
+}
+
+.learn {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.div1,
+.div2,
+.div3 {
   border: 5px solid #c8a2c8;
   border-radius: 20px;
   background-color: black;
@@ -144,11 +217,14 @@ export default {
   align-items: center;
 }
 
-.div1:hover, .div2:hover, .div3:hover {
+.div1:hover,
+.div2:hover,
+.div3:hover {
   transform: translateY(-20px);
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
@@ -179,5 +255,14 @@ p {
   border-radius: 7px;
   border: solid #c8a2c8 4px;
   background-color: white;
+}
+
+.body {
+  position: relative;
+  min-height: 100vh;
+}
+
+.main-content {
+  padding-bottom: 100px; /* Adjust this value to give space for the footer */
 }
 </style>
