@@ -1,5 +1,7 @@
 <template>
-  <div class="body">
+  <div>
+    <Loader v-if="loading" />
+  <div class="body" v-show="!loading">
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
@@ -78,6 +80,7 @@
         </div>
       </div>
     </div>
+  </div>
     <!-- Investment Section -->
     <!-- <div class="investments">
       <h1>Investment</h1>
@@ -99,14 +102,23 @@
 <script>
 import Chart from "../components/Chart.vue";
 import axios from "axios";
+import Loader from "../components/Loader.vue";
 
 export default {
   name: "HomeView",
   components: {
     Chart,
+    Loader,
+  },
+  data() {
+    return {
+      loading: true,
+    };
   },
   mounted() {
-    // this.fetchCryptoData();
+    setTimeout(()=>{
+      this.loading = false;
+    }, 4000)
   },
   methods: {
     async submitForm() {
@@ -226,6 +238,11 @@ h1 {
 
 .fa-brands, .fa-solid {
   width: 500px;
+}
+
+.loader + .body {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
 }
 
 /* Media Query */
