@@ -357,6 +357,7 @@ const cryptoEdit = async (req, res) => {
   }
 }
 
+// Market Prediction
 
 // export to routes
 export { userAdd, 
