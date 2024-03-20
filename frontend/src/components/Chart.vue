@@ -1,4 +1,68 @@
-<template lang="">
+<template>
+  <div style="padding: 100px">
+    <canvas id="myChart"></canvas>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { Chart } from "chart.js";
+
+let chart;
+
+const createChart = () => {
+  const ctx = document.getElementById("myChart").getContext("2d");
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Bitcoin", "Ripple", "Ethereum"],
+      datasets: [],
+    },
+    options: {
+      animations: {
+        tension: {
+          duration: 1000,
+          easing: "linear",
+          from: 1,
+          to: 0,
+          loop: true,
+        },
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 600000,
+        },
+      },
+    },
+  });
+}
+
+const handleMarketData = (data) => {
+  data.forEach((market, index) => {
+    chart.data.datasets[index] = {
+      label: market.market_name,
+      data: [market.current_price],
+      fill: false,
+      borderColor: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
+    };
+  });
+  chart.update();
+}
+
+onMounted(() => {
+  createChart();
+
+  const ws = new WebSocket("ws://localhost:8080");
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    handleMarketData(data);
+  };
+});
+</script>
+
+<!-- <template lang="">
   <div style="padding: 100px">
     <canvas id="myChart"></canvas>
   </div>
@@ -75,4 +139,4 @@ onMounted(() => {
 });
 
 // need to figure out how to implement in the backend.. 
-</script>
+</script> -->
