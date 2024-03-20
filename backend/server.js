@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import routes from "./routes/index.js";
 import { config } from "dotenv";
+import {pool} from "./config/index.js"
 config();
 import auth from "./middleware/middleware.js";
 
@@ -34,7 +35,7 @@ app.get("/user/:id", async (req, res) => {
     const id = req.params.id;
 
     // Query the users table for the user with the given ID
-    const [rows] = await db.execute("SELECT * FROM users WHERE id = ?", [id]);
+    const [rows] = await pool.execute("SELECT * FROM users WHERE id = ?", [id]);
 
     // Return the user data as a JSON response
     res.json(rows);

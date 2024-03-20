@@ -84,10 +84,10 @@ router.route("/crypto").get(cryptoGetAll);
 router.route("/crypto/:user_id").get(cryptoGet);
 
 // edit SPECIFIC crypto
-router.route("/crypto/edit").post(auth, cryptoEdit);
+router.route("/crypto/edit").patch(auth, cryptoEdit);
 
 // delete SPECIFIC crypto
-router.route("/crypto/delete/:user_id").delete(auth, cryptoDelete);
+router.route("/crypto/delete/:crypto_id").delete(auth, cryptoDelete);
 
 
 // ORDERS ROUTES
@@ -101,13 +101,13 @@ router.route("/orders").get(getAllOrders);
 router.route("/order/:user_id").get(orderGet);
 
 // edit SPECIFIC order
-router.route("/order/edit").post(auth, orderEdit);
+router.route("/order/edit").patch(auth, orderEdit);
 
 // delete SPECIFIC order
-router.route("/order/delete/:user_id").delete(auth, orderDelete);
+router.route("/order/delete/:order_id").delete(auth, orderDelete);
 
 // MARKETS ROUTES
-// add new market
+// add new market 
 router.route("/market/add").post(auth, marketAdd);
 
 // get all markets
@@ -117,7 +117,7 @@ router.route("/markets").get(getAllMarkets);
 router.route("/market/:user_id").get(marketGet);
 
 // edit SPECIFIC markets
-router.route("/market/edit").post(auth, marketEdit);
+router.route("/market/edit").patch(auth, marketEdit);
 
 // delete SPECIFIC markets
 router.route("/market/delete/:user_id").delete(auth, marketDelete);

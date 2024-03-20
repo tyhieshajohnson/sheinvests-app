@@ -140,11 +140,10 @@ const getClients = async (req, res) => {
 const getClient = async (req, res) => {
   try {
     const userId = +req.params.id;
-    // const user = await getUser(userId);
+    const user = await getUser(userId); // Fetch user data using getUser  function
 
     if (!user) {
-      res.status(404).json({ error: "User not found" });
-      return;
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.json(user);
@@ -234,7 +233,6 @@ const investAdd = async (req, res) => {
     });
   }
 };
-// Investments Add Is Functioning
 
 //get ALL investments
 const investsGet = async (req, res) => {
@@ -258,8 +256,20 @@ const investEdit = async (req, res) => {
   try {
     const { user_id, crypto_name, amount } = req.body;
 
+    let updatedAmount;
+
+    // Validate amount to ensure it's a numeric value
+    if (!isNaN(amount)) {
+      // Convert amount to a numeric value
+      updatedAmount = parseFloat(amount);
+    } else {
+      return res.status(400).json({ error: "Amount must be a numeric value" });
+    }
+
     // Retrieve existing investment information
     const existingInvestment = await getInvestments(req.params.user_id);
+
+    console.log("Existing Investment:", existingInvestment);
 
     if (!existingInvestment) {
       res.status(404).json({ error: "Investment not found" });
@@ -269,7 +279,8 @@ const investEdit = async (req, res) => {
     // Update investment information
     const updatedUserId = user_id || existingInvestment.user_id;
     const updatedCryptoName = crypto_name || existingInvestment.crypto_name;
-    const updatedAmount = amount || existingInvestment.amount;
+
+    console.log("Updated Amount:", updatedAmount);
 
     await editInvestment(
       req.params.user_id,
@@ -352,7 +363,7 @@ const cryptoGet = async (req, res) => {
 // 4. /edit SPECIFIC crypto /:id
 const cryptoEdit = async (req, res) => {
   try {
-    const { crypto_name, crypto_description } = req.body;
+    const { crypto_description } = req.body;
 
     const existingCrypto = await getCrypto(req.params.crypto_name);
 
@@ -361,11 +372,11 @@ const cryptoEdit = async (req, res) => {
       return;
     }
 
-    const updateCryptoName = crypto_name || existingCrypto.crypto_name;
-    const updateCryptoDescription =
-      crypto_description || existingCrypto.crypto_description;
+    // Update the crypto description
+    await editCrypto(existingCrypto.crypto_name, crypto_description);
 
-    await editCrypto(updateCryptoName, updateCryptoDescription);
+    // Update the existingCrypto object with the updated crypto description
+    existingCrypto.crypto_description = crypto_description;
 
     res.json({ success: true });
   } catch (error) {
@@ -377,9 +388,9 @@ const cryptoEdit = async (req, res) => {
 // delete SPECIFIC crypto
 const cryptoDelete = async (req, res) => {
   try {
-    const cryptoName = ++req.params.crypto_name;
-    console.log("Deleting Crypto With Your Account:", cryptoName);
-    const cryptoDeleted = await deleteCrypto(cryptoName);
+    const cryptoId = req.params.crypto_id;
+    console.log("Deleting Crypto With ID:", cryptoId);
+    const cryptoDeleted = await deleteCrypto(cryptoId);
     if (!cryptoDeleted) {
       return res.status(404).send("Crypto Not Found");
     }
@@ -476,11 +487,10 @@ const marketDelete = async (req, res) => {
 const orderAdd = async (req, res) => {
   try {
     const { order_id, user_id, market_id, order_type, quantity, price } = req.body;
-    const orderId = req.user.id;
-    console.log(req.user);
 
+    // Check if any required fields are missing
     if (!order_id || !user_id || !market_id || !order_type || !quantity || !price) {
-      return res.status(500).json({ error: "Error Creating Order" });
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
     await addOrder(order_id, user_id, market_id, order_type, quantity, price);
@@ -496,6 +506,7 @@ const orderAdd = async (req, res) => {
     });
   }
 };
+
 // get ALL
 const getAllOrders = async (req, res) => {
   const allOrders = await getOrders();
@@ -535,15 +546,17 @@ const orderEdit = async (req, res) => {
 // delete
 const orderDelete = async (req, res) => {
   try {
-    const orderId = ++req.params.order_id;
-    console.log("Deleting Order From Your Account:", order_id);
+    const orderId = req.params.order_id;
+    console.log("Deleting Order ID:", orderId);
+    
     const orderDeleted = await deleteOrder(orderId);
+    
     if (!orderDeleted) {
       return res.status(404).send("Order Not Found");
     }
 
-    const updatedOrder = await getAllOrders();
-    res.json(updatedOrder);
+    console.log("Order deletion result:", orderDeleted);
+    res.status(200).json({ success: true, message: "Order deleted successfully" });
   } catch (error) {
     console.error("Error In Deleting Order:", error.message);
     res.status(500).send("Internal Server Error - Deleting Order");

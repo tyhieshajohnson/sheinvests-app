@@ -51,14 +51,14 @@ const getUsers = async (req, res) => {
 // Creating a /get/users/:id SPECIFIC user
 const getUser = async (id) => {
     try {
-        const [user] = await pool.query(
+        const [users] = await pool.query(
             `
             SELECT * FROM users WHERE id = ?
             `,
             [id]
         );
 
-        return user;
+        return users;
     } catch (error) {
         console.error('Error fetching user:', error.message);
         throw error;
@@ -139,14 +139,17 @@ const getInvestment = async (user_id) => {
 };
 
 // Creating a /patch investments
-const editInvestment = async (user_id, crypto_name, amount) => {
+const editInvestment = async (user_id, updatedUserId, updatedCryptoName, updatedAmount) => {
+    console.log("Parameters:", user_id, updatedUserId, updatedCryptoName, updatedAmount);
     const [result] = await pool.query (
         `
         UPDATE investments SET crypto_name = ?, amount = ? WHERE user_id = ?
-        `, [crypto_name, amount, user_id]
+        `, [updatedCryptoName, updatedAmount, user_id]
     );
+    console.log("Query Result:", result);
     return result.affectedRows > 0; // Return true if an investment was updated, false otherwise
 };
+
 
 // Creating a /delete/id SPECIFIC investments
 const deleteInvestment = async (user_id) => {
@@ -156,7 +159,7 @@ const deleteInvestment = async (user_id) => {
         `, [user_id]
     );
     return result.affectedRows > 0; // Return true if an investment was deleted, false otherwise
-};
+}; 
 
 // CRYPTO
 // 1. Creating a /add 'crypto' class
@@ -202,32 +205,45 @@ const editCrypto = async (crypto_name, crypto_description) => {
     try {
         console.log('Updating crypto:', crypto_name, crypto_description);
 
-        const [crypto] = await pool.query(
+        await pool.query(
             `
             UPDATE crypto SET
-            crypto_name = ?,
             crypto_description = ?
+            WHERE crypto_name = ?
             `,
-            [crypto_name, crypto_description] // Added user_id here
+            [crypto_description, crypto_name]
         );
-        console.log('Updated crypto:', crypto_name, crypto_description);
-        return crypto;
+
+        // Query the database again to get the updated crypto object
+        const [updatedCrypto] = await pool.query(
+            `
+            SELECT * FROM crypto WHERE crypto_name = ?
+            `, [crypto_name]
+        );
+
+        console.log('Updated crypto:', updatedCrypto);
+        return updatedCrypto;
     }
     catch(error) {
-        console.log('Failed to update crypto:', error.message);
+        console.log('Failedto edit crypto:', error.message);
         throw error;
     }
 };
 
 // 5. Creating a /delete crypto
-const deleteCrypto = async (crypto_name, crypto_description) => {
-    const [result] = await pool.query(
-        `
-        DELETE FROM crypto WHERE crypto_name = ?, crypto_description = ?
-        `,
-        [crypto_name, crypto_description]
-    );
-    return result.affectedRows > 0;
+const deleteCrypto = async (crypto_id) => {
+    try {
+        const [result] = await pool.query(
+            `
+            DELETE FROM crypto WHERE crypto_id = ?
+            `,
+            [crypto_id]
+        );
+        return result.affectedRows > 0;
+    } catch (error) {
+        console.error('Error deleting crypto:', error.message);
+        throw error;
+    }
 };
 
 // MARKETING
@@ -322,13 +338,13 @@ const getOrders = async (order_id, user_id, market_id, order_type, quantity, pri
     }
 };
 // get :id
-const getOrder = async (order_id) => {
+const getOrder = async (user_id) => {
     try {
         const [orders] = await pool.query(
             `
-            SELECT * FROM orders where order_id = ?
+            SELECT * FROM orders WHERE user_id = ?
             `,
-            [order_id]
+            [user_id]
         );
         return orders;
     } catch (error) {
@@ -336,8 +352,9 @@ const getOrder = async (order_id) => {
         throw error;
     }
 }
+
 // edit
-const editOrder = async (order_id, user_id, market_id, order_type, quantity, price) => {
+const editOrder = async (order_id) => {
     try {
         console.log('Updating Order:', order_id, user_id, market_id, order_id, quantity, price);
         const [orders] = await pool.query(
@@ -355,14 +372,20 @@ const editOrder = async (order_id, user_id, market_id, order_type, quantity, pri
 };
 // delete
 const deleteOrder = async (order_id) => {
-    const [result] = await pool.query(
-        `
-        
-        DELETE FROM markets WHERE order_id = ?`,
-        [order_id]
-    );
-    return result.affectedRows > 0;
-}
+    try {
+        const [result] = await pool.query(
+            `
+            DELETE FROM orders WHERE order_id = ?
+            `,
+            [order_id]
+        );
+        console.log("Order deletion result:", result); // Log the deletion result
+        return result.affectedRows > 0;
+    } catch (error) {
+        console.error("Error deleting order from the database:", error.message);
+        throw error;
+    }
+};
 
 // export to controller
 export{
