@@ -7,7 +7,7 @@ import path from 'path'; // Import path module
 import { pool } from './config/index.js';
 
 // Import WebSocket controller
-import WebSocketController from './controller/webSocket.js';
+import WebSocketServer from './controller/webSocket.js';
 
 config();
 const PORT = process.env.PORT;
