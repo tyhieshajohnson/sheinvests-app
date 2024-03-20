@@ -1,7 +1,9 @@
-// WebSocketController.js
-const WebSocket = require('ws');
+import { WebSocketServer } from 'ws';
+import dotenv from 'dotenv';
 
-const wss = new WebSocket.Server({ port: 8080 });
+dotenv.config();
+
+const wss = new WebSocketServer({ port: process.env.port || 3030 });
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
@@ -34,4 +36,4 @@ wss.on('connection', (ws) => {
   }, 5000);
 });
 
-module.exports = wss;
+export default wss;
