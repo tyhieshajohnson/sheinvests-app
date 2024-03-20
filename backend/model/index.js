@@ -135,7 +135,7 @@ const getInvestment = async (user_id) => {
         SELECT * FROM investments WHERE user_id = ?
         `, [user_id]
     );
-    return investments
+    return investments;
 };
 
 // Creating a /patch investments

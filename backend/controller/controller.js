@@ -5,7 +5,8 @@ import { addUser,
   editUser, 
   getUsersByUsername,
   deleteUser, 
-  getInvestments, 
+  getInvestments,
+  getInvestment, 
   editInvestment,
   deleteInvestment,
   addCrypto,
@@ -236,7 +237,13 @@ const investsGet = async (req, res) => {
 
 // /get SPECIFIC investments /:id
 const investGet = async (req, res) => {
-  res.send(await getInvestments(+req.params.user_id))
+  try {
+    const investments = await getInvestment(+req.params.user_id);
+    res.json(investments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 // Get SPECIFIC  Investments FUNCTIONING
 
