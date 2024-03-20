@@ -6,9 +6,6 @@ import { config } from 'dotenv';
 import path from 'path'; // Import path module
 import { pool } from './config/index.js';
 
-// Import WebSocket controller
-import WebSocketServer from './controller/webSocket.js';
-
 config();
 const PORT = process.env.PORT;
 const app = express();
