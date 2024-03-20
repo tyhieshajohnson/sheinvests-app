@@ -42,8 +42,8 @@ const getUsers = async (req, res) => {
         );
         return users;
     } catch (error) {
-        console.error('Error fetching users:', error.message);
-        res.status(500).send('Internal Server Error');
+        console.error('Error Fetching Users:', error.message);
+        res.status(500).send('Internal Server Error - Fetching Users');
     }
 };
 // Get Users FUNCTIONING
@@ -158,7 +158,6 @@ const deleteInvestment = async (user_id) => {
     return result.affectedRows > 0; // Return true if an investment was deleted, false otherwise
 };
 
-
 // CRYPTO
 // 1. Creating a /add 'crypto' class
 const addCrypto = async (crypto_name, crypto_description) => {
@@ -220,25 +219,182 @@ const editCrypto = async (crypto_name, crypto_description) => {
     }
 };
 
+// 5. Creating a /delete crypto
+const deleteCrypto = async (crypto_name, crypto_description) => {
+    const [result] = await pool.query(
+        `
+        DELETE FROM crypto WHERE crypto_name = ?, crypto_description = ?
+        `,
+        [crypto_name, crypto_description]
+    );
+    return result.affectedRows > 0;
+};
+
 // MARKETING
+// add
+const addMarket =  async (market_id, market_name, current_price) => {
+    await pool.query(
+        `
+        INSERT INTO markets (market_id, market_name, current_price) VALUE (?,?,?)
+        `,
+        [market_id, market_name, current_price]
+    );
+};
+// get
+const getMarkets = async (req, res) => {
+    try {
+        const [markets] = await pool.query(
+            `
+            SELECT * FROM markets
+            `
+        );
+        return markets;
+    } catch (error) {
+        console.error('Error Fetching Market Information:', error.message);
+        res.status(500).send('Internal Server Error - Error fetching Market Information');
+    }
+};
+// get by :id
+const getMarket = async (market_id) => {
+    try {
+        const [markets] = await pool.query(
+            `
+            
+            SELECT * FROM markets WHERE market_id = ?`,
+            [market_id]
+        );
+        return markets;
+    } catch (error) {
+        console.error('Error Fetching Individual Market Information:', error.message);
+        throw error;
+    }
+};
+// edit
+const editMarket = async (market_id, market_name, current_price) => {
+    try {
+        console.log('Updating Market:', market_id, market_name, current_price);
+        const [markets] = await pool.query(
+            `
+            
+            UPDATE markets SET market_id = ?, market_name = ?, current_price = ?`,
+            [market_id, market_name, current_price]
+        );
+        console.log('Market Has Been Updated Successfully:', markets);
+        return markets;
+    } catch (error) {
+        console.error('Internal Server Error - Updating Market:', error.message);
+        throw error;
+    }
+}
+// delete
+const deleteMarket = async (market_id) => {
+    const [result] = await pool.query(
+        `
+        
+        DELETE FROM markets WHERE market_id = ?`,
+        [market_id]
+    );
+    return result.affectedRows > 0;
+}
 
-
-
+// ORDERS
+// add
+const addOrder = async (order_id, user_id, market_id, order_type, quantity, price) => {
+    await pool.query(
+        `
+        INSERT INTO orders (order_id, user_id, market_id, order_type, quantity, price) VALUES (?,?,?,?,?,?)
+        `,
+        [order_id, user_id, market_id, order_type, quantity, price]
+    );
+};
+// get All
+const getOrders = async (order_id, user_id, market_id, order_type, quantity, price) => {
+    try {
+        const [orders] = await pool.query(
+            `
+            SELECT * FROM orders
+            `
+        );
+        return orders;
+    } catch (error) {
+        console.error('Error Getting Orders:', error.message);
+        res.status(500).send('Internal Server Error - Error Fetching Orders Information');
+    }
+};
+// get :id
+const getOrder = async (order_id) => {
+    try {
+        const [orders] = await pool.query(
+            `
+            SELECT * FROM orders where order_id = ?
+            `,
+            [order_id]
+        );
+        return orders;
+    } catch (error) {
+        console.error('Error Fetching Order:', error.message);
+        throw error;
+    }
+}
+// edit
+const editOrder = async (order_id, user_id, market_id, order_type, quantity, price) => {
+    try {
+        console.log('Updating Order:', order_id, user_id, market_id, order_id, quantity, price);
+        const [orders] = await pool.query(
+            `
+            UPDATE orders SET order_id = ?, user_id = ?, market_id = ?, order_id = ?, quantity = ?, price = ?
+            `,
+            [order_id, user_id, market_id, order_type, quantity, price]
+        );
+        console.log('Order Has Been Updated Successfully:', orders);
+        return orders;
+    } catch (error) {
+        console.error('Internal Server Error - Updating Orders:', error.message);
+        throw error;
+    }
+};
+// delete
+const deleteOrder = async (order_id) => {
+    const [result] = await pool.query(
+        `
+        
+        DELETE FROM markets WHERE order_id = ?`,
+        [order_id]
+    );
+    return result.affectedRows > 0;
+}
 
 // export to controller
-export{addUser, 
+export{
+    // USERS
+    addUser, 
     getUser, 
-    getUsers, 
-    addInvest, 
-    editUser,
-    getUsersByUsername, 
+    getUsersByUsername,
+    getUsers,
+    editUser, 
     deleteUser, 
+    // INVEST
+    addInvest,  
     getInvestments, 
     getInvestment, 
     editInvestment, 
     deleteInvestment, 
+    // CRYPTO
     addCrypto,
     getAllCrypto,
     getCrypto,
     editCrypto,
+    deleteCrypto,
+    // MARKETS
+    addMarket,
+    getMarkets,
+    getMarket,
+    editMarket,
+    deleteMarket,
+    // ORDERS
+    addOrder,
+    getOrders,
+    getOrder,
+    editOrder,
+    deleteOrder
 }

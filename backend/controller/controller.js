@@ -1,25 +1,42 @@
-import { addUser, 
-  getUser, 
-  getUsers, 
-  addInvest, 
-  editUser, 
+import {
+  // USERS
+  addUser,
+  getUser,
   getUsersByUsername,
-  deleteUser, 
+  getUsers,
+  editUser,
+  deleteUser,
+  // INVEST
+  addInvest,
   getInvestments,
-  getInvestment, 
+  getInvestment,
   editInvestment,
   deleteInvestment,
+  // CRYPTO
   addCrypto,
   getAllCrypto,
   getCrypto,
   editCrypto,
-  } from "../model/index.js";
+  deleteCrypto,
+  // MARKETS
+  addMarket,
+  getMarkets,
+  getMarket,
+  editMarket,
+  deleteMarket,
+  // ORDERS
+  addOrder,
+  getOrders,
+  getOrder,
+  editOrder,
+  deleteOrder
+} from "../model/index.js";
 import express from "express";
 import mysql from "mysql2";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
- 
+
 // Load environment variables from .env file
 config();
 
@@ -31,14 +48,14 @@ const userAdd = async (req, res) => {
 
     // Validate that all required fields are present in the request body
     if (!username || !email || !passwords) {
-      return res.status(400).send({ error: 'Missing required fields' });
+      return res.status(400).send({ error: "Missing required fields" });
     }
 
     // Check if the user already exists
     const existingUser = await getUsersByUsername(username);
 
     if (existingUser.length > 0) {
-      return res.status(400).json({ message: 'User Already Exists' });
+      return res.status(400).json({ message: "User Already Exists" });
     }
 
     // Hash the password
@@ -48,44 +65,39 @@ const userAdd = async (req, res) => {
     await addUser(username, email, hash);
 
     // Generate JWT token
-    const token = jwt.sign(
-      { username: username },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: "30d",
-      }
-    );
+    const token = jwt.sign({ username: username }, process.env.SECRET_KEY, {
+      expiresIn: "30d",
+    });
 
-    res.status(201).json({ msg: 'User added successfully', token });
+    res.status(201).json({ msg: "User added successfully", token });
   } catch (err) {
     console.error("Error in userAdd:", err);
 
     // Handle specific bcrypt errors
-    if (err.message.includes('data and salt arguments required')) {
-      return res.status(400).send({ error: 'Invalid password provided' });
+    if (err.message.includes("data and salt arguments required")) {
+      return res.status(400).send({ error: "Invalid password provided" });
     }
 
     // Handle other errors
-    return res.status(500).send({ error: 'Internal Server Error' });
+    return res.status(500).send({ error: "Internal Server Error" });
   }
 };
-// ADD USER WITH JSONWEBTOKEN
 
 const userLogin = async (req, res) => {
-  const { username, passwords } = req.body; 
+  const { username, passwords } = req.body;
 
   try {
     // Check if username and passwords are present in the request body
     if (!username || !passwords) {
       return res.status(400).json({
-        message: "Username and password are required"
+        message: "Username and password are required",
       });
     }
 
     const [user] = await getUsersByUsername(username);
     if (!user) {
       return res.status(404).json({
-        message: "User Not Found"
+        message: "User Not Found",
       });
     }
 
@@ -105,10 +117,10 @@ const userLogin = async (req, res) => {
 
     res.json({ token, user });
   } catch (error) {
-    console.error('Error in userLogin:', error);
+    console.error("Error in userLogin:", error);
     res.status(500).json({
-      error: 'Internal Server Error',
-      details: error.message
+      error: "Internal Server Error",
+      details: error.message,
     });
   }
 };
@@ -116,100 +128,96 @@ const userLogin = async (req, res) => {
 // 2. /get ALL users
 const getClients = async (req, res) => {
   try {
-      const users = await getUsers();
-      res.status(200).json(users);
+    const users = await getUsers();
+    res.status(200).json(users);
   } catch (error) {
-      console.error('Error fetching users:', error.message);
-      res.status(500).json({ token:token});
+    console.error("Error fetching users:", error.message);
+    res.status(500).json({ token: token });
   }
 };
-// User Retrieval of all FUNCTIONING
 
 // 3. /get/:id SPECIFIC user
 const getClient = async (req, res) => {
   try {
-      const userId = +req.params.id;
-      // const user = await getUser(userId);
+    const userId = +req.params.id;
+    // const user = await getUser(userId);
 
-      if (!user) {
-          res.status(404).json({ error: 'User not found' });
-          return;
-      }
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
 
-      res.json(user);
+    res.json(user);
   } catch (error) {
-      console.error('Error handling client request:', error.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error handling client request:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// User Retrieval FUNCTIONING
 
 //4. /edit a SPECIFIC user
 const userEdit = async (req, res) => {
   try {
-      const id = +req.params.id
-      const { username, email, passwords} = req.body;
-      let existingUser = await getUser(id);
+    const id = +req.params.id;
+    const { username, email, passwords } = req.body;
+    let existingUser = await getUser(id);
 
-      if (!existingUser) {
-          res.status(404).json({ error: 'User not found' });
-          return;
-      }
+    if (!existingUser) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
 
-      let updatedUsername = username || existingUser.username;
-      let updatedEmail = email || existingUser.email;
-      let updatedPassword = passwords || existingUser.passwords;
+    let updatedUsername = username || existingUser.username;
+    let updatedEmail = email || existingUser.email;
+    let updatedPassword = passwords || existingUser.passwords;
 
-      await editUser( updatedUsername, updatedEmail, updatedPassword,id);
+    await editUser(updatedUsername, updatedEmail, updatedPassword, id);
 
-      // Retrieve and send the updated user information
-      const updatedUser = await getUser(id);
-      res.json(updatedUser);
+    // Retrieve and send the updated user information
+    const updatedUser = await getUser(id);
+    res.json(updatedUser);
   } catch (error) {
-      console.error('Error handling user edit:', error.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error handling user edit:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// User edit FUNCTIONING
 
 // 4. /delete SPECIFIC user
 const userDelete = async (req, res) => {
   try {
-      const userId = +req.params.id;
+    const userId = +req.params.id;
 
-      // Log the userId to check if it's correct
-      console.log("Deleting user with ID:", userId);
+    // Log the userId to check if it's correct
+    console.log("Deleting user with ID:", userId);
 
-      // Attempt to delete the user
-      const deletedUser = await deleteUser(userId);
+    // Attempt to delete the user
+    const deletedUser = await deleteUser(userId);
 
-      if (!deletedUser) {
-          // User not found
-          return res.status(404).send("User not found");
-      }
+    if (!deletedUser) {
+      // User not found
+      return res.status(404).send("User not found");
+    }
 
-      // User deleted successfully, retrieve updated user list
-      const updatedUsers = await getUsers();
+    // User deleted successfully, retrieve updated user list
+    const updatedUsers = await getUsers();
 
-      res.json(updatedUsers);
+    res.json(updatedUsers);
   } catch (error) {
-      // Error handling for any unexpected errors
-      console.error("Error in userDelete:", error.message);
-      res.status(500).send("Internal Server Error");
+    // Error handling for any unexpected errors
+    console.error("Error in userDelete:", error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
-// Delete SPECIFIC User Functioning
- 
+
 // INVESTMENTS
 // /add an investment
 const investAdd = async (req, res) => {
   try {
     const { crypto_name, amount } = req.body;
     const userId = req.user.id;
-    console.log(req.user)
+    console.log(req.user);
     // Validate that required fields are present in the request body
     if (!crypto_name || !amount) {
-      return res.status(400).json({ error: 'Missing required fields' });
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
     // Use userId instead of user_id
@@ -219,10 +227,10 @@ const investAdd = async (req, res) => {
       msg: "Invested successfully",
     });
   } catch (error) {
-    console.error('Error in investAdd:', error);
+    console.error("Error in investAdd:", error);
     res.status(500).json({
-      error: 'Internal Server Error',
-      details: error.message
+      error: "Internal Server Error",
+      details: error.message,
     });
   }
 };
@@ -233,7 +241,6 @@ const investsGet = async (req, res) => {
   const allInvestments = await getInvestments();
   res.send(allInvestments);
 };
-// Get All Invests Functioning
 
 // /get SPECIFIC investments /:id
 const investGet = async (req, res) => {
@@ -242,10 +249,9 @@ const investGet = async (req, res) => {
     res.json(investments);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// Get SPECIFIC  Investments FUNCTIONING
 
 // /edit SPECIFC investments /:id
 const investEdit = async (req, res) => {
@@ -256,7 +262,7 @@ const investEdit = async (req, res) => {
     const existingInvestment = await getInvestments(req.params.user_id);
 
     if (!existingInvestment) {
-      res.status(404).json({ error: 'Investment not found' });
+      res.status(404).json({ error: "Investment not found" });
       return;
     }
 
@@ -265,54 +271,57 @@ const investEdit = async (req, res) => {
     const updatedCryptoName = crypto_name || existingInvestment.crypto_name;
     const updatedAmount = amount || existingInvestment.amount;
 
-    await editInvestment(req.params.user_id, updatedCryptoName, updatedAmount);
+    await editInvestment(
+      req.params.user_id,
+      updatedUserId,
+      updatedCryptoName,
+      updatedAmount
+    );
 
     res.json({ success: true });
   } catch (error) {
-    console.error('Error handling investment edit:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error handling investment edit:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// Editing SPECIFIC investment FUNCTIONING
 
 // /delete SPECIFIC investments /:user_id
 const investDelete = async (req, res) => {
   try {
-      const userId = +req.params.user_id;
+    const userId = +req.params.user_id;
 
-      // Log the userId to check if it's correct
-      console.log("Deleting investment with user ID:", userId);
+    // Log the userId to check if it's correct
+    console.log("Deleting investment with user ID:", userId);
 
-      // Attempt to delete the investment
-      const deletedInvestment = await deleteInvestment(userId);
+    // Attempt to delete the investment
+    const deletedInvestment = await deleteInvestment(userId);
 
-      if (!deletedInvestment) {
-          // Investment not found
-          return res.status(404).send("Investment not found");
-      }
+    if (!deletedInvestment) {
+      // Investment not found
+      return res.status(404).send("Investment not found");
+    }
 
-      // Investment deleted successfully, retrieve updated investment list
-      const updatedInvestments = await getInvestments();
+    // Investment deleted successfully, retrieve updated investment list
+    const updatedInvestments = await getInvestments();
 
-      res.json(updatedInvestments);
+    res.json(updatedInvestments);
   } catch (error) {
-      // Error handling for any unexpected errors
-      console.error("Error in investDelete:", error.message);
-      res.status(500).send("Internal Server Error");
+    // Error handling for any unexpected errors
+    console.error("Error in investDelete:", error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
-// Deleting SPECIFIC investment FUNCTIONING
 
-// CRYPTO 
+// CRYPTO
 // 1. /add crypto
 const cryptoAdd = async (req, res) => {
   try {
-    const {crypto_name, crypto_description} = req.body;
-    const userId = req.user.id
+    const { crypto_name, crypto_description } = req.body;
+    const cryptoName = req.user.id;
     console.log(req.user);
 
     if (!crypto_name || !crypto_description) {
-      return res.status(500).json({error: "Error creating crypto" });
+      return res.status(500).json({ error: "Error creating crypto" });
     }
 
     await addCrypto(crypto_name, crypto_description);
@@ -321,66 +330,259 @@ const cryptoAdd = async (req, res) => {
       msg: "Success",
     });
   } catch (error) {
-    console.error('Error In cryptoAdd Controller:', error);
+    console.error("Error In cryptoAdd Controller:", error);
     res.status(500).json({
-      error: 'Internal Server Error - Controler cryptoAdd',
-      details: error.message });
+      error: "Internal Server Error - Controler cryptoAdd",
+      details: error.message,
+    });
   }
 };
 
 //2. /get crypto
 const cryptoGetAll = async (req, res) => {
   const allCrypto = await getAllCrypto();
-  res.send(allCrypto)
+  res.send(allCrypto);
 };
 
 // 3. /get SPECIFIC crypto /:id
 const cryptoGet = async (req, res) => {
-  res.send(await getCrypto(+req.params.user_id))
+  res.send(await getCrypto(+req.params.user_id));
 };
 
 // 4. /edit SPECIFIC crypto /:id
 const cryptoEdit = async (req, res) => {
   try {
-    const {crypto_name, crypto_description} = req.body;
+    const { crypto_name, crypto_description } = req.body;
 
     const existingCrypto = await getCrypto(req.params.crypto_name);
 
     if (!existingCrypto) {
-      res.status(404).json({ error: 'Crypto not found' });
+      res.status(404).json({ error: "Crypto not found" });
       return;
-  }
+    }
 
     const updateCryptoName = crypto_name || existingCrypto.crypto_name;
-    const updateCryptoDescription = crypto_description || existingCrypto.crypto_description;
+    const updateCryptoDescription =
+      crypto_description || existingCrypto.crypto_description;
 
     await editCrypto(updateCryptoName, updateCryptoDescription);
 
     res.json({ success: true });
+  } catch (error) {
+    console.error("Error handling crypto edit:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  catch (error) {
-    console.error('Error handling crypto edit:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-}
+};
 
-// Market Prediction
+// delete SPECIFIC crypto
+const cryptoDelete = async (req, res) => {
+  try {
+    const cryptoName = ++req.params.crypto_name;
+    console.log("Deleting Crypto With Your Account:", cryptoName);
+    const cryptoDeleted = await deleteCrypto(cryptoName);
+    if (!cryptoDeleted) {
+      return res.status(404).send("Crypto Not Found");
+    }
+
+    const updatedCrypto = await getAllCrypto();
+    res.json(updatedCrypto);
+  } catch (error) {
+    console.error("Error In Deleting Crypto:", error.message);
+    res.status(500).send("Internal Server Error - Deleting Crypto");
+  }
+};
+
+// MARKET
+// add
+const marketAdd = async (req, res) => {
+  try {
+    const { market_id, market_name, current_price } = req.body;
+    const marketId = req.market_id;
+    console.log(req.markets);
+    if (!market_id || !market_name || !current_price) {
+      return res.status(500).json({ error: "Error In Creating Market" });
+    }
+    await addMarket(market_id, market_name, current_price);
+    res.status(200).json({
+      msg: "Success",
+    });
+  } catch (error) {
+    console.error("Error In Creating  A Market:", error);
+    res.status(500).json({
+      error: "Internal Server Error - Creating A Market",
+      details: error.message,
+    });
+  }
+};
+// get
+const getAllMarkets = async (req, res) => {
+  const markets = await getMarkets();
+  res.send(markets);
+};
+// get :id
+const marketGet = async (req, res) => {
+  try {
+    const market = await getMarket();
+    res.status(200).json(market);
+  } catch (error) {
+    console.error("Error In Fetching Markets:", error.essage);
+    res.status(500).json({});
+  }
+};
+// edit
+const marketEdit = async (req, res) => {
+  try {
+    const { market_id, market_name, current_price } = req.body;
+    const existingMarket = await getMarkets(req.params.market_id);
+    if (!existingMarket) {
+      res.status(404).json({ error: "Market Not Found" });
+      return;
+    }
+    const updatedMarket = market_id || existingMarket.market_id;
+    const updatedMarketName = market_name || existingMarket.market_name;
+    const updatedCurrentPrice = current_price || existingMarket.current_price;
+
+    await editMarket(
+      req.params.market_id,
+      updatedMarketName,
+      updatedMarket,
+      updatedCurrentPrice
+    );
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error Editing Market:", error.message);
+    res.status(500).json({ error: "Internal Server Error - Editing Market" });
+  }
+};
+// delete
+const marketDelete = async (req, res) => {
+  try {
+    const marketId = +req.params.user_id;
+    console.log("Deleting Market:", marketId);
+    const deletedMarket = await deleteMarket(marketId);
+    if (!deletedMarket) {
+      return res.status(404).send("Market not found");
+    }
+    const updatedMarket = await deleteMarket();
+    res.json(updatedMarket);
+  } catch (error) {
+    console.error("Error In Deleting Market:", error.message);
+    res.status(500).send("Internal Server Error - Deleting Market");
+  }
+};
+
+// ORDERS
+// add
+const orderAdd = async (req, res) => {
+  try {
+    const { order_id, user_id, market_id, order_type, quantity, price } = req.body;
+    const orderId = req.user.id;
+    console.log(req.user);
+
+    if (!order_id || !user_id || !market_id || !order_type || !quantity || !price) {
+      return res.status(500).json({ error: "Error Creating Order" });
+    }
+
+    await addOrder(order_id, user_id, market_id, order_type, quantity, price);
+
+    res.status(200).json({
+      msg: "Success",
+    });
+  } catch (error) {
+    console.error("Error Creating Order:", error);
+    res.status(500).json({
+      error: "Internal Server Error - Error Creating Order",
+      details: error.message,
+    });
+  }
+};
+// get ALL
+const getAllOrders = async (req, res) => {
+  const allOrders = await getOrders();
+  res.send(allOrders);
+};
+// get :id
+const orderGet = async (req, res) => {
+  res.send(await getOrder(+req.params.user_id));
+};
+// edit
+const orderEdit = async (req, res) => {
+  try {
+    const { order_id, user_id, market_id, order_type, quantity, price } = req.body;
+
+    const existingOrder = await editOrder(req.params.order_id);
+
+    if (!existingOrder) {
+      res.status(404).json({ error: "Order Not Found" });
+      return;
+    }
+
+    const updateOrder = order_id || existingOrder.order_id;
+    const updateUserId = user_id || existingOrder.user_id;
+    const updateMarketId = market_id || existingOrder.market_id;
+    const updateOrderType = order_type || existingOrder.order_type;
+    const updateQuantity = quantity || existingOrder.quantity;
+    const updatePrice = price || existingOrder.price;
+
+    await editOrder(updateOrder, updateUserId, updateMarketId, updateOrderType, updateQuantity, updatePrice);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error Updating Order:", error.message);
+    res.status(500).json({ error: "Internal Server Error - Error Updating Order" });
+  }
+};
+// delete
+const orderDelete = async (req, res) => {
+  try {
+    const orderId = ++req.params.order_id;
+    console.log("Deleting Order From Your Account:", order_id);
+    const orderDeleted = await deleteOrder(orderId);
+    if (!orderDeleted) {
+      return res.status(404).send("Order Not Found");
+    }
+
+    const updatedOrder = await getAllOrders();
+    res.json(updatedOrder);
+  } catch (error) {
+    console.error("Error In Deleting Order:", error.message);
+    res.status(500).send("Internal Server Error - Deleting Order");
+  }
+};
 
 // export to routes
-export { userAdd, 
-  userLogin, 
-  getUsers, 
-  getUser, 
-  investAdd, 
-  getClients, 
-  getClient, 
-  userEdit, 
-  userDelete, 
-  investsGet, 
-  investGet, 
-  investEdit, 
-  investDelete, 
+export {
+  // USERS
+  userAdd,
+  userLogin,
+  getUsers,
+  getUser,
+  getClients,
+  getClient,
+  userEdit,
+  userDelete,
+  // INVEST
+  investAdd,
+  investsGet,
+  investGet,
+  investEdit,
+  investDelete,
+  // CRYPTO
   cryptoAdd,
   cryptoGetAll,
   cryptoGet,
-  cryptoEdit, }; 
+  cryptoEdit,
+  cryptoDelete,
+  // MARKET
+  marketAdd,
+  getAllMarkets,
+  marketGet,
+  marketEdit,
+  marketDelete,
+  // ORDER
+  orderAdd,
+  getAllOrders,
+  orderGet,
+  orderEdit,
+  orderDelete,
+};
