@@ -27,6 +27,27 @@ app.get("/", (req, res) => {
   );
 });
 
+// Define the /users/:id route
+app.get("/user/:id", async (req, res) => {
+  try {
+    // Get the user ID from the request parameters
+    const id = req.params.id;
+
+    // Query the users table for the user with the given ID
+    const [rows] = await db.execute("SELECT * FROM users WHERE id = ?", [id]);
+
+    // Return the user data as a JSON response
+    res.json(rows);
+  } catch (error) {
+    console.error(error);
+
+    // Return a 500 Internal Server Error response with an error message
+    res.status(500).send({
+      error: "An error occurred while fetching the user's data.",
+    });
+  }
+});
+
 // Routes
 app.use("/", routes)
 app.use("/add", routes)
