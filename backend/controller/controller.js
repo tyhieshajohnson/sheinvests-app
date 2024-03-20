@@ -335,27 +335,28 @@ const cryptoGet = async (req, res) => {
 // 4. /edit SPECIFIC crypto /:id
 const cryptoEdit = async (req, res) => {
   try {
-    const { crypto_name, crypto_description } = req.body;
-    const user_id = req.params.user_id; // Retrieve user_id from request parameters
+    const {crypto_name, crypto_description} = req.body;
 
-    const existingCrypto = await getCrypto(user_id);
+    const existingCrypto = await getCrypto(req.params.crypto_name);
 
     if (!existingCrypto) {
       res.status(404).json({ error: 'Crypto not found' });
       return;
-    }
+  }
 
     const updateCryptoName = crypto_name || existingCrypto.crypto_name;
     const updateCryptoDescription = crypto_description || existingCrypto.crypto_description;
 
-    await editCrypto(user_id, existingCrypto.crypto_name, updateCryptoName, updateCryptoDescription); // Pass user_id to editCrypto
+    await editCrypto(updateCryptoName, updateCryptoDescription);
 
     res.json({ success: true });
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error handling crypto edit:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+}
+
 
 // export to routes
 export { userAdd, 

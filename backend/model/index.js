@@ -199,19 +199,19 @@ GROUP BY
 };
 
 // 4. Creating a /post crypto for crypto
-const editCrypto = async (user_id, crypto_name, crypto_description) => {
+const editCrypto = async (crypto_name, crypto_description) => {
     try {
-        console.log('Updating crypto:', user_id,crypto_name, crypto_description);
+        console.log('Updating crypto:', crypto_name, crypto_description);
 
         const [crypto] = await pool.query(
             `
             UPDATE crypto SET
             crypto_name = ?,
-            crypto_description = ? WHERE user_id = ?
+            crypto_description = ?
             `,
-            [crypto_name, crypto_description, user_id] // Added user_id here
+            [crypto_name, crypto_description] // Added user_id here
         );
-        console.log('Updated crypto:', user_id, crypto_name, crypto_description);
+        console.log('Updated crypto:', crypto_name, crypto_description);
         return crypto;
     }
     catch(error) {
@@ -219,6 +219,11 @@ const editCrypto = async (user_id, crypto_name, crypto_description) => {
         throw error;
     }
 };
+
+// MARKETING
+
+
+
 
 // export to controller
 export{addUser, 
