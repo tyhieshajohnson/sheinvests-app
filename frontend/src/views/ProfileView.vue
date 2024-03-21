@@ -3,7 +3,12 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
+        <img
+          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
+          alt="Logo"
+          class="logo"
+          style="width: 50px; height: 50px"
+        />
       </div>
       <div class="navbar-links">
         <div class="main-links">
@@ -16,26 +21,63 @@
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
-        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
+        <router-link to="/signIn"
+          ><button class="signIn">Sign In</button></router-link
+        >
+        <router-link to="/signUp"
+          ><button class="signUp">Sign Up</button></router-link
+        >
       </div>
     </nav>
 
     <div class="first-box">
+      <!-- Profile image -->
       <img src="https://i.ibb.co/3y5gr9h/ty.png" class="100vh w-100" />
+
+      <!-- Display user information -->
       <div class="profile" style="margin-top: 100px">
         <h1>Account Information</h1>
-    </div>
-    <div>
-      <button @click="logout">Logout</button>
-    </div>
+        <div class="logout-container">
+          <button class="logout" @click="logout">Logout</button>
+        </div>
+        <div v-if="users">
+          <div v-for="user in users" :key="user.user_id">
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  computed: {
+    users() {
+      return this.$store.state.users;
+    },
+  },
   methods: {
+    fetchUser() {
+      const existingUser = {
+        // Assuming username and email are retrieved from input fields
+        username: this.username,
+        email: this.email,
+      };
+
+      this.$store
+        .dispatch('fetchUser', existingUser)
+        .then(() => {
+          // Clear fields after successful fetch
+          this.clearFields();
+          window.alert('User Found');
+        })
+        .catch(error => {
+          console.error('Error Fetching User:', error);
+          window.alert('Error Fetching User. Please Check Frontend.');
+        });
+    },
     logout() {
       // Get the current date and time
       const now = new Date();
@@ -44,12 +86,18 @@ export default {
 
       // Redirect to the login page
       this.$router.push({ name: 'signin' });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
+.logout {
+  border: none;
+  border-radius: 7px;
+  background-color: black;
+  color: white;
+}
 /* Navbar styles */
 .navbar {
   position: fixed;

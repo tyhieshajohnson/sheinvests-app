@@ -15,6 +15,7 @@ export default createStore({
     investment: [],
     crypto: [],
     currentUser: null,
+    userData: null,
   },
   getters: { 
     getCurrentUser: (state) => state.currentUser,
@@ -23,8 +24,8 @@ export default createStore({
     setUsers(state, value) {
       state.users = value;
     },
-    setUser(state, value) {
-      state.user = value;
+    setUser(state, user) {
+      state.user = user;
     },
     setInvestments(state, value) {
       state.investments = value;
@@ -38,7 +39,9 @@ export default createStore({
     setCurrentUser(state){
       state.currentUser=null;
     },
-
+    setUserData(state, value) {
+      state.userData = value;
+    },
   },
   actions: {
     // USING FETCH
@@ -100,24 +103,11 @@ export default createStore({
     },
     async fetchUser(context, payload) {
       try {
-        const  result  = (await axios.get(`${baseURL}users/${payload.id}`)).data;
-        if (result) {
-          context.commit('setUser', result);
-        } else {
-          sweet({
-            title: 'Retrieving Specific User Error!',
-            text: 'User Not Found',
-            icon: 'info',
-            timer: 4000,
-          });
-        }
-      } catch (e) {
-        sweet({
-          title: 'Retrieving Specific User Error!',
-          text: 'User Does Not Exist',
-          icon: 'error',
-          timer: 4000,
-        });
+        const { data } = await axios.get(`${baseURL}users/${payload.id}`);
+        context.commit('setUser', data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        throw error; // Rethrow the error for handling in the component
       }
     },
     async updateUser(context, payload) {
