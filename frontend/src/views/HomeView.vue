@@ -14,12 +14,16 @@
         </div>
         <div class="navbar-links">
           <div class="main-links">
-            <router-link to="/">Crypto</router-link>
-            <router-link to="/learn">Learn</router-link>
-            <router-link to="/profile">Profile</router-link>
-            <router-link to="/contact">Contact</router-link>
-            <router-link to="/invest">Invest</router-link>
-            <router-link to="/admin">Admin</router-link>
+            <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
+          <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
+          <router-link style="color: #c8a2c8" to="/profile"
+            >Profile</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/contact"
+            >Contact</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
+          <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
           </div>
         </div>
         <div class="navbar-buttons">
@@ -83,25 +87,17 @@
 
       <!-- CRYPTO CHART -->
       <div class="crypto" style="margin-top: 100px">
-        <h1>CRYPTOCURRENCY</h1>
-        <div class="line-chart">
-          <Chart />
-          <div class="icons">
-            <!-- Ethereum -->
-            <i class="fa-brands fa-ethereum"></i>
-            <!-- Litecoin -->
-            <i class="fa-solid fa-litecoin-sign"></i>
-            <!-- Bitcoin -->
-            <i class="fa-brands fa-bitcoin"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- View Crypto -->
+        <h1 style="display: flex; justify-content: center;">CRYPTOCURRENCY</h1>
+        <h1 style="display: flex; justify-content: center;">Our Prediction Market</h1>
+        <!-- View Crypto -->
       <div>
-        <router-link to="/invest">Invest In Crypto</router-link>
+        <router-link class="invest-route" to="/invest" style="display: flex; justify-content: center; text-decoration: underline;">Click To Invest In Crypto</router-link>
       </div>
     </div>
+        <div class="line-chart">
+          <Chart />
+        </div>
+      </div>
     <RouterView />
   </div>
 </template>
@@ -219,7 +215,7 @@ p {
   color: black;
 }
 
-h1 {
+h1, .invest-route {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;

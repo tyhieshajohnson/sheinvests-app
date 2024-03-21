@@ -33,7 +33,7 @@
     <div class="first-box">
       <img src="https://i.ibb.co/R6C2p5K/tybackground-04.png" class="w-100 100vh" />
 
-      <div class="signup-container">
+      <div class="signup-container overlay">
         <h2>Sign Up</h2>
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
@@ -154,7 +154,16 @@ export default {
 
 /* If taken away, it brings the border back - do not remove until ready to  */
 .signUp-container {
-  margin-top: 50px;
+  border: none;
+  background-color: black;
+  height: 500px;
+  width: 500px;
+  margin-left: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px;
 }
 
 p {

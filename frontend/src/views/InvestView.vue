@@ -11,12 +11,16 @@
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/">Crypto</router-link>
-          <router-link to="/learn">Learn</router-link>
-          <router-link to="/profile">Profile</router-link>
-          <router-link to="/contact">Contact</router-link>
-          <router-link to="/invest">Invest</router-link>
-          <router-link to="/admin">Admin</router-link>
+          <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
+          <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
+          <router-link style="color: #c8a2c8" to="/profile"
+            >Profile</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/contact"
+            >Contact</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
+          <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
@@ -170,5 +174,21 @@ export default {
   /* display: flex; */
   justify-content: center;
   /* align-items: center; */
+}
+
+.main-links {
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.signIn {
+  border-radius: 7px;
+  border: solid black 4px;
+  background-color: white;
+}
+
+.signUp {
+  border-radius: 7px;
+  border: solid #c8a2c8 4px;
+  background-color: white;
 }
 </style>

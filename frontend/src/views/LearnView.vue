@@ -12,12 +12,16 @@
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/">Crypto</router-link>
-          <router-link to="/learn">Learn</router-link>
-          <router-link to="/profile">Profile</router-link>
-          <router-link to="/contact">Contact</router-link>
-          <router-link to="/invest">Invest</router-link>
-          <router-link to="/admin">Admin</router-link>
+          <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
+          <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
+          <router-link style="color: #c8a2c8" to="/profile"
+            >Profile</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/contact"
+            >Contact</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
+          <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
@@ -184,11 +188,13 @@ export default {
 }
 
 .about {
-  background-color: black;
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.851);
   border-radius: 7px;
   padding: 30px;
   border: 5px solid #c8a2c8;
   border-radius: 20px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .learn {
@@ -206,7 +212,8 @@ export default {
 .div3 {
   border: 5px solid #c8a2c8;
   border-radius: 20px;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.851);
   width: 300px;
   height: 200px;
   transition: transform 0.3s ease-in-out;
@@ -219,7 +226,7 @@ export default {
 
 .div1:hover,
 .div2:hover,
-.div3:hover {
+.div3:hover, .about:hover {
   transform: translateY(-20px);
 }
 

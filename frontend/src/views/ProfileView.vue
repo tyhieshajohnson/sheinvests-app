@@ -4,7 +4,7 @@
     <nav class="navbar">
       <div class="navbar-logo">
         <img
-          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
+        src="https://i.ibb.co/BHhZfHn/ladybug-02-1.png"
           alt="Logo"
           class="logo"
           style="width: 50px; height: 50px"
@@ -12,12 +12,16 @@
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/">Crypto</router-link>
-          <router-link to="/learn">Learn</router-link>
-          <router-link to="/profile">Profile</router-link>
-          <router-link to="/contact">Contact</router-link>
-          <router-link to="/invest">Invest</router-link>
-          <router-link to="/admin">Admin</router-link>
+          <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
+          <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
+          <router-link style="color: #c8a2c8" to="/profile"
+            >Profile</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/contact"
+            >Contact</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
+          <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">

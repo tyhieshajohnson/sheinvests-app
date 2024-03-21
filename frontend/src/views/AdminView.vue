@@ -2,29 +2,36 @@
   <div class="body">
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
+        <img
+        src="https://i.ibb.co/BHhZfHn/ladybug-02-1.png"
+          alt="Logo"
+          class="logo"
+          style="width: 50px; height: 50px"
+        />
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/">Crypto</router-link>
-          <router-link to="/learn">Learn</router-link>
-          <router-link to="/profile">Profile</router-link>
-          <router-link to="/contact">Contact</router-link>
-          <router-link to="/invest">Invest</router-link>
-          <router-link to="/admin">Admin</router-link>
+          <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
+          <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
+          <router-link style="color: #c8a2c8" to="/profile">Profile</router-link>
+          <router-link style="color: #c8a2c8" to="/contact">Contact</router-link>
+          <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
+          <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
-        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
+        <router-link to="/signIn"
+          ><button class="signIn">Sign In</button></router-link>
+        <router-link to="/signUp"
+          ><button class="signUp">Sign Up</button></router-link>
       </div>
     </nav>
 
     <div class="first-box">
-      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="w-100 100vh"/>
+      <img src="https://i.ibb.co/3y5gr9h/ty.png" class="w-100 100vh" />
 
       <div class="overlay">
-        <div class="admin" style="color: white;">
+        <div class="admin" style="color: white">
           <h1>WELCOME ADMIN</h1>
           <!-- Call username of the person logged in -->
           <h3>Username:</h3>
@@ -118,11 +125,11 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -180,18 +187,21 @@ export default {
     },
     // Delete User
     delUser(id) {
-  const confirmDelete = window.confirm('Are you sure you want to delete this user?');
-  if (confirmDelete) {
-    this.$store.dispatch('delUser', { id })
-      .then(() => {
-        window.alert('User has been deleted.');
-      })
-      .catch((error) => {
-        console.error('Error deleting user', error);
-        window.alert('Error deleting user. Please try again.');
-      });
-  }
-}
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this user?"
+      );
+      if (confirmDelete) {
+        this.$store
+          .dispatch("delUser", { id })
+          .then(() => {
+            window.alert("User has been deleted.");
+          })
+          .catch((error) => {
+            console.error("Error deleting user", error);
+            window.alert("Error deleting user. Please try again.");
+          });
+      }
+    },
   },
   mounted() {
     this.$store.dispatch("fetchUsers");
@@ -262,7 +272,6 @@ h1 {
   border: solid #c8a2c8 4px;
   background-color: white;
 }
-
 
 .modal {
   display: none;
