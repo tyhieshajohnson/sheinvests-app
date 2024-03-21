@@ -53,7 +53,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in getUsers" :key="user.id">
+              <tr v-for="user in fetchUsers" :key="user.id">
                 <th scope="row">{{ user.id }}</th>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
@@ -147,7 +147,7 @@ export default {
     };
   },
   computed: {
-    getUsers() {
+    fetchUsers() {
       return this.$store.state.users;
     },
   },

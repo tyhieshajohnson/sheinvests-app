@@ -94,8 +94,8 @@ export default createStore({
     },
     async fetchUsers({ commit }) {
       try {
-        const response = await axios.get('/users');
-        commit('SET_USERS', response.data);
+        const response = await axios.get(`${baseURL}users`);
+        commit('setUsers', response.data);
       } catch (error) {
         console.error('Error fetching users:', error.message);
       }
@@ -103,7 +103,7 @@ export default createStore({
   
     async fetchUserById({ commit }, userId) {
       try {
-        const response = await axios.get(`/user/${userId}`);
+        const response = await axios.get(`${baseURL}user/${userId}`);
         commit('setSelectedUser', response.data);
       } catch (error) {
         console.error('Error fetching user by ID:', error.message);
@@ -120,7 +120,7 @@ export default createStore({
   
     async deleteUser({ commit }, userId) {
       try {
-        await axios.delete(`/user/delete/${userId}`);
+        await axios.delete(`${baseURL}/user/delete/${userId}`);
         commit('fetchUsers');
       } catch (error) {
         console.error('Error deleting user:', error.message);
@@ -272,7 +272,7 @@ export default createStore({
   
     async fetchInvestmentById({ commit }, investmentId) {
       try {
-        const response = await axios.get(`/investments/${investmentId}`);
+        const response = await axios.get(`${baseURL}/investments/${investmentId}`);
         commit('setSelectedInvestment', response.data);
       } catch (error) {
         console.error('Error fetching investment by ID:', error.message);
@@ -281,7 +281,7 @@ export default createStore({
   
     async editInvestment({ commit }, { investmentId, investmentData }) {
       try {
-        await axios.put(`/investments/edit/${investmentId}`, investmentData);
+        await axios.put(`${baseURL}/investments/edit/${investmentId}`, investmentData);
       } catch (error) {
         console.error('Error editing investment:', error.message);
       }
@@ -289,7 +289,7 @@ export default createStore({
   
     async deleteInvestment({ commit }, investmentId) {
       try {
-        await axios.delete(`/investments/delete/${investmentId}`);
+        await axios.delete(`${baseURL}/investments/delete/${investmentId}`);
         commit('fetchInvestments');
       } catch (error) {
         console.error('Error deleting investment:', error.message);
@@ -299,7 +299,7 @@ export default createStore({
     // CRYPTO
     async addCrypto({ commit }, cryptoData) {
       try {
-        await axios.post('/crypto/add', cryptoData);
+        await axios.post('${baseURL}/crypto/add', cryptoData);
         commit('fetchCryptos');
       } catch (error) {
         console.error('Error adding crypto:', error.message);
@@ -317,7 +317,7 @@ export default createStore({
   
     async fetchCryptoById({ commit }, cryptoId) {
       try {
-        const response = await axios.get(`/crypto/${cryptoId}`);
+        const response = await axios.get(`${baseURL}/crypto/${cryptoId}`);
         commit('setSelectedCrypto', response.data);
       } catch (error) {
         console.error('Error fetching crypto by ID:', error.message);
@@ -326,7 +326,7 @@ export default createStore({
   
     async editCrypto({ commit }, { cryptoId, cryptoData }) {
       try {
-        await axios.put(`/crypto/edit/${cryptoId}`, cryptoData);
+        await axios.put(`${baseURL}/crypto/edit/${cryptoId}`, cryptoData);
       } catch (error) {
         console.error('Error editing crypto:', error.message);
       }
@@ -334,7 +334,7 @@ export default createStore({
   
     async deleteCrypto({ commit }, cryptoId) {
       try {
-        await axios.delete(`/crypto/delete/${cryptoId}`);
+        await axios.delete(`${baseURL}/crypto/delete/${cryptoId}`);
         commit('fetchCryptos');
       } catch (error) {
         console.error('Error deleting crypto:', error.message);
@@ -344,7 +344,7 @@ export default createStore({
     // MARKETS
     async addMarket({ commit }, marketData) {
       try {
-        await axios.post('/markets/add', marketData);
+        await axios.post(`${baseURL}/markets/add`, marketData);
         commit('fetchMarkets');
       } catch (error) {
         console.error('Error adding market:', error.message);
@@ -353,7 +353,7 @@ export default createStore({
   
     async fetchMarkets({ commit }) {
       try {
-        const response = await axios.get('/markets');
+        const response = await axios.get(`${baseURL}/markets`);
         commit('setMarkets', response.data);
       } catch (error) {
         console.error('Error fetching markets:', error.message);
@@ -362,7 +362,7 @@ export default createStore({
   
     async fetchMarketById({ commit }, marketId) {
       try {
-        const response = await axios.get(`/markets/${marketId}`);
+        const response = await axios.get(`${baseURL}/markets/${marketId}`);
         commit('setSelectedMarket', response.data);
       } catch (error) {
         console.error('Error fetching market by ID:', error.message);
@@ -371,7 +371,7 @@ export default createStore({
   
     async editMarket({ commit }, { marketId, marketData }) {
       try {
-        await axios.put(`/markets/edit/${marketId}`, marketData);
+        await axios.put(`${baseURL}/markets/edit/${marketId}`, marketData);
       } catch (error) {
         console.error('Error editing market:', error.message);
       }
@@ -379,7 +379,7 @@ export default createStore({
   
     async deleteMarket({ commit }, marketId) {
       try {
-        await axios.delete(`/markets/delete/${marketId}`);
+        await axios.delete(`${baseURL}/markets/delete/${marketId}`);
         commit('fetchMarkets');
       } catch (error) {
         console.error('Error deleting market:', error.message);
@@ -389,7 +389,7 @@ export default createStore({
     // ORDERS
     async addOrder({ commit }, orderData) {
       try {
-        await axios.post('/orders/add', orderData);
+        await axios.post(`${baseURL}/orders/add`, orderData);
         commit('fetchOrders');
       } catch (error) {
         console.error('Error adding order:', error.message);
@@ -398,7 +398,7 @@ export default createStore({
   
     async fetchOrders({ commit }) {
       try {
-        const response = await axios.get('/orders');
+        const response = await axios.get(`${baseURL}/orders`);
         commit('setOrders', response.data);
       } catch (error) {
         console.error('Error fetching orders:', error.message);
@@ -407,7 +407,7 @@ export default createStore({
   
     async fetchOrderById({ commit }, orderId) {
       try {
-        const response = await axios.get(`/orders/${orderId}`);
+        const response = await axios.get(`${baseURL}/orders/${orderId}`);
         commit('setSelectedOrder', response.data);
       } catch (error) {
         console.error('Error fetching order by ID:', error.message);
@@ -416,7 +416,7 @@ export default createStore({
   
     async editOrder({ commit }, { orderId, orderData }) {
       try {
-        await axios.put(`/orders/edit/${orderId}`, orderData);
+        await axios.put(`${baseURL}/orders/edit/${orderId}`, orderData);
       } catch (error) {
         console.error('Error editing order:', error.message);
       }
@@ -424,7 +424,7 @@ export default createStore({
   
     async deleteOrder({ commit }, orderId) {
       try {
-        await axios.delete(`/orders/delete/${orderId}`);
+        await axios.delete(`${baseURL}/orders/delete/${orderId}`);
         commit('fetchOrders');
       } catch (error) {
         console.error('Error deleting order:', error.message);

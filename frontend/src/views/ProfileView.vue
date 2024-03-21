@@ -45,7 +45,7 @@
           <button class="logout" @click="logout">Logout</button>
         </div>
         <div v-if="users">
-          <div v-for="user in users" :key="user.user_id">
+          <div v-for="user in fetchUser" :key="user.user_id">
             <p>Username: {{ user.username }}</p>
             <p>Email: {{ user.email }}</p>
           </div>
@@ -110,27 +110,35 @@ export default {
       this.$router.push({ name: "signin" });
     },
     openUpdateModal() {
-    console.log("Opening modal..."); 
-    
-    if (this.users && this.users.length > 0) {
-      this.updatedUsername = this.users[0].username;
-      this.updatedEmail = this.users[0].email;
+      console.log("Opening modal..."); 
+      
+      if (this.users && this.users.length > 0) {
+        this.updatedUsername = this.users[0].username;
+        this.updatedEmail = this.users[0].email;
+      }
+      console.log("isUpdateModalActive:", this.isUpdateModalActive); 
+      this.isUpdateModalActive = true;
+    },
+    closeUpdateModal() {
+      this.isUpdateModalActive = false;
+    },
+    updateAccount() {
+      console.log("Updated Username:", this.updatedUsername);
+      console.log("Updated Email:", this.updatedEmail);
+      this.closeUpdateModal();
+    },
+    deleteAccount() {
+      console.log("Account deleted.");
+    },
+    fetchUser() {
+      // Call the fetchUser action from Vuex
+      this.$store.dispatch('fetchUser');
     }
-    console.log("isUpdateModalActive:", this.isUpdateModalActive); 
-    this.isUpdateModalActive = true;
   },
-  closeUpdateModal() {
-    this.isUpdateModalActive = false;
-  },
-  updateAccount() {
-    console.log("Updated Username:", this.updatedUsername);
-    console.log("Updated Email:", this.updatedEmail);
-    this.closeUpdateModal();
-  },
-  deleteAccount() {
-    console.log("Account deleted.");
-  },
-  },
+  mounted() {
+    // Call the fetchUser method when the component is mounted
+    this.fetchUser();
+  }
 };
 </script>
 
