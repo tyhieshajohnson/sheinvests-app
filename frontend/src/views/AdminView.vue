@@ -3,7 +3,7 @@
     <nav class="navbar">
       <div class="navbar-logo">
         <img
-        src="https://i.ibb.co/BHhZfHn/ladybug-02-1.png"
+          src="https://i.ibb.co/BHhZfHn/ladybug-02-1.png"
           alt="Logo"
           class="logo"
           style="width: 50px; height: 50px"
@@ -13,17 +13,23 @@
         <div class="main-links">
           <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
           <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
-          <router-link style="color: #c8a2c8" to="/profile">Profile</router-link>
-          <router-link style="color: #c8a2c8" to="/contact">Contact</router-link>
+          <router-link style="color: #c8a2c8" to="/profile"
+            >Profile</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/contact"
+            >Contact</router-link
+          >
           <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
           <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
         <router-link to="/signIn"
-          ><button class="signIn">Sign In</button></router-link>
+          ><button class="signIn">Sign In</button></router-link
+        >
         <router-link to="/signUp"
-          ><button class="signUp">Sign Up</button></router-link>
+          ><button class="signUp">Sign Up</button></router-link
+        >
       </div>
     </nav>
 
@@ -31,13 +37,12 @@
       <img src="https://i.ibb.co/3y5gr9h/ty.png" class="w-100 100vh" />
 
       <div class="overlay">
-        <div class="admin" style="color: white">
-          <h1>WELCOME ADMIN</h1>
-          <!-- Call username of the person logged in -->
-          <h3>Username:</h3>
-          <h3>Email:</h3>
-          <h3>Paasword:</h3>
-        </div>
+        <!-- <div class="admin" style="color: white">
+          <h1>WELCOME ADMIN</h1> -->
+        <!-- Call username of the person logged in -->
+        <!-- <h3>Username: {{ username }}</h3>
+          <h3>Email: {{ email }}</h3>
+        </div> -->
 
         <div class="users">
           <h1>Users</h1>
@@ -103,25 +108,6 @@
             ></button>
           </div>
           <!-- End of Edit Modal -->
-
-          <!-- Investment Section -->
-          <!-- <div class="investments">
-            <h1>Investment</h1>
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" v-model="investmentAmount" />
-            <label for="crypto">Select Crypto:</label>
-            <select id="crypto" v-model="selectedCrypto">
-              <option value="Bitcoin">Bitcoin</option>
-              <option value="Ethereum">Ethereum</option>
-              <option value="Ripple">Ripple</option>
-            </select>
-            <label for="creation-time">Creation Time:</label>
-            <input
-              type="datetime-local"
-              id="creation-time"
-              v-model="creationTime"
-            />
-          </div> -->
         </div>
       </div>
     </div>
@@ -150,61 +136,59 @@ export default {
     fetchUsers() {
       return this.$store.state.users;
     },
+    // fetchUserById() {
+    //   return this.$store.state.users;
+    // },
   },
   methods: {
-    showEditModal(user) {
-      // Set the user properties to be edited
-      this.editedUser = { ...user };
-      // Activate the modal
-      this.isEditModalActive = true;
-    },
-    async editUser() {
-      if (!this.editedUser.id) {
-        alert("Please select a user to edit");
-        return;
-      }
-      try {
-        const payload = { ...this.editedUser };
-        await this.$store.dispatch("updateUser", payload);
-        // Reset editedUser object after editing
-        this.editedUser = { id: null, username: "", email: "", password: "" };
-        // Close the modal
-        this.isEditModalActive = false;
-      } catch (error) {
-        console.error("Error updating user:", error);
-        sweet({
-          title: "User Update Error!",
-          text: "User Update Unsuccessful",
-          icon: "error",
-          timer: 4000,
-        });
-      }
-    },
-    closeEditModal() {
-      // Reset editedUser object and close the modal
-      this.editedUser = { id: null, username: "", email: "", passwords: "" };
-      this.isEditModalActive = false;
-    },
-    // Delete User
-    delUser(id) {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this user?"
-      );
-      if (confirmDelete) {
-        this.$store
-          .dispatch("delUser", { id })
-          .then(() => {
-            window.alert("User has been deleted.");
-          })
-          .catch((error) => {
-            console.error("Error deleting user", error);
-            window.alert("Error deleting user. Please try again.");
-          });
-      }
+    methods: {
+      // Show edit modal with user data
+      showEditModal(user) {
+        this.editedUser = { ...user };
+        this.isEditModalActive = true;
+      },
+      // Edit user
+      async editUser() {
+        if (!this.editedUser.id) {
+          alert("Please select a user to edit");
+          return;
+        }
+        try {
+          const payload = { ...this.editedUser };
+          await this.$store.dispatch("editUser", payload); // Dispatch editUser action
+          this.closeEditModal();
+        } catch (error) {
+          console.error("Error editing user:", error);
+          alert("Error editing user. Please try again.");
+        }
+      },
+      // Delete user
+      delUser(id) {
+        const confirmDelete = window.confirm(
+          "Are you sure you want to delete this user?"
+        );
+        if (confirmDelete) {
+          try {
+            this.$store
+              .dispatch("deleteUser", id) // Dispatch deleteUser action
+              .then(() => {
+                alert("User has been deleted.");
+              })
+              .catch((error) => {
+                console.error("Error deleting user:", error);
+                alert("Error deleting user. Please try again.");
+              });
+          } catch (error) {
+            console.error("Error deleting user:", error);
+            alert("Error deleting user. Please try again.");
+          }
+        }
+      },
     },
   },
   mounted() {
     this.$store.dispatch("fetchUsers");
+    // this.$store.dispatch("fetchUserById");
   },
 };
 </script>
@@ -330,6 +314,5 @@ h1 {
   z-index: 1; /* Ensure these divs are above the background */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
 }
 </style>

@@ -51,6 +51,17 @@ export default createStore({
     setOrders(state, value) {
       state.orders = value;
     },
+    // Mutation to delete user from users list
+    deleteUserMutation(state, userId) {
+      state.users = state.users.filter(user => user.id !== userId);
+    },
+    // Mutation to edit user in users list
+    editUserMutation(state, editedUserData) {
+      const index = state.users.findIndex(user => user.id === editedUserData.id);
+      if (index !== -1) {
+        state.users[index] = editedUserData;
+      }
+    },
   },
   actions: {
     async addUser(context, payload) {
@@ -112,20 +123,25 @@ export default createStore({
     },
   },
   
-    async editUser({ commit }, { userId, userData }) {
+    async editUser({ commit }, userData) {
       try {
-        await axios.put(`/user/edit/${userId}`, userData);
+        await axios.put(`${baseURL}users/${userData.id}`, userData);
+        // If editing is successful, commit mutation to update users list
+        commit("editUserMutation", userData);
       } catch (error) {
-        console.error('Error editing user:', error.message);
+        console.error("Error editing user:", error.message);
+        throw error;
       }
     },
   
     async deleteUser({ commit }, userId) {
       try {
-        await axios.delete(`${baseURL}/user/delete/${userId}`);
-        commit('fetchUsers');
+        await axios.delete(`${baseURL}users/${userId}`);
+        // If deletion is successful, commit mutation to update users list
+        commit("deleteUserMutation", userId);
       } catch (error) {
-        console.error('Error deleting user:', error.message);
+        console.error("Error deleting user:", error.message);
+        throw error;
       }
     },
       // Start of SignIn

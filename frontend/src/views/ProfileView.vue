@@ -44,10 +44,10 @@
         <div class="logout-container">
           <button class="logout" @click="logout">Logout</button>
         </div>
-        <div>
-          <div v-if="selectedUser">
-            <p>Username: {{ selectedUser.username }}</p>
-            <p>Email: {{ selectedUser.email }}</p>
+        <div v-if="typeof fetchUserById == 'object'">
+          <div v-for="user in fetchUserById" :key="user.id">
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
           </div>
           <!-- Update Account Button -->
           <button @click="openUpdateModal">Update Account</button>
@@ -101,10 +101,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getSelectedUser']),
-    selectedUser() {
-      return this.$store.state.selectedUser;
-    },
+    fetchUsers(){
+      return this.$store.state.users;
+    }
   },
   methods: {
     logout() {
@@ -134,17 +133,12 @@ export default {
       console.log("Account deleted.");
     },
     fetchUserById() {
-      // Call the fetchUser action from Vuex
-      this.$store.dispatch("fetchUsers");
+      // Dispatch the action to fetch user by ID from Vuex store
+      this.$store.dispatch("fetchUserById");
     },
   },
   mounted() {
-    const userId = this.$route.params.userId; // Assuming userId is passed via route params
-    this.$store.dispatch('fetchUserById', userId)
-      .catch(error => {
-        console.error('Error fetching user:', error.message);
-        // Handle error (e.g., show error message)
-      });
+    this.$store.dispatch("fetchUserById")
   },
 };
 </script>
