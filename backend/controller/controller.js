@@ -137,22 +137,20 @@ const userRegister = async (req, res) => {
       });
     }
 
+    const existingUser = await getUsersByUsername(username);
+    if (existingUser.length > 0) {
+      return res.status(400).json({
+        message: "Username already exists",
+      });
+    }
+
     // Hash the password
     const hash = await bcrypt.hash(passwords, 10);
 
     // Call the addUser function with the hashed password
     await addUser(username, email, hash);
 
-    // Check if the user was successfully added
-    const existingUser = await getUsersByUsername(username);
-    if (existingUser.length > 0) {
-      return res.status(201).json({ message: "User registered successfully" });
-    } else {
-      return res.status(500).json({
-        error: "Internal Server Error",
-        details: "Failed to retrieve user after registration",
-      });
-    }
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error in userRegister:", error);
     res.status(500).json({
