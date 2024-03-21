@@ -42,7 +42,7 @@
         <div class="users">
           <h1>Users</h1>
           <!-- User Table -->
-          <table class="table" v-if="typeof getUsers == 'object'">
+          <table class="table" v-if="typeof fetchUsers == 'object'">
             <thead>
               <tr>
                 <th scope="col">id</th>
