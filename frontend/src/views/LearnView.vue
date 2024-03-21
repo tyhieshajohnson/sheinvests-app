@@ -272,4 +272,33 @@ p {
 .main-content {
   padding-bottom: 100px; /* Adjust this value to give space for the footer */
 }
+
+@media only screen and (max-width: 375px) and (max-height: 812px) {
+  .div1,
+.div2,
+.div3 {
+  border: 5px solid #c8a2c8;
+  border-radius: 20px;
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.851);
+  width: 300px;
+  height: 200px;
+  transition: transform 0.3s ease-in-out;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.learn {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+}
 </style>
