@@ -25,86 +25,28 @@
       <img src="https://i.ibb.co/3y5gr9h/ty.png" class="100vh w-100" />
       <div class="profile" style="margin-top: 100px">
         <h1>Account Information</h1>
-        <div>Investments
-          <div v-if="typeof users === 'object'">
-            <div v-for="user in users" :key="user.id">
-              <h3>Username: {{ user.id }}</h3>
-              <h3>Email: {{ user.email }}</h3>
-            </div>
-          </div>
-        </div>
-        <!-- Display Users Current Investments + The time is was created -->
-        <div class="overlay">
-          <div class="crypto">
-            <h1>Your Investments</h1>
-            <h3></h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>User ID</th>
-                  <th>Market ID</th>
-                  <th>Order Type</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody v-if="orders">
-                <tr v-for="order in orders" :key="order.order_id">
-                  <td>{{ order.order_id }}</td>
-                  <td>{{ order.user_id }}</td>
-                  <td>{{ order.market_id }}</td>
-                  <td>{{ order.order_type }}</td>
-                  <td>{{ order.quantity }}</td>
-                  <td>{{ order.price }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div>
+      <button @click="logout">Logout</button>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import SignIn from "@/components/SignIn.vue";
-
 export default {
-  name: "Crypto",
-  components: {
-    SignIn,
-  },
-  data() {
-    return {
-      users: [],
-      orders: [],
-    };
-  },
-  mounted() {
-    this.fetchUsers();
-    this.fetchOrders();
-  },
   methods: {
-    async fetchUsers() {
-      try {
-        const response = await axios.get("/users");
-        this.users = response.data;
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    },
-    async fetchOrders() {
-      try {
-        const response = await axios.get("/invest/:user_id");
-        this.orders = response.data;
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    },
-  },
-};
+    logout() {
+      // Get the current date and time
+      const now = new Date();
+      // Set the expiry date of the cookie to the current date and time (which effectively expires it immediately)
+      document.cookie = `auth=; expires=${now.toUTCString()}; path=/;`;
+
+      // Redirect to the login page
+      this.$router.push({ name: 'signin' });
+    }
+  }
+}
 </script>
 
 <style scoped>

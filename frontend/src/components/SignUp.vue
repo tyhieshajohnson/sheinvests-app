@@ -3,82 +3,83 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
+        <img
+          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
+          alt="Logo"
+          class="logo"
+          style="width: 50px; height: 50px"
+        />
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/" style="color: #c8a2c8;">Crypt</router-link>
-          <router-link to="/learn" style="color: #c8a2c8;">Learn</router-link>
-          <router-link to="/profile" style="color: #c8a2c8;">Profile</router-link>
-          <router-link to="/contact" style="color: #c8a2c8;">Contact</router-link>
-          <router-link to="/invest" style="color: #c8a2c8;">Invest</router-link>
-          <router-link to="/admin" style="color: #c8a2c8;">Admin</router-link>
+          <router-link to="/" style="color: #c8a2c8">Crypt</router-link>
+          <router-link to="/learn" style="color: #c8a2c8">Learn</router-link>
+          <router-link to="/profile" style="color: #c8a2c8">Profile</router-link>
+          <router-link to="/contact" style="color: #c8a2c8">Contact</router-link>
+          <router-link to="/invest" style="color: #c8a2c8">Invest</router-link>
+          <router-link to="/admin" style="color: #c8a2c8">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signin"><button class="signIn">Sign In</button></router-link>
-        <router-link to="/signup"><button class="signUp">Sign Up</button></router-link>
+        <router-link to="/signin" class="navbar-button">
+          <button class="signIn">Sign In</button>
+        </router-link>
+        <router-link to="/signup" class="navbar-button">
+          <button class="signUp">Sign Up</button>
+        </router-link>
       </div>
     </nav>
 
     <div class="first-box">
       <img src="https://i.ibb.co/R6C2p5K/tybackground-04.png" class="w-100 100vh" />
 
-      <div class="overlay">
-        <h1 style="display: flex; justify-content: center;">Sign Up</h1>
-        <div class="signIn-div">
-        <h1 style="color: #c8a2c8;">JOIN THE FAMILY</h1>
-
-        <label for="signUp" style="color: white;">Username:</label>
-        <input type="username" v-model="userData.username" placeholder="Username" />
-
-        <label for="signUp" style="color: white;">Email:</label>
-        <input type="email" v-model="userData.email" placeholder="Email">
-
-        <label for="signUp" style="color: white;">Password:</label>
-        <input type="password" v-model="userData.password" placeholder="Password" />
-
-        <button @click="signUp">Sign Up</button>
-      </div>
-      <div class="signUp-container" style="display: flex; justify-content: center;">
-        <RouterLink to="signIn" style="text-decoration: none; color: white;">Already Have An Account? Sign In</RouterLink>
-      </div>
+      <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form @submit.prevent="handleSubmit">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" v-model="userData.username" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" v-model="userData.email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" v-model="userData.passwords" required />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from 'vuex';
 
 export default {
-  name: "SignUp",
   data() {
     return {
       userData: {
-        username: "",
-        email: "",
-        passwords: "",
-      },
-    };
+        username: '',
+        email: '',
+        passwords: ''
+      }
+    }
   },
   methods: {
-    async signUp() {
-      const payload = {
-        username: this.userData.username,
-        email: this.userData.email,
-        passwords: this.userData.passwords,
-      };
-
+    ...mapActions(['register']),
+    async handleSubmit() {
       try {
-        await this.$store.dispatch("addUser", payload);
-        console.log("User signed not successfully!");
+        await this.register(this.userData);
       } catch (error) {
-        console.error("Error signing up:", error.message);
+        console.error('Error during registration:', error);
+        // Handle error if needed
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -165,7 +166,8 @@ p {
   color: black;
 }
 
-h1, label {
+h1,
+label {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
@@ -177,7 +179,8 @@ h1, label {
   font-family: "Bebas Neue", sans-serif;
 }
 
-input, button{
+input,
+button {
   border-radius: 10px;
 }
 </style>

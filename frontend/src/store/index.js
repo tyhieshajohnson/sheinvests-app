@@ -191,7 +191,7 @@ export default createStore({
             });
       
             // Redirect to home page
-            router.push({ name: 'home' });
+            router.push({ name: 'profile' });
           } else {
             // Show error message if token is not present in response
             sweet({
@@ -211,6 +211,18 @@ export default createStore({
           });
         }
       },
+
+      // Logout
+        logout({ commit }) {
+          // Clear the JWT from cookies
+          document.cookie = `auth=; expires=${now.toUTCString()}; path=/;`;
+    
+          // Clear user data from Vuex state if needed
+          commit('clearUserData'); // Define a mutation to clear user data if needed
+    
+          // Redirect to the login page
+          router.push({ name: 'sigin' });
+        },
     async fetchInvestments(context) {
       try {
         let { results } = (await axios.get(`${baseURL}investments`)).data;
@@ -226,7 +238,48 @@ export default createStore({
         });
       }
     },
-    // End of SignIn
+    // SignUp
+    async register(context, payload) {
+      try {
+        const response = await fetch(`${baseURL}user/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          if (data) {
+            context.dispatch('fetchUser', { id: data.user.id });
+            sweet({
+              title: 'Registration',
+              text: data.message,
+              icon: 'success',
+              timer: 4000,
+            });
+            router.push({ name: 'login' });
+          }
+        } else {
+          const errorData = await response.json();
+          sweet({
+            title: 'Registration Error!',
+            text: errorData.message || 'Registration Incomplete',
+            icon: 'error',
+            timer: 4000,
+          });
+        }
+      } catch (error) {
+        console.error('Registration Error:', error);
+        sweet({
+          title: 'Registration Error!',
+          text: 'Registration Incomplete',
+          icon: 'error',
+          timer: 4000,
+        });
+      }
+    },       
     async fetchInvestment(context, payload) {
       try {
         let { result } = (await axios.get(`${baseURL}investment/${payload.user_id}`)).data;

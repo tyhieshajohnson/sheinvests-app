@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div style="padding: 100px">
     <canvas id="myChart"></canvas>
   </div>
@@ -60,9 +60,9 @@ onMounted(() => {
     handleMarketData(data);
   };
 });
-</script>
+</script> -->
 
-<!-- <template lang="">
+<template lang="">
   <div style="padding: 100px">
     <canvas id="myChart"></canvas>
   </div>
@@ -139,4 +139,4 @@ onMounted(() => {
 });
 
 // need to figure out how to implement in the backend.. 
-</script> -->
+</script>
