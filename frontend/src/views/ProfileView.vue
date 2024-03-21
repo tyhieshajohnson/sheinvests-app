@@ -106,29 +106,25 @@ export default {
       this.$router.push({ name: "signin" });
     },
     openUpdateModal() {
-    console.log("Opening modal..."); // Check if this message appears in the console
-    // Populate fields with current user data
+    console.log("Opening modal..."); 
+    
     if (this.users && this.users.length > 0) {
       this.updatedUsername = this.users[0].username;
       this.updatedEmail = this.users[0].email;
     }
-    console.log("isUpdateModalActive:", this.isUpdateModalActive); // Check if this prints 'true'
+    console.log("isUpdateModalActive:", this.isUpdateModalActive); 
     this.isUpdateModalActive = true;
   },
   closeUpdateModal() {
     this.isUpdateModalActive = false;
   },
   updateAccount() {
-    // Update account logic here
-    // For demonstration purpose, let's just log the updated username and email
     console.log("Updated Username:", this.updatedUsername);
     console.log("Updated Email:", this.updatedEmail);
     this.closeUpdateModal();
   },
   deleteAccount() {
-    // Delete account logic here
     console.log("Account deleted.");
-    // Redirect to sign in page or any other appropriate action after deletion
   },
   },
 };

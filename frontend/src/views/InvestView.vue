@@ -29,45 +29,54 @@
       </div>
     </nav>
 
-    <h1>Investments</h1>
-    <div v-if="investments.length === 0">
-      <p>No investments found for this user.</p>
-    </div>
-    <div v-else>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Crypto Name</th>
-            <th>Amount</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="investment in investments" :key="investment.id">
-            <td>{{ investments.id }}</td>
-            <td>{{ investments.crypto_name }}</td>
-            <td>{{ investments.amount }}</td>
-            <td>{{ investments.created_at }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="first-box">
+      <img
+        src="https://i.ibb.co/jGp7BLs/tybackground-03.png"
+        class="w-100 100vh"
+        alt=""
+      />
 
-    <!-- Make an investment -->
-    <div>
-      <h1>Purchase Your Coin:</h1>
-      <div>
-       <h2>Buy Bitcoin:</h2>
-      <button>Buy</button>
+      <div class="overlay">
+        <h1>Investments</h1>
+        <div v-if="investments.length === 0">
+          <p>No investments found for this user.</p>
+        </div>
+        <div v-else>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Crypto Name</th>
+                <th>Amount</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="investment in investments" :key="investment.id">
+                <td>{{ investments.id }}</td>
+                <td>{{ investments.crypto_name }}</td>
+                <td>{{ investments.amount }}</td>
+                <td>{{ investments.created_at }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <h2>Buy Ripple</h2>
-      <button>Buy</button>
+        <!-- Make an investment -->
+        <div>
+          <h1>Purchase Your Coin:</h1>
+          <div>
+            <h2>Buy Bitcoin:</h2>
+            <button>Buy</button>
 
-      <h2>Buy Litecoin</h2>
-      <button>Buy</button> 
+            <h2>Buy Ripple</h2>
+            <button>Buy</button>
+
+            <h2>Buy Litecoin</h2>
+            <button>Buy</button>
+          </div>
+        </div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -106,6 +115,35 @@ export default {
 </script>
 
 <style scoped>
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 999;
+}
+
+.navbar-logo {
+  margin-right: auto;
+}
+
+.navbar-links {
+  display: flex;
+}
+
+.navbar-links router-link {
+  margin-right: 20px;
+}
+
+.navbar-buttons button {
+  margin-left: 20px;
+}
+
 .crypto {
   border: none;
   background-color: black;
