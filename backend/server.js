@@ -21,7 +21,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/user/:id', async (req, res) => {
-  // Handle user route...
 });
 
 app.use('/', routes);

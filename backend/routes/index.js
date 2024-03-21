@@ -6,6 +6,7 @@ import {
   getClient,
   userEdit,
   userDelete,
+  userRegister,
   // INVEST
   investAdd,
   investsGet,
@@ -45,8 +46,11 @@ router.route("/user/add").post(userAdd);
 // login n existing user
 router.route("/user/login").post(userLogin);
 
+// Register a user
+router.route("/user/register").post(userRegister);
+
 // get ALL users
-router.route("/users").get(getClients);
+router.route("/users").get(getClients); 
 
 // get SPECIFIC user
 router.route("/user/:id").get(getClient);

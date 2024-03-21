@@ -125,6 +125,41 @@ const userLogin = async (req, res) => {
   }
 };
 
+// register user
+const userRegister = async (req, res) => {
+  const { username, email, passwords } = req.body;
+
+  try {
+    // Check if username, email, and passwords are present in the request body
+    if (!username || !email || !passwords) {
+      return res.status(400).json({
+        message: "Username, email, and password are required",
+      });
+    }
+
+    const existingUser = await getUsersByUsername(username);
+    if (existingUser.length > 0) {
+      return res.status(400).json({
+        message: "Username already exists",
+      });
+    }
+
+    // Hash the password
+    const hash = await bcrypt.hash(passwords, 10);
+
+    // Call the addUser function with the hashed password
+    await addUser(username, email, hash);
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error in userRegister:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      details: error.message,
+    });
+  }
+};
+
 // 2. /get ALL users
 const getClients = async (req, res) => {
   try {
@@ -568,6 +603,7 @@ export {
   // USERS
   userAdd,
   userLogin,
+  userRegister,
   getUsers,
   getUser,
   getClients,
@@ -598,4 +634,4 @@ export {
   orderGet,
   orderEdit,
   orderDelete,
-};
+}; 
