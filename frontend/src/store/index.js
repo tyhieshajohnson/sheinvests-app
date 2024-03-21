@@ -6,6 +6,7 @@ const {cookies} = useCookies()
 import router from '@/router';
 import authentication from '@/service/authentication.js';
 const baseURL = 'https://sheinvests-app-api.onrender.com/';
+import axios from 'axios';
 
 export default createStore({
   state: {
@@ -14,11 +15,13 @@ export default createStore({
     investments: [],
     investment: [],
     crypto: [],
-    currentUser: null,
+    selectedUser: null,
     userData: null,
+    markets: [],
+    orders: [],
   },
-  getters: { 
-    getCurrentUser: (state) => state.currentUser,
+  getters: {
+    getSelectedUser: (state) => state.selectedUser,
   },
   mutations: {
     setUsers(state, value) {
@@ -36,15 +39,20 @@ export default createStore({
     setCrypto(state, value) {
       state.crypto = value;
     },
-    setCurrentUser(state){
-      state.currentUser=null;
+    setSelectedUser(state, value){
+      state.selectedUser = value;
     },
     setUserData(state, value) {
       state.userData = value;
     },
+    setMarkets(state, value) {
+      state.markets = value;
+    },
+    setOrders(state, value) {
+      state.orders = value;
+    },
   },
   actions: {
-    // USING FETCH
     async addUser(context, payload) {
       try {
         const response = await fetch(`${baseURL}users/add`, {
@@ -84,68 +92,40 @@ export default createStore({
         });
       }
     },
-    async fetchUsers(context) {
-      // console.log("Fetching users...");
+    async fetchUsers({ commit }) {
       try {
-        const results = (await axios.get(`${baseURL}users`)).data;
-        if (results) {
-          context.commit('setUsers', results);
-          // console.log("Fetching users...");
-        }
-      } catch (e) {
-        sweet({
-          title: 'Retrieving All Users Error!',
-          text: 'Users Not Found',
-          icon: 'error',
-          timer: 4000,
-        });
-      }
-    },
-    async fetchUser(context, payload) {
-      try {
-        const { data } = await axios.get(`${baseURL}users/${payload.id}`);
-        context.commit('setUser', data);
+        const response = await axios.get('/users');
+        commit('SET_USERS', response.data);
       } catch (error) {
-        console.error('Error fetching user:', error);
-        throw error; // Rethrow the error for handling in the component
+        console.error('Error fetching users:', error.message);
       }
     },
-    async updateUser(context, payload) {
+  
+    async fetchUserById({ commit }, userId) {
       try {
-        const msg = await axios.patch(`${baseURL}users/update/${payload.id}`, payload);
-        if (msg) {
-          context.dispatch('fetchUsers');
-          sweet({
-            title: 'User Update Successful',
-            text: msg,
-            icon: 'success',
-            timer: 4000,
-          });
-        }
-      } catch (e) {
-        sweet({
-          title: 'User Update Error!',
-          text: 'User Update Unsuccessful',
-          icon: 'error',
-          timer: 4000,
-        });
+        const response = await axios.get(`/user/${userId}`);
+        commit('setSelectedUser', response.data);
+      } catch (error) {
+        console.error('Error fetching user by ID:', error.message);
       }
     },
-      async delUser(context, payload) {
-        try {
-          const response = await axios.delete(`${baseURL}user/delete/${payload.id}`);
-          console.log('User deleted successfully', response);
-          context.dispatch('fetchUsers');
-        } catch (error) {
-          console.error('Error deleting user', error);
-          sweet({
-            title: 'Error Deleting User',
-            text: 'Unable to delete the user',
-            icon: 'error',
-            timer: 4000,
-          });
-        }
-      },
+  
+    async editUser({ commit }, { userId, userData }) {
+      try {
+        await axios.put(`/user/edit/${userId}`, userData);
+      } catch (error) {
+        console.error('Error editing user:', error.message);
+      }
+    },
+  
+    async deleteUser({ commit }, userId) {
+      try {
+        await axios.delete(`/user/delete/${userId}`);
+        commit('fetchUsers');
+      } catch (error) {
+        console.error('Error deleting user:', error.message);
+      }
+    },
       // Start of SignIn
       async login ({commit}, userData) {
         console.log(userData);
@@ -269,79 +249,187 @@ export default createStore({
           timer: 4000,
         });
       }
-    },       
-    async fetchInvestment(context, payload) {
+    },  
+    
+    // INVESTMENTS
+    async addInvestment({ commit }, investmentData) {
       try {
-        let { result } = (await axios.get(`${baseURL}investment/${payload.user_id}`)).data;
-        if (result) {
-          context.commit('setInvestment', result);
-        } else {
-          sweet({
-            title: 'Product Single View Error!',
-            text: 'Product Single View Unsuccessful',
-            icon: 'info',
-            timer: 4000,
-          });
-        }
-      } catch (e) {
-        sweet({
-          title: 'Product Single View Error!',
-          text: 'Product Single View Unsuccessful',
-          icon: 'error',
-          timer: 4000,
-        });
+        await axios.post('/invest/add', investmentData);
+        commit('fetchInvestments');
+      } catch (error) {
+        console.error('Error adding investment:', error.message);
       }
     },
-    async postInvestment(context, newItem) {
+  
+    async fetchInvestments({ commit }) {
       try {
-        await axios.post(`${baseURL}/invest/add`, newItem);
-        context.dispatch('fetchInvestments');
+        const response = await axios.get('/investments');
+        commit('setInvestments', response.data);
       } catch (error) {
-        console.error(error);
-        sweet({
-          title: 'Error Posting Investment',
-          text: 'Unable to post the investment',
-          icon: 'error',
-          timer: 4000,
-        });
+        console.error('Error fetching investments:', error.message);
       }
     },
-    async deleteInvestment(context, prodID) {
+  
+    async fetchInvestmentById({ commit }, investmentId) {
       try {
-        await axios.delete(`${baseURL}/invest/delete/${user_id}`);
-        context.dispatch('fetchInvestments');
+        const response = await axios.get(`/investments/${investmentId}`);
+        commit('setSelectedInvestment', response.data);
       } catch (error) {
-        console.error('Error deleting investment', error);
-        sweet({
-          title: 'Error Deleting Investment',
-          text: 'Unable to delete the investment',
-          icon: 'error',
-          timer: 4000,
-        });
+        console.error('Error fetching investment by ID:', error.message);
+      }
+    },
+  
+    async editInvestment({ commit }, { investmentId, investmentData }) {
+      try {
+        await axios.put(`/investments/edit/${investmentId}`, investmentData);
+      } catch (error) {
+        console.error('Error editing investment:', error.message);
+      }
+    },
+  
+    async deleteInvestment({ commit }, investmentId) {
+      try {
+        await axios.delete(`/investments/delete/${investmentId}`);
+        commit('fetchInvestments');
+      } catch (error) {
+        console.error('Error deleting investment:', error.message);
       }
     },
 
-    // fetch crypto
-    async fetchCrypto(context) {
-      // console.log("Fetching users...");
+    // CRYPTO
+    async addCrypto({ commit }, cryptoData) {
       try {
-        const results = (await axios.get(`${baseURL}crypto`)).data;
-        if (results) {
-          context.commit('setCrypto', results);
-          console.log("Fetching crypto...");
-        }
-      } catch (e) {
-        sweet({
-          title: 'Retrieving All Crypto Error!',
-          text: 'Users Not Found',
-          icon: 'error',
-          timer: 4000,
-        });
+        await axios.post('/crypto/add', cryptoData);
+        commit('fetchCryptos');
+      } catch (error) {
+        console.error('Error adding crypto:', error.message);
       }
     },
-    // Individual Crypto
-    // Update Crypto
-    // Delete Crypto
+  
+    async fetchCryptos({ commit }) {
+      try {
+        const response = await axios.get('/crypto');
+        commit('setCryptos', response.data);
+      } catch (error) {
+        console.error('Error fetching cryptos:', error.message);
+      }
+    },
+  
+    async fetchCryptoById({ commit }, cryptoId) {
+      try {
+        const response = await axios.get(`/crypto/${cryptoId}`);
+        commit('setSelectedCrypto', response.data);
+      } catch (error) {
+        console.error('Error fetching crypto by ID:', error.message);
+      }
+    },
+  
+    async editCrypto({ commit }, { cryptoId, cryptoData }) {
+      try {
+        await axios.put(`/crypto/edit/${cryptoId}`, cryptoData);
+      } catch (error) {
+        console.error('Error editing crypto:', error.message);
+      }
+    },
+  
+    async deleteCrypto({ commit }, cryptoId) {
+      try {
+        await axios.delete(`/crypto/delete/${cryptoId}`);
+        commit('fetchCryptos');
+      } catch (error) {
+        console.error('Error deleting crypto:', error.message);
+      }
+    },
+    
+    // MARKETS
+    async addMarket({ commit }, marketData) {
+      try {
+        await axios.post('/markets/add', marketData);
+        commit('fetchMarkets');
+      } catch (error) {
+        console.error('Error adding market:', error.message);
+      }
+    },
+  
+    async fetchMarkets({ commit }) {
+      try {
+        const response = await axios.get('/markets');
+        commit('setMarkets', response.data);
+      } catch (error) {
+        console.error('Error fetching markets:', error.message);
+      }
+    },
+  
+    async fetchMarketById({ commit }, marketId) {
+      try {
+        const response = await axios.get(`/markets/${marketId}`);
+        commit('setSelectedMarket', response.data);
+      } catch (error) {
+        console.error('Error fetching market by ID:', error.message);
+      }
+    },
+  
+    async editMarket({ commit }, { marketId, marketData }) {
+      try {
+        await axios.put(`/markets/edit/${marketId}`, marketData);
+      } catch (error) {
+        console.error('Error editing market:', error.message);
+      }
+    },
+  
+    async deleteMarket({ commit }, marketId) {
+      try {
+        await axios.delete(`/markets/delete/${marketId}`);
+        commit('fetchMarkets');
+      } catch (error) {
+        console.error('Error deleting market:', error.message);
+      }
+    },
+
+    // ORDERS
+    async addOrder({ commit }, orderData) {
+      try {
+        await axios.post('/orders/add', orderData);
+        commit('fetchOrders');
+      } catch (error) {
+        console.error('Error adding order:', error.message);
+      }
+    },
+  
+    async fetchOrders({ commit }) {
+      try {
+        const response = await axios.get('/orders');
+        commit('setOrders', response.data);
+      } catch (error) {
+        console.error('Error fetching orders:', error.message);
+      }
+    },
+  
+    async fetchOrderById({ commit }, orderId) {
+      try {
+        const response = await axios.get(`/orders/${orderId}`);
+        commit('setSelectedOrder', response.data);
+      } catch (error) {
+        console.error('Error fetching order by ID:', error.message);
+      }
+    },
+  
+    async editOrder({ commit }, { orderId, orderData }) {
+      try {
+        await axios.put(`/orders/edit/${orderId}`, orderData);
+      } catch (error) {
+        console.error('Error editing order:', error.message);
+      }
+    },
+  
+    async deleteOrder({ commit }, orderId) {
+      try {
+        await axios.delete(`/orders/delete/${orderId}`);
+        commit('fetchOrders');
+      } catch (error) {
+        console.error('Error deleting order:', error.message);
+      }
+    },
   },
   modules: {},
   // plugins: [(store) => store.dispatch("initializeCurrentUser")],
