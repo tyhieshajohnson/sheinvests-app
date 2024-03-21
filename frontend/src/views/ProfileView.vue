@@ -4,7 +4,7 @@
     <nav class="navbar">
       <div class="navbar-logo">
         <img
-        src="https://i.ibb.co/BHhZfHn/ladybug-02-1.png"
+          src="https://i.ibb.co/BHhZfHn/ladybug-02-1.png"
           alt="Logo"
           class="logo"
           style="width: 50px; height: 50px"
@@ -44,10 +44,10 @@
         <div class="logout-container">
           <button class="logout" @click="logout">Logout</button>
         </div>
-        <div v-if="users">
-          <div v-for="user in fetchUser" :key="user.user_id">
-            <p>Username: {{ user.username }}</p>
-            <p>Email: {{ user.email }}</p>
+        <div>
+          <div v-if="selectedUser">
+            <p>Username: {{ selectedUser.username }}</p>
+            <p>Email: {{ selectedUser.email }}</p>
           </div>
           <!-- Update Account Button -->
           <button @click="openUpdateModal">Update Account</button>
@@ -90,6 +90,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -99,8 +101,9 @@ export default {
     };
   },
   computed: {
-    users() {
-      return this.$store.state.users;
+    ...mapGetters(['getSelectedUser']),
+    selectedUser() {
+      return this.$store.state.selectedUser;
     },
   },
   methods: {
@@ -110,13 +113,13 @@ export default {
       this.$router.push({ name: "signin" });
     },
     openUpdateModal() {
-      console.log("Opening modal..."); 
-      
-      if (this.users && this.users.length > 0) {
-        this.updatedUsername = this.users[0].username;
-        this.updatedEmail = this.users[0].email;
+      console.log("Opening modal...");
+
+      if (this.selectedUser) {
+        this.updatedUsername = this.selectedUser.username;
+        this.updatedEmail = this.selectedUser.email;
       }
-      console.log("isUpdateModalActive:", this.isUpdateModalActive); 
+      console.log("isUpdateModalActive:", this.isUpdateModalActive);
       this.isUpdateModalActive = true;
     },
     closeUpdateModal() {
@@ -130,15 +133,19 @@ export default {
     deleteAccount() {
       console.log("Account deleted.");
     },
-    fetchUser() {
+    fetchUserById() {
       // Call the fetchUser action from Vuex
-      this.$store.dispatch('fetchUser');
-    }
+      this.$store.dispatch("fetchUsers");
+    },
   },
   mounted() {
-    // Call the fetchUser method when the component is mounted
-    this.fetchUser();
-  }
+    const userId = this.$route.params.userId; // Assuming userId is passed via route params
+    this.$store.dispatch('fetchUserById', userId)
+      .catch(error => {
+        console.error('Error fetching user:', error.message);
+        // Handle error (e.g., show error message)
+      });
+  },
 };
 </script>
 

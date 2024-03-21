@@ -107,8 +107,10 @@ export default createStore({
         commit('setSelectedUser', response.data);
       } catch (error) {
         console.error('Error fetching user by ID:', error.message);
+        throw error;
       }
     },
+  },
   
     async editUser({ commit }, { userId, userData }) {
       try {
@@ -431,9 +433,8 @@ export default createStore({
       }
     },
   },
-  modules: {},
   // plugins: [(store) => store.dispatch("initializeCurrentUser")],
-});
+);
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
