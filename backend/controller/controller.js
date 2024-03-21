@@ -160,6 +160,22 @@ const userRegister = async (req, res) => {
   }
 };
 
+// Logout user
+const userLogout = async (req, res) => {
+  // No need to extract any data from the request
+  try {
+    // Clear the JWT cookie by setting an expired date in the past
+    res.cookie('auth', '', { expires: new Date(0) });
+    res.json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error('Error in userLogout:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      details: error.message,
+    });
+  }
+};
+
 // 2. /get ALL users
 const getClients = async (req, res) => {
   try {
@@ -604,6 +620,7 @@ export {
   userAdd,
   userLogin,
   userRegister,
+  userLogout,
   getUsers,
   getUser,
   getClients,

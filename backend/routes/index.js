@@ -7,6 +7,7 @@ import {
   userEdit,
   userDelete,
   userRegister,
+  userLogout,
   // INVEST
   investAdd,
   investsGet,
@@ -48,6 +49,9 @@ router.route("/user/login").post(userLogin);
 
 // Register a user
 router.route("/user/register").post(userRegister);
+
+// Logout user
+router.route('/user/logout').post(userLogout);
 
 // get ALL users
 router.route("/users").get(getClients); 
