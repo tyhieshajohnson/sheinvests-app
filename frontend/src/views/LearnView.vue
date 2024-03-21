@@ -32,7 +32,7 @@
 
     <div class="first-box">
       <img
-        src="https://i.ibb.co/3y5gr9h/ty.png"
+        src="https://i.ibb.co/SR2mB64/tybackground-06.png"
         class="img-background w-100 100vh"
       />
       <div class="learn">
@@ -45,7 +45,7 @@
           style="text-decoration: none"
         >
           <div class="div1" style="padding: 30px">
-            <h2 style="color: white">Why Women Need To Invest?</h2>
+            <h5 style="color: white">Why Women Need To Invest?</h5>
             <p>
               Women should consider entering the crypto space for its potential
               to offer financial empowerment and independence, breaking
@@ -59,7 +59,7 @@
           style="text-decoration: none"
         >
           <div class="div2" style="padding: 30px">
-            <h2 style="color: white">Why Crypto?</h2>
+            <h5 style="color: white">Why Crypto?</h5>
             <p>
               Crypto presents a unique opportunity for anyone, including women,
               to participate in a decentralized financial system, offering
@@ -74,7 +74,7 @@
           style="text-decoration: none"
         >
           <div class="div3" style="padding: 30px">
-            <h2 style="color: white">Women In Crypto</h2>
+            <h5 style="color: white">Women In Crypto</h5>
             <p>
               Encouraging more women to engage in crypto fosters diversity and
               inclusion within the industry, enriching perspectives, driving
@@ -86,28 +86,28 @@
       </div>
 
       <!-- About -->
-    <div class="about-container">
-      <h1>About Us</h1>
-      <div class="about">
-        <p>
-          Welcome to SheInvests – where financial empowerment meets the crypto
-          world. We're more than just a prediction platform; SheInvests is a
-          community-driven space focused on educating and empowering women in
-          the digital asset realm. At SheInvests, we firmly believe in knowledge
-          as the key to financial independence. That's why we're dedicated to
-          bridging the gender gap in crypto, providing market insights, trend
-          analyses, and real-time predictions tailored to the needs of women at
-          all levels in the dynamic crypto world. Our mission is to empower
-          women to confidently navigate the blockchain and digital asset space.
-          We're committed to breaking barriers and building a supportive
-          community where women can thrive and succeed. Join us on this journey
-          of financial empowerment. Together, let's pave the way for a more
-          inclusive and diverse crypto landscape. Welcome to SheInvests – where
-          women lead the way in the world of finance.
-        </p>
+      <div class="about-container">
+        <h1  style="display: flex; justify-content: center">About Us</h1>
+        <div class="about">
+          <p>
+            Welcome to SheInvests – where financial empowerment meets the crypto
+            world. We're more than just a prediction platform; SheInvests is a
+            community-driven space focused on educating and empowering women in
+            the digital asset realm. At SheInvests, we firmly believe in
+            knowledge as the key to financial independence. That's why we're
+            dedicated to bridging the gender gap in crypto, providing market
+            insights, trend analyses, and real-time predictions tailored to the
+            needs of women at all levels in the dynamic crypto world. Our
+            mission is to empower women to confidently navigate the blockchain
+            and digital asset space. We're committed to breaking barriers and
+            building a supportive community where women can thrive and succeed.
+            Join us on this journey of financial empowerment. Together, let's
+            pave the way for a more inclusive and diverse crypto landscape.
+            Welcome to SheInvests – where women lead the way in the world of
+            finance.
+          </p>
+        </div>
       </div>
-    </div>
-
     </div>
     <RouterView />
   </div>
@@ -175,7 +175,7 @@ export default {
 
 .about-container {
   position: absolute;
-  top: 700px;
+  top: 500px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -208,7 +208,7 @@ export default {
   border-radius: 20px;
   background-color: black;
   width: 300px;
-  height: 400px;
+  height: 200px;
   transition: transform 0.3s ease-in-out;
   margin-right: 10px;
   display: flex;
@@ -224,7 +224,7 @@ export default {
 }
 
 h1,
-h2 {
+h2, h5 {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
