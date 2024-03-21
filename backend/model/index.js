@@ -7,9 +7,6 @@ const jwtSecret = process.env.JWT_SECRET || 'default_secret_key';
 // USERS
 // Creating a /add 'users' class.
 const addUser = async ( username, email, passwords) => {
-    // pool object used to make query function asynchronously
-    // the query then inserts a new user into the userTable
-    // placeholders are used to replace existing values
      await pool.query(
       `
         INSERT INTO users (username, email, passwords) VALUE (?,?,?)
