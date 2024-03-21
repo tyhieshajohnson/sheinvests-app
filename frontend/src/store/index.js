@@ -339,6 +339,9 @@ export default createStore({
         });
       }
     },
+    // Individual Crypto
+    // Update Crypto
+    // Delete Crypto
   },
   modules: {},
   // plugins: [(store) => store.dispatch("initializeCurrentUser")],

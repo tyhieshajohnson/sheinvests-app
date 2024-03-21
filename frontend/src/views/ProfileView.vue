@@ -45,48 +45,91 @@
             <p>Username: {{ user.username }}</p>
             <p>Email: {{ user.email }}</p>
           </div>
+          <!-- Update Account Button -->
+          <button @click="openUpdateModal">Update Account</button>
+          <!-- Delete Account Button -->
+          <button @click="deleteAccount">Delete Account</button>
         </div>
       </div>
+    </div>
+
+    <!-- Update Account Modal -->
+    <div class="modal" :class="{ 'is-active': isUpdateModalActive }">
+      <div class="modal-background" @click="closeUpdateModal"></div>
+      <div class="modal-content">
+        <div class="box">
+          <h2>Update Account</h2>
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" type="text" v-model="updatedUsername" />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input class="input" type="email" v-model="updatedEmail" />
+            </div>
+          </div>
+          <button class="button is-primary" @click="updateAccount">
+            Update
+          </button>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="closeUpdateModal"
+      ></button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      isUpdateModalActive: false,
+      updatedUsername: "",
+      updatedEmail: "",
+    };
+  },
   computed: {
     users() {
       return this.$store.state.users;
     },
   },
   methods: {
-    fetchUser() {
-      const existingUser = {
-        // Assuming username and email are retrieved from input fields
-        username: this.username,
-        email: this.email,
-      };
-
-      this.$store
-        .dispatch('fetchUser', existingUser)
-        .then(() => {
-          // Clear fields after successful fetch
-          this.clearFields();
-          window.alert('User Found');
-        })
-        .catch(error => {
-          console.error('Error Fetching User:', error);
-          window.alert('Error Fetching User. Please Check Frontend.');
-        });
-    },
     logout() {
-      // Get the current date and time
       const now = new Date();
-      // Set the expiry date of the cookie to the current date and time (which effectively expires it immediately)
       document.cookie = `auth=; expires=${now.toUTCString()}; path=/;`;
-
-      // Redirect to the login page
-      this.$router.push({ name: 'signin' });
+      this.$router.push({ name: "signin" });
     },
+    openUpdateModal() {
+    console.log("Opening modal..."); // Check if this message appears in the console
+    // Populate fields with current user data
+    if (this.users && this.users.length > 0) {
+      this.updatedUsername = this.users[0].username;
+      this.updatedEmail = this.users[0].email;
+    }
+    console.log("isUpdateModalActive:", this.isUpdateModalActive); // Check if this prints 'true'
+    this.isUpdateModalActive = true;
+  },
+  closeUpdateModal() {
+    this.isUpdateModalActive = false;
+  },
+  updateAccount() {
+    // Update account logic here
+    // For demonstration purpose, let's just log the updated username and email
+    console.log("Updated Username:", this.updatedUsername);
+    console.log("Updated Email:", this.updatedEmail);
+    this.closeUpdateModal();
+  },
+  deleteAccount() {
+    // Delete account logic here
+    console.log("Account deleted.");
+    // Redirect to sign in page or any other appropriate action after deletion
+  },
   },
 };
 </script>
