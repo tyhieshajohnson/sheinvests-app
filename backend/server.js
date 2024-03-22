@@ -16,12 +16,12 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static('static')); 
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html')); // Use __dirname to resolve file paths
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../public/index.html')); // Use __dirname to resolve file paths
+// });
 
-app.get('/user/:id', async (req, res) => {
-});
+// app.get('/user/:id', async (req, res) => {
+// });
 
 app.use('/', routes);
 app.use('/add', routes);
