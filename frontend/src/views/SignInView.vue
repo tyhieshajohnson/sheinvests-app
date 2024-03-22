@@ -64,7 +64,7 @@
 
             <button type="submit">Sign In</button>
           </form>
-          <router-link class="router" to="/login" 
+          <router-link class="router" to="/signin" 
         style="text-decoration: none; color: #c8a2c8; margin-top: 50px; display: flex; justify-content: center;">Already Have An Account? Sign In</router-link>
         </div>
       </div>

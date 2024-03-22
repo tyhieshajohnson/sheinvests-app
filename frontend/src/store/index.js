@@ -1,7 +1,8 @@
 import { createStore } from 'vuex';import axios from 'axios';
-import sweet from 'sweetalert'; // Import sweetalert as Swal
+import sweet from 'sweetalert';
 import { useCookies } from 'vue3-cookies';
 import router from '@/router';
+import { mapGetters } from "vuex";
 const { cookies } = useCookies();
 const baseURL = 'https://sheinvests-app-api.onrender.com/';
 
@@ -127,8 +128,6 @@ export default createStore({
         throw error;
       }
     },
-  },
-  
     async editUser({ commit }, userData) {
       try {
         await axios.patch(`${baseURL}users/${userData.id}`, userData);
@@ -205,7 +204,7 @@ export default createStore({
           });
         }
       },
-
+  
       // Logout
         logout({ commit }) {
           // Clear the JWT from cookies
@@ -299,7 +298,7 @@ export default createStore({
       }
     },
     
-
+  
     async fetchInvestmentById({ commit }, investmentId) {
       try {
         const response = await axios.get(`${baseURL}/investments/${investmentId}`);
@@ -325,7 +324,7 @@ export default createStore({
         console.error('Error deleting investment:', error.message);
       }
     },
-
+  
     // CRYPTO
      async addCrypto({ commit }, cryptoData) {
       try {
@@ -335,7 +334,7 @@ export default createStore({
         console.error('Error adding crypto:', error.message);
       }
     },
-
+  
     async fetchCryptos({ commit }) {
       try {
         const response = await axios.get('/crypto');
@@ -415,7 +414,7 @@ export default createStore({
         console.error('Error deleting market:', error.message);
       }
     },
-
+  
     // ORDERS
     async addOrder({ commit }, orderData) {
       try {
@@ -460,6 +459,8 @@ export default createStore({
         console.error('Error deleting order:', error.message);
       }
     },
+  },
+  
   },
   // plugins: [(store) => store.dispatch("initializeCurrentUser")],
 );
