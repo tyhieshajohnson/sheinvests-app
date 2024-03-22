@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-app.use(express.static('static'));
+app.use(express.static('static')); 
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html')); // Use __dirname to resolve file paths
