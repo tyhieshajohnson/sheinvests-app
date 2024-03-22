@@ -1,12 +1,9 @@
-import { createStore } from 'vuex';
-// import axios from 'axios';
-import sweet from 'sweetalert';
-import { useCookies } from 'vue3-cookies'
-const {cookies} = useCookies()
+import { createStore } from 'vuex';import axios from 'axios';
+import sweet from 'sweetalert'; // Import sweetalert as Swal
+import { useCookies } from 'vue3-cookies';
 import router from '@/router';
-import authentication from '@/service/authentication.js';
+const { cookies } = useCookies();
 const baseURL = 'https://sheinvests-app-api.onrender.com/';
-import axios from 'axios';
 
 export default createStore({
   state: {
@@ -15,6 +12,8 @@ export default createStore({
     investments: [],
     investment: [],
     crypto: [],
+    addCrypto: [],
+    selectedCrypto: [],
     selectedUser: null,
     userData: null,
     markets: [],
@@ -22,6 +21,7 @@ export default createStore({
   },
   getters: {
     getSelectedUser: (state) => state.selectedUser,
+    getInvestments: (state) => state.investments,
   },
   mutations: {
     setUsers(state, value) {
@@ -30,13 +30,19 @@ export default createStore({
     setUser(state, user) {
       state.user = user;
     },
-    setInvestments(state, value) {
-      state.investments = value;
+    setInvestments(state, investments) {
+      state.investments = investments;
     },
     setInvestment(state, value) {
       state.investment = value;
     },
     setCrypto(state, value) {
+      state.crypto = value;
+    },
+    setAddCrypto(state, value) {
+      state.crypto = value;
+    },
+    setSelectedCrypto(state, value) {
       state.crypto = value;
     },
     setSelectedUser(state, value){
@@ -125,7 +131,7 @@ export default createStore({
   
     async editUser({ commit }, userData) {
       try {
-        await axios.put(`${baseURL}users/${userData.id}`, userData);
+        await axios.patch(`${baseURL}users/${userData.id}`, userData);
         // If editing is successful, commit mutation to update users list
         commit("editUserMutation", userData);
       } catch (error) {
@@ -211,21 +217,6 @@ export default createStore({
           // Redirect to the login page
           router.push({ name: 'sigin' });
         },
-    async fetchInvestments(context) {
-      try {
-        let { results } = (await axios.get(`${baseURL}investments`)).data;
-        if (results) {
-          context.commit('setInvestments', results);
-        }
-      } catch (e) {
-        sweet({
-          title: 'Product Retrieval Error!',
-          text: 'Product Retrieval Unsuccessful',
-          icon: 'error',
-          timer: 4000,
-        });
-      }
-    },
     // SignUp
     async register(context, payload) {
       try {
@@ -279,15 +270,35 @@ export default createStore({
       }
     },
   
-    async fetchInvestments({ commit }) {
-      try {
-        const response = await axios.get('/investments');
-        commit('setInvestments', response.data);
-      } catch (error) {
-        console.error('Error fetching investments:', error.message);
+    // async fetchInvestments({ commit }) {
+    //   try {
+    //     const response = await axios.get('/investments');
+    //     commit('setInvestments', response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching investments:', error.message);
+    //   }
+    // },
+    async getInvestments({ commit }){
+      try{
+        const response = await fetch(`${baseURL}/investments`);
+        if(!response.ok){
+          console.error("🚀~ getInvestments~response:",response);
+          throw new Error("Failed to fetch investments");
+        }
+        const investmentsInDB = await response.json();
+        commit("setInvestments",investmentsInDB.data);
+      }catch (error) {
+        console.log("Error fetching investment:",error);
+        sweet({
+          icon:"error",
+          title:"Operation Failed",
+          text:"Failed to fetch investments",
+          confirmButtonText:"OK", // Comma was added here
+        });
       }
     },
-  
+    
+
     async fetchInvestmentById({ commit }, investmentId) {
       try {
         const response = await axios.get(`${baseURL}/investments/${investmentId}`);
@@ -299,7 +310,7 @@ export default createStore({
   
     async editInvestment({ commit }, { investmentId, investmentData }) {
       try {
-        await axios.put(`${baseURL}/investments/edit/${investmentId}`, investmentData);
+        await axios.patch(`${baseURL}/investments/edit/${investmentId}`, investmentData);
       } catch (error) {
         console.error('Error editing investment:', error.message);
       }
@@ -315,15 +326,15 @@ export default createStore({
     },
 
     // CRYPTO
-    async addCrypto({ commit }, cryptoData) {
+     async addCrypto({ commit }, cryptoData) {
       try {
-        await axios.post('${baseURL}/crypto/add', cryptoData);
+        const data = await axios.post(`${baseURL}/crypto/add`, cryptoData);
         commit('fetchCryptos');
       } catch (error) {
         console.error('Error adding crypto:', error.message);
       }
     },
-  
+
     async fetchCryptos({ commit }) {
       try {
         const response = await axios.get('/crypto');
@@ -344,7 +355,7 @@ export default createStore({
   
     async editCrypto({ commit }, { cryptoId, cryptoData }) {
       try {
-        await axios.put(`${baseURL}/crypto/edit/${cryptoId}`, cryptoData);
+        await axios.patch(`${baseURL}/crypto/edit/${cryptoId}`, cryptoData);
       } catch (error) {
         console.error('Error editing crypto:', error.message);
       }
@@ -389,7 +400,7 @@ export default createStore({
   
     async editMarket({ commit }, { marketId, marketData }) {
       try {
-        await axios.put(`${baseURL}/markets/edit/${marketId}`, marketData);
+        await axios.patch(`${baseURL}/markets/edit/${marketId}`, marketData);
       } catch (error) {
         console.error('Error editing market:', error.message);
       }
@@ -434,7 +445,7 @@ export default createStore({
   
     async editOrder({ commit }, { orderId, orderData }) {
       try {
-        await axios.put(`${baseURL}/orders/edit/${orderId}`, orderData);
+        await axios.patch(`${baseURL}/orders/edit/${orderId}`, orderData);
       } catch (error) {
         console.error('Error editing order:', error.message);
       }

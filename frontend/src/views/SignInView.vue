@@ -3,89 +3,114 @@
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-logo">
-        <img src="https://i.ibb.co/QmnhXhK/ladybug-01.png" alt="Logo" class="logo" style="width: 50px; height: 50px" />
+        <img
+          src="https://i.ibb.co/QmnhXhK/ladybug-01.png"
+          alt="Logo"
+          class="logo"
+          style="width: 50px; height: 50px"
+        />
       </div>
       <div class="navbar-links">
         <div class="main-links">
-          <router-link to="/" style="color: #c8a2c8;">Crypto</router-link>
-          <router-link to="/learn" style="color: #c8a2c8;">Learn</router-link>
-          <router-link to="/profile" style="color: #c8a2c8;">Profile</router-link>
-          <router-link to="/contact" style="color: #c8a2c8;">Contact</router-link>
-          <router-link to="/invest" style="color: #c8a2c8;">Invest</router-link>
-          <router-link to="/admin" style="color: #c8a2c8;">Admin</router-link>
+          <router-link to="/" style="color: #c8a2c8">Crypto</router-link>
+          <router-link to="/learn" style="color: #c8a2c8">Learn</router-link>
+          <router-link to="/profile" style="color: #c8a2c8"
+            >Profile</router-link
+          >
+          <router-link to="/contact" style="color: #c8a2c8"
+            >Contact</router-link
+          >
+          <router-link to="/invest" style="color: #c8a2c8">Invest</router-link>
+          <router-link to="/admin" style="color: #c8a2c8">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
-        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
+        <router-link to="/signIn"
+          ><button class="signIn">Sign In</button></router-link
+        >
+        <router-link to="/signUp"
+          ><button class="signUp">Sign Up</button></router-link
+        >
       </div>
     </nav>
 
     <div class="first-box">
-      <img src="https://i.ibb.co/R6C2p5K/tybackground-04.png" class="w-100 100vh" />
+      <img
+        src="https://i.ibb.co/R6C2p5K/tybackground-04.png"
+        class="w-100 100vh"
+      />
 
       <div class="overlay">
-        <h1 style="display: flex; justify-content: center;">Sign In</h1>
         <div class="signIn-div">
-        <h1 style="color: #c8a2c8;">WE MISSED YOU, <br> WELCOME BACK</h1>
-        <form @submit.prevent="loginUser">
-        <label for="signIn" style="color: white;">Username:</label>
-        <input type="text" v-model="formData.username" placeholder="Username" />
-        
-        <label for="signIn" style="color: white;">Password:</label>
-        <input type="password" v-model="formData.passwords" placeholder="Password" />
+          <h1 style="display: flex; justify-content: center; color: white; margin-bottom: 50px;">Sign In</h1>
+          <h1 style="color: #c8a2c8">
+            WE MISSED YOU, <br />
+            WELCOME BACK
+          </h1>
+          <form @submit.prevent="loginUser">
+            <label for="signIn" style="color: white">Username:</label>
+            <input
+              type="text"
+              v-model="formData.username"
+              placeholder="Username"
+            />
 
-        <button type="submit">Sign In</button>
-      </form>
-        
-      </div>
-      <div class="signUp-container" style="display: flex; justify-content: center;">
-        <RouterLink to="signUp" style="text-decoration: none; color: white;">Don't Have An Account? Create One</RouterLink>
-      </div>
+            <label for="signIn" style="color: white">Password:</label>
+            <input
+              type="password"
+              v-model="formData.passwords"
+              placeholder="Password"
+            />
+
+            <button type="submit">Sign In</button>
+          </form>
+          <router-link class="router" to="/login" 
+        style="text-decoration: none; color: #c8a2c8; margin-top: 50px; display: flex; justify-content: center;">Already Have An Account? Sign In</router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import sweet from 'sweetalert';
-import router from '@/router';
-import {mapGetters} from "vuex";
+import sweet from "sweetalert";
+import router from "@/router";
+import { mapGetters } from "vuex";
 
 export default {
   name: "login",
   data() {
-    return{
-     formData:{
-      username:"",
-      passwords:"",
-     },
+    return {
+      formData: {
+        username: "",
+        passwords: "",
+      },
     };
   },
-  computed:{
+  computed: {
     ...mapGetters(["getCurrentUser"]),
   },
-  methods:{
-    async loginUser(){
-      const user = {...this.formData};
-      try{
+  methods: {
+    async loginUser() {
+      const user = { ...this.formData };
+      try {
         console.log(user);
-        await this.$store.dispatch("login",user);
+        await this.$store.dispatch("login", user);
         this.clearForm();
         // this.$router.push({name:})
-      } catch(error){
-        console.log('Login error:', error);
+      } catch (error) {
+        console.log("Login error:", error);
         Swal.fire({
-          icon:"error",
-          title:"Login Failed",
-          text:error.message || "Failed to login. Please try again",
+          icon: "error",
+          title: "Login Failed",
+          text: error.message || "Failed to login. Please try again",
         });
       }
     },
-    clearForm(){
-      this.formData ={
-        username:"",
-        passwords:"",
+    clearForm() {
+      this.formData = {
+        username: "",
+        passwords: "",
       };
     },
   },
@@ -176,7 +201,8 @@ p {
   color: black;
 }
 
-h1, label {
+h1,
+label, .router {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
@@ -188,7 +214,8 @@ h1, label {
   font-family: "Bebas Neue", sans-serif;
 }
 
-input, button{
+input,
+button {
   border-radius: 10px;
 }
 </style>

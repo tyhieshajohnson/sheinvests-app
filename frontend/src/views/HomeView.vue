@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <Loader v-if="loading" /> -->
+    <Loader v-if="loading" />
     <div class="body" v-show="!loading">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg">
@@ -15,15 +15,17 @@
         <div class="navbar-links">
           <div class="main-links">
             <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
-          <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
-          <router-link style="color: #c8a2c8" to="/profile"
-            >Profile</router-link
-          >
-          <router-link style="color: #c8a2c8" to="/contact"
-            >Contact</router-link
-          >
-          <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
-          <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
+            <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
+            <router-link style="color: #c8a2c8" to="/profile"
+              >Profile</router-link
+            >
+            <router-link style="color: #c8a2c8" to="/contact"
+              >Contact</router-link
+            >
+            <router-link style="color: #c8a2c8" to="/invest"
+              >Invest</router-link
+            >
+            <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
           </div>
         </div>
         <div class="navbar-buttons">
@@ -87,17 +89,28 @@
 
       <!-- CRYPTO CHART -->
       <div class="crypto" style="margin-top: 100px">
-        <h1 style="display: flex; justify-content: center;">CRYPTOCURRENCY</h1>
-        <h1 style="display: flex; justify-content: center;">Our Prediction Market</h1>
+        <h1 style="display: flex; justify-content: center">CRYPTOCURRENCY</h1>
+        <h1 style="display: flex; justify-content: center">
+          Our Prediction Market
+        </h1>
         <!-- View Crypto -->
-      <div>
-        <router-link class="invest-route" to="/invest" style="display: flex; justify-content: center; text-decoration: underline;">Click To Invest In Crypto</router-link>
-      </div>
-    </div>
-        <div class="line-chart">
-          <Chart />
+        <div>
+          <router-link
+            class="invest-route"
+            to="/invest"
+            style="
+              display: flex;
+              justify-content: center;
+              text-decoration: underline;
+            "
+            >Click To Invest In Crypto</router-link
+          >
         </div>
       </div>
+      <div class="line-chart">
+        <Chart />
+      </div>
+    </div>
     <RouterView />
   </div>
 </template>
@@ -215,7 +228,8 @@ p {
   color: black;
 }
 
-h1, .invest-route {
+h1,
+.invest-route {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
@@ -250,47 +264,47 @@ h1, .invest-route {
 }
 
 @media only screen and (max-width: 375px) and (max-height: 812px) {
-/* Nav */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.7);
-  z-index: 999;
-}
+  /* Nav */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 999;
+  }
 
-.navbar-logo {
-  margin-right: auto;
-}
+  .navbar-logo {
+    margin-right: auto;
+  }
 
-.navbar-links {
-  display: flex;
-  flex-direction: column;
-}
+  .navbar-links {
+    display: flex;
+    flex-direction: column;
+  }
 
-.navbar-links router-link {
-  margin-right: 20px;
-}
+  .navbar-links router-link {
+    margin-right: 20px;
+  }
 
-.navbar-buttons button {
-  margin-left: 20px;
-}
+  .navbar-buttons button {
+    margin-left: 20px;
+  }
 
-h3,
+  h3,
   p,
   h1,
   .invest-route,
   .main-links {
     font-family: "Bebas Neue", sans-serif;
     color: black;
-    font-weight: normal; 
+    font-weight: normal;
     font-style: normal;
-    font-size: xx-small; 
+    font-size: xx-small;
   }
 
   .signIn,
@@ -298,9 +312,9 @@ h3,
     border-radius: 7px;
     border: solid black 4px;
     background-color: white;
-    margin-top: 10px; 
+    margin-top: 10px;
   }
-/* End of Nav */
+  /* End of Nav */
 
   .first-box {
     display: block; /* Change to block to stack elements */
@@ -320,36 +334,36 @@ h3,
   .img-container img {
     position: absolute;
     top: 0;
-    width: 50%; 
-    height: auto; 
+    width: 50%;
+    height: auto;
   }
 
   .content-container {
     justify-self: column;
     flex: none;
     padding: 30px;
-    text-align: center; 
+    text-align: center;
   }
 
   .body {
     background-color: #ffffff;
-    display: block; 
+    display: block;
   }
 
   .img-home {
-    width: 100%; 
+    width: 100%;
     margin-top: 30px;
   }
 
   .content-container {
     position: relative;
     top: auto;
-    transform: none; 
-    margin-top: 20px; 
+    transform: none;
+    margin-top: 20px;
   }
 
   .content-container h1 {
-    font-size: 18px; 
+    font-size: 18px;
   }
 }
 </style>

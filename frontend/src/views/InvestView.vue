@@ -13,23 +13,15 @@
         <div class="main-links">
           <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
           <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
-          <router-link style="color: #c8a2c8" to="/profile"
-            >Profile</router-link
-          >
-          <router-link style="color: #c8a2c8" to="/contact"
-            >Contact</router-link
-          >
+          <router-link style="color: #c8a2c8" to="/profile">Profile</router-link>
+          <router-link style="color: #c8a2c8" to="/contact">Contact</router-link>
           <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
           <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signIn"
-          ><button class="signIn">Sign In</button></router-link
-        >
-        <router-link to="/signUp"
-          ><button class="signUp">Sign Up</button></router-link
-        >
+        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
+        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
       </div>
     </nav>
 
@@ -57,10 +49,10 @@
             </thead>
             <tbody>
               <tr v-for="investment in investments" :key="investment.id">
-                <td>{{ investments.id }}</td>
-                <td>{{ investments.crypto_name }}</td>
-                <td>{{ investments.amount }}</td>
-                <td>{{ investments.created_at }}</td>
+                <!-- <td>{{ investment.id }}</td> -->
+                <td>{{ investment.crypto_name }}</td>
+                <td>{{ investment.amount }}</td>
+                <td>{{ investment.created_at }}</td>
               </tr>
             </tbody>
           </table>
@@ -86,35 +78,48 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      investments: [], // Initialize an empty array to store investments
+      investmentData: {
+        crypto_name: "",
+        amount: "",
+        created_at: "",
+      },
     };
   },
+  computed: {
+    ...mapGetters(["getInvestments"]), // Map the getInvestments getter
+    investments() {
+      return this.getInvestments; // Access the investments data directly
+    },
+  },
+  created() {
+    this.getInvestments();
+  },
   methods: {
-    async fetchInvestment(user_id) {
-      try {
-        const response = await axios.get(`${baseURL}investment/${user_id}`);
-        if (response.data && response.data.length > 0) {
-          this.investments = response.data;
-        } else {
-          this.showAlert("info", "Product Single View Unsuccessful");
-        }
-      } catch (error) {
-        this.showAlert("error", "Product Single View Unsuccessful");
-      }
-    },
-    showAlert(icon, text) {
-      // Implement your alert function here
-    },
+    // async fetchInvestmentById() {
+    //   try {
+    //     const response = await axios.get(`${baseURL}investment/${user_id}`);
+    //     if (response.data && response.data.length > 0) {
+    //       this.investments = response.data;
+    //     } else {
+    //       this.showAlert("info", "Product Single View Unsuccessful");
+    //     }
+    //   } catch (error) {
+    //     this.showAlert("error", "Product Single View Unsuccessful");
+    //   }
+    // },
+    // showAlert(icon, text) {
+    // },
   },
-  mounted() {
-    const user_id = 1; // Replace with the user id you want to fetch investments for
-    this.fetchInvestment(user_id);
-  },
+  // mounted() {
+  //   const user_id = 1; 
+  //   this.fetchInvestment(user_id);
+  // },
 };
 </script>
 

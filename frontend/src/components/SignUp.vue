@@ -32,24 +32,29 @@
 
     <div class="first-box">
       <img src="https://i.ibb.co/R6C2p5K/tybackground-04.png" class="w-100 100vh" />
-
       <div class="signup-container overlay">
-        <h2>Sign Up</h2>
+        <h2 style="display: flex; justify-content: center; margin-bottom: 50px; color: white;">Sign Up</h2>
+        <h1 style="color: #c8a2c8">
+            Join Our, <br/>
+            Crypto Family
+          </h1>
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username" style="color: white;">Username</label>
             <input type="text" id="username" v-model="userData.username" required />
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email" style="color: white;">Email</label>
             <input type="email" id="email" v-model="userData.email" required />
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password" style="color: white;">Password</label>
             <input type="password" id="password" v-model="userData.passwords" required />
           </div>
-          <button type="submit">Sign Up</button>
+          <button type="submit" style="color: white; background-color: #c8a2c8; border: none;">Sign Up</button>
         </form>
+        <router-link class="router" to="/login" 
+        style="text-decoration: none; color: #c8a2c8; margin-top: 20px; display: flex; justify-content: center;">Already Have An Account? Sign In</router-link>
       </div>
     </div>
   </div>
@@ -152,8 +157,7 @@ export default {
   /* align-items: center; */
 }
 
-/* If taken away, it brings the border back - do not remove until ready to  */
-.signUp-container {
+.signup-container {
   border: none;
   background-color: black;
   height: 500px;
@@ -176,7 +180,7 @@ p {
 }
 
 h1,
-label {
+label, h2, .router {
   font-family: "Bebas Neue", sans-serif;
   font-optical-sizing: auto;
   font-weight: 900;
