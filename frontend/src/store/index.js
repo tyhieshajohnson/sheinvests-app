@@ -166,7 +166,7 @@ export default createStore({
       
           // Check if response contains a token
           if (response.ok) {
-            commit ('setUser', data);
+            commit ('setCurrentUser', data);
       
             // Set user in state
             // context.commit('setUser', { msg, result });
@@ -286,6 +286,7 @@ export default createStore({
           throw new Error("Failed to fetch investments");
         }
         const investmentsInDB = await response.json();
+        console.log("investmentsInDB:",investmentsInDB)
         commit("setInvestments",investmentsInDB.data);
       }catch (error) {
         console.log("Error fetching investment:",error);

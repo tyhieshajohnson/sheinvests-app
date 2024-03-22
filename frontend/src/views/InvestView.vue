@@ -97,9 +97,9 @@ export default {
       return this.getInvestments; // Access the investments data directly
     },
   },
-  created() {
-    this.getInvestments();
-  },
+  // created() {
+  //   this.getInvestments();
+  // },
   methods: {
     // async fetchInvestmentById() {
     //   try {
