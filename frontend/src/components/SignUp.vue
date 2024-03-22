@@ -80,7 +80,6 @@ export default {
         await this.register(this.userData);
       } catch (error) {
         console.error('Error during registration:', error);
-        // Handle error if needed
       }
     }
   }

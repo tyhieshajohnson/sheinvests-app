@@ -16,6 +16,7 @@ export default createStore({
     addCrypto: [],
     selectedCrypto: [],
     selectedUser: null,
+    selectedInvestment: null,
     userData: null,
     markets: [],
     orders: [],
@@ -35,6 +36,9 @@ export default createStore({
       state.investments = investments;
     },
     setInvestment(state, value) {
+      state.investment = value;
+    },
+    setSelectedInvestment(state, value) {
       state.investment = value;
     },
     setCrypto(state, value) {
@@ -121,7 +125,9 @@ export default createStore({
   
     async fetchUserById({ commit }, userId) {
       try {
+        // console.log('this is above papi:' + userId);
         const response = await axios.get(`${baseURL}user/${userId}`);
+        // console.log('Hi Ty:'+ JSON.stringify(response));
         commit('setSelectedUser', response.data);
       } catch (error) {
         console.error('Error fetching user by ID:', error.message);
@@ -229,15 +235,16 @@ export default createStore({
     
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           if (data) {
-            context.dispatch('fetchUser', { id: data.user.id });
+            // context.dispatch('fetchUser', { id: data.user.id });
             sweet({
               title: 'Registration',
               text: data.message,
               icon: 'success',
               timer: 4000,
             });
-            router.push({ name: 'login' });
+            router.push({ name: 'signin' });
           }
         } else {
           const errorData = await response.json();
@@ -301,10 +308,12 @@ export default createStore({
   
     async fetchInvestmentById({ commit }, investmentId) {
       try {
-        const response = await axios.get(`${baseURL}/investments/${investmentId}`);
-        commit('setSelectedInvestment', response.data);
+        console.log('this is above user:' + investmentId);
+        const response = await axios.get(`${baseURL}invest/${investmentId}`);
+        commit('setInvestments', response.data);
       } catch (error) {
         console.error('Error fetching investment by ID:', error.message);
+        throw error;
       }
     },
   

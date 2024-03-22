@@ -13,15 +13,23 @@
         <div class="main-links">
           <router-link style="color: #c8a2c8" to="/">Crypto</router-link>
           <router-link style="color: #c8a2c8" to="/learn">Learn</router-link>
-          <router-link style="color: #c8a2c8" to="/profile">Profile</router-link>
-          <router-link style="color: #c8a2c8" to="/contact">Contact</router-link>
+          <router-link style="color: #c8a2c8" to="/profile"
+            >Profile</router-link
+          >
+          <router-link style="color: #c8a2c8" to="/contact"
+            >Contact</router-link
+          >
           <router-link style="color: #c8a2c8" to="/invest">Invest</router-link>
           <router-link style="color: #c8a2c8" to="/admin">Admin</router-link>
         </div>
       </div>
       <div class="navbar-buttons">
-        <router-link to="/signIn"><button class="signIn">Sign In</button></router-link>
-        <router-link to="/signUp"><button class="signUp">Sign Up</button></router-link>
+        <router-link to="/signIn"
+          ><button class="signIn">Sign In</button></router-link
+        >
+        <router-link to="/signUp"
+          ><button class="signUp">Sign Up</button></router-link
+        >
       </div>
     </nav>
 
@@ -41,15 +49,18 @@
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Investment</th>
                 <th>Crypto Name</th>
                 <th>Amount</th>
                 <th>Created At</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="investment in investments" :key="investment.id">
-                <!-- <td>{{ investment.id }}</td> -->
+              <tr
+                v-for="investment in $store.state.selectedInvestment"
+                :key="investment.id"
+              >
+                <td>{{ investment.id }}</td>
                 <td>{{ investment.crypto_name }}</td>
                 <td>{{ investment.amount }}</td>
                 <td>{{ investment.created_at }}</td>
@@ -80,6 +91,9 @@
 <script>
 // import axios from "axios";
 import { mapGetters } from "vuex";
+import {useCookies} from 'vue3-cookies'
+const { cookies } = useCookies();
+import axios from "axios";
 
 export default {
   data() {
@@ -92,34 +106,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getInvestments"]), // Map the getInvestments getter
+    ...mapGetters(["getInvestments"]), 
     investments() {
-      return this.getInvestments; // Access the investments data directly
+      return this.getInvestments; 
     },
   },
-  // created() {
-  //   this.getInvestments();
-  // },
   methods: {
-    // async fetchInvestmentById() {
-    //   try {
-    //     const response = await axios.get(`${baseURL}investment/${user_id}`);
-    //     if (response.data && response.data.length > 0) {
-    //       this.investments = response.data;
-    //     } else {
-    //       this.showAlert("info", "Product Single View Unsuccessful");
-    //     }
-    //   } catch (error) {
-    //     this.showAlert("error", "Product Single View Unsuccessful");
-    //   }
-    // },
-    // showAlert(icon, text) {
-    // },
+    async fetchInvestmentById() {
+      let { id } = useCookies().cookies.get('user');
+      console.log(id);
+      this.$store.dispatch("fetchInvestmentById", id);
+      // console.log('this is after the dispatch action');
+    },
   },
-  // mounted() {
-  //   const user_id = 1; 
-  //   this.fetchInvestment(user_id);
-  // },
+  mounted() {
+    this.fetchInvestmentById();
+  },
 };
 </script>
 

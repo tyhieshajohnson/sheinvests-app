@@ -44,8 +44,9 @@
         <div class="logout-container">
           <button class="logout" @click="logout">Logout</button>
         </div>
-        <div v-if="typeof fetchUserById == 'object'">
-          <div v-for="user in fetchUserById" :key="user.id">
+        <div>
+        <!-- v-if="typeof fetchUserById == 'object'" -->
+          <div v-for="user in $store.state.selectedUser" :key="user.id">
             <p>Username: {{ user.username }}</p>
             <p>Email: {{ user.email }}</p>
           </div>
@@ -91,7 +92,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
+import {useCookies} from 'vue3-cookies'
+const { cookies } = useCookies();
 export default {
   data() {
     return {
@@ -133,12 +135,15 @@ export default {
       console.log("Account deleted.");
     },
     fetchUserById() {
+      let {id} = cookies.get('user')
+      // console.log(id);
       // Dispatch the action to fetch user by ID from Vuex store
-      this.$store.dispatch("fetchUserById");
+      this.$store.dispatch('fetchUserById',id);
+      // console.log('this is after the dispatch action');
     },
   },
   mounted() {
-    this.$store.dispatch("fetchUserById")
+    this.fetchUserById()
   },
 };
 </script>
